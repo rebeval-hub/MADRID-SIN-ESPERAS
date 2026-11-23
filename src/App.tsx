@@ -4,6 +4,7 @@ import { FullHealthData, HospitalMetadata } from './types';
 import { Header } from './components/common/Header';
 import { Sidebar, ActiveTab } from './components/common/Sidebar';
 import { HospitalModal } from './components/common/HospitalModal';
+import { CopilotWidget } from './components/common/CopilotWidget';
 import { OverviewPage } from './pages/OverviewPage';
 import { HospitalsPage } from './pages/HospitalsPage';
 import { SpecialtiesPage } from './pages/SpecialtiesPage';
@@ -196,6 +197,12 @@ export default function App() {
         hospital={selectedHospital}
         onClose={() => setSelectedHospital(null)}
         radarAlerts={data.radarAlerts}
+      />
+
+      <CopilotWidget
+        data={data}
+        onSelectHospital={handleSelectHospital}
+        onNavigateTab={tab => setActiveTab(tab)}
       />
     </div>
   );
