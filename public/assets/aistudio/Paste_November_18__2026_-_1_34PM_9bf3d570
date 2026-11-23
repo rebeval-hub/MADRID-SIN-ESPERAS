@@ -1,0 +1,820 @@
+# PROMPT MAESTRO — MADRID SIN ESPERAS 4.0
+## RADAR INTELIGENTE DE OPORTUNIDADES DE OPTIMIZACIÓN SANITARIA
+
+Quiero evolucionar la aplicación actual **MADRID SIN ESPERAS 3.0** hacia una plataforma avanzada de análisis estadístico, machine learning y detección de oportunidades de mejora en las listas de espera sanitarias de la Comunidad de Madrid.
+
+El objetivo es pasar de un dashboard principalmente descriptivo a un sistema capaz de:
+
+1. Identificar hospitales con situaciones desfavorables.
+2. Agrupar hospitales según sus características y comportamientos.
+3. Detectar diferencias relevantes entre hospitales comparables.
+4. Identificar deterioros y anomalías en la evolución histórica.
+5. Analizar desigualdades territoriales.
+6. Detectar posibles oportunidades de cooperación entre hospitales.
+7. Priorizar los problemas mediante índices estadísticos propios.
+8. Generar fichas explicativas basadas exclusivamente en los resultados obtenidos de los datos.
+
+La innovación principal debe ser el nuevo módulo:
+
+**RADAR DE OPORTUNIDADES DE OPTIMIZACIÓN SANITARIA.**
+
+---
+
+# 0. INSTRUCCIONES GENERALES: AUDITORÍA Y PROTECCIÓN DEL PROYECTO
+
+Antes de realizar cualquier modificación, analiza exhaustivamente la versión 3.0.
+
+Revisa:
+- Arquitectura del proyecto.
+- Componentes y estructura de archivos.
+- Fuentes de datos.
+- Conjuntos de datos utilizados.
+- Variables disponibles.
+- Periodos históricos.
+- Funcionalidades estadísticas existentes.
+- Gráficos, mapas y filtros.
+- Modelos predictivos ya implementados.
+- Clasificaciones de hospitales.
+- Estructura de navegación.
+
+Es imprescindible identificar qué funcionalidades existentes pueden reutilizarse.
+
+**No reconstruyas la aplicación desde cero. No elimines ni sustituyas funcionalidades que ya funcionan.**
+
+Mantén:
+- Diseño visual actual.
+- Identidad gráfica.
+- Navegación.
+- Dashboard principal.
+- Mapa geográfico.
+- Análisis históricos.
+- Radar Sanitario existente.
+- Comparativas.
+- Fuentes y metodología.
+- Todos los módulos que no sea necesario modificar.
+
+El nuevo desarrollo debe integrarse en la aplicación existente.
+
+Antes de modificar archivos importantes, identifica qué archivos vas a modificar y qué componentes nuevos vas a crear.
+
+No utilices datos ficticios ni generes resultados de ejemplo que puedan confundirse con resultados reales.
+
+# 1. AUDITORÍA Y PREPARACIÓN DE LOS DATOS
+
+Antes de aplicar algoritmos, realiza una auditoría de los datos disponibles.
+
+Utiliza los conjuntos de datos oficiales de la Comunidad de Madrid que ya emplea la aplicación.
+
+Analiza las listas de:
+- Espera quirúrgica.
+- Consultas externas.
+- Pruebas diagnósticas.
+
+Comprueba qué información existe realmente para cada categoría.
+
+## 1.1. Variables disponibles
+
+Identifica, cuando existan:
+
+- Hospital.
+- Especialidad.
+- Periodo.
+- Número de pacientes pendientes.
+- Tiempo medio de espera.
+- Distribución por tramos temporales.
+- Pacientes con demoras superiores a determinados umbrales.
+- Complejidad hospitalaria.
+- Modelo de gestión.
+- Titularidad.
+- Localización geográfica.
+- Evolución histórica.
+
+No presupongas que todas las variables están disponibles en todos los conjuntos de datos.
+
+## 1.2. Preparación de los datos
+
+- Unifica los identificadores de hospitales.
+- Comprueba duplicados.
+- Identifica valores ausentes.
+- Detecta inconsistencias entre fuentes.
+- Homogeneiza periodos y unidades.
+- Comprueba cambios en las definiciones de los indicadores.
+- Distingue entre datos mensuales, trimestrales y anuales.
+- Evita comparar magnitudes que no sean equivalentes.
+
+No sustituyas valores ausentes por cero.
+
+No mezcles datos de distintas listas como si representasen la misma magnitud.
+
+Genera un informe de calidad de datos que indique qué análisis son viables y cuáles tienen limitaciones.
+
+# 2. MOTOR DE COMPARACIÓN INTELIGENTE: CLUSTERING DE HOSPITALES
+
+Esta será una de las funcionalidades centrales del nuevo módulo.
+
+Quiero que la aplicación sea capaz de descubrir grupos de hospitales que presenten características y comportamientos similares.
+
+No quiero limitarme a clasificar hospitales manualmente según su complejidad.
+
+Quiero incorporar técnicas de aprendizaje no supervisado para descubrir patrones en los datos.
+
+## 2.1. Clustering por características hospitalarias
+
+Utiliza las variables disponibles para identificar perfiles de hospitales.
+
+Variables candidatas:
+
+- Complejidad.
+- Modelo de gestión.
+- Volumen de pacientes pendientes.
+- Tiempo medio de espera.
+- Distribución de pacientes por tramos de espera.
+- Variabilidad de los indicadores.
+- Evolución de las listas de espera.
+
+Implementa y compara, cuando el tamaño y la estructura de los datos lo permitan:
+
+**K-Means**
+- Identificación de grupos de hospitales.
+- Exploración de diferentes números de clusters.
+- Evaluación de la calidad de los agrupamientos.
+
+**Clustering jerárquico**
+- Dendrograma de similitud entre hospitales.
+- Identificación de grupos y subgrupos.
+- Visualización de distancias entre centros.
+
+**DBSCAN**
+- Detección de hospitales con comportamientos especialmente diferentes.
+- Identificación de observaciones atípicas.
+
+No es obligatorio utilizar todos los algoritmos si alguno no resulta apropiado.
+
+## 2.2. Selección del número de clusters
+
+No elijas arbitrariamente el número de grupos.
+
+Utiliza criterios como:
+
+- Método del codo.
+- Silhouette Score.
+- Davies-Bouldin Index.
+- Calinski-Harabasz Index.
+
+Muestra los resultados de evaluación y justifica la solución seleccionada.
+
+Ten en cuenta que hay un número limitado de hospitales. No fuerces agrupamientos artificiales.
+
+## 2.3. Interpretación de los clusters
+
+Cada grupo debe disponer de una ficha explicativa.
+
+Incluye:
+
+- Número de hospitales.
+- Hospitales integrantes.
+- Características medias y medianas.
+- Tiempo medio de espera.
+- Volumen de pacientes pendientes.
+- Distribución de los tiempos de espera.
+- Comportamiento histórico.
+- Variables que diferencian al grupo.
+
+Genera descripciones interpretables de los perfiles encontrados.
+
+Ejemplos de perfiles que podrían aparecer:
+
+- Alta presión asistencial y demoras elevadas.
+- Alto volumen de pacientes, pero demoras relativamente controladas.
+- Presión asistencial intermedia.
+- Indicadores favorables.
+- Comportamientos atípicos.
+
+IMPORTANTE: estos son ejemplos orientativos. Los perfiles definitivos deben surgir de los datos.
+
+## 2.4. Visualización
+
+Incorpora:
+
+- Gráfico PCA de hospitales.
+- Colores diferenciados para cada cluster.
+- Identificación de hospitales al pasar el cursor.
+- Dendrograma interactivo.
+- Tabla de pertenencia a grupos.
+- Filtros por tipo de lista y periodo.
+
+El usuario debe poder seleccionar un hospital y consultar a qué grupo pertenece y por qué.
+
+# 3. CLUSTERING TEMPORAL: AGRUPAR HOSPITALES SEGÚN SU EVOLUCIÓN
+
+Esta funcionalidad debe distinguirse del clustering anterior.
+
+En este caso, no se agruparán hospitales únicamente por su situación actual, sino según la trayectoria histórica de sus indicadores.
+
+Objetivo: identificar hospitales que han seguido patrones de evolución similares.
+
+## 3.1. Patrones temporales
+
+Detecta:
+
+- Hospitales que empeoran progresivamente.
+- Hospitales que mejoran sostenidamente.
+- Hospitales con grandes fluctuaciones.
+- Hospitales relativamente estables.
+- Hospitales con cambios bruscos.
+- Hospitales que presentan comportamientos diferentes al resto de su grupo.
+
+## 3.2. Técnicas
+
+Evalúa:
+
+- K-Means aplicado a características temporales.
+- Clustering jerárquico de series temporales.
+- Dynamic Time Warping, si resulta adecuado.
+- Medidas de similitud entre trayectorias.
+
+Antes de comparar series, comprueba que tengan periodos, frecuencias y definiciones compatibles.
+
+## 3.3. Resultados
+
+Muestra:
+
+- Grupos de hospitales según evolución.
+- Gráfico de trayectorias por cluster.
+- Evolución media de cada grupo.
+- Hospitales que se separan de la tendencia de su grupo.
+- Identificación de hospitales que mejoran o empeoran.
+
+Incluye una explicación de las diferencias entre el clustering de características y el clustering temporal.
+
+# 4. DETECCIÓN DE HOSPITALES ATÍPICOS DENTRO DE SU GRUPO
+
+Desarrolla un sistema que identifique hospitales que presentan resultados significativamente diferentes respecto a centros comparables.
+
+No quiero un ranking general de demoras. Quiero detectar desviaciones respecto al comportamiento de cada grupo.
+
+## 4.1. Funcionamiento
+
+1. Asignar cada hospital a un grupo comparable.
+2. Calcular los indicadores de cada centro.
+3. Compararlos con los de su cluster.
+4. Medir cuánto se aleja cada hospital del patrón de su grupo.
+5. Identificar desviaciones importantes.
+
+## 4.2. Técnicas
+
+Utiliza, cuando proceda:
+
+- Z-score dentro de cada cluster.
+- Modified Z-score.
+- Isolation Forest.
+- Local Outlier Factor.
+- Distancias respecto al centroide del grupo.
+
+Distingue anomalías de una sola observación de deterioros persistentes.
+
+## 4.3. Resultados
+
+Cada hospital detectado como atípico debe mostrar:
+
+- Indicador que presenta la desviación.
+- Valor observado.
+- Referencia de su grupo.
+- Diferencia absoluta.
+- Diferencia relativa.
+- Periodo.
+- Método estadístico utilizado.
+- Nivel de evidencia.
+
+No clasifiques automáticamente un hospital como malo o ineficiente.
+
+La finalidad es identificar situaciones que merecen investigación.
+
+# 5. DETECCIÓN TEMPRANA DEL DETERIORO ASISTENCIAL
+
+Amplía el Radar Sanitario existente.
+
+Quiero que identifique hospitales cuya situación esté empeorando respecto a su propio histórico y respecto a hospitales comparables.
+
+## 5.1. Indicadores
+
+Analiza:
+
+- Incrementos del número de pacientes pendientes.
+- Aumentos de los tiempos de espera.
+- Cambios en la distribución por tramos temporales.
+- Empeoramientos persistentes.
+- Variaciones respecto a periodos anteriores.
+- Diferencias respecto a hospitales del mismo cluster.
+
+## 5.2. Técnicas temporales
+
+Evalúa:
+
+- Medias móviles.
+- Variaciones interanuales.
+- Tasas de crecimiento.
+- CUSUM.
+- Detección de puntos de cambio estructural.
+- Métodos de detección de anomalías.
+- Modelos temporales existentes en la versión 3.0.
+
+Utiliza los métodos apropiados para la frecuencia y longitud de cada serie.
+
+## 5.3. Puntos de cambio estructural
+
+Identifica periodos en los que se produce un cambio relevante en la evolución de un hospital.
+
+Muestra:
+
+- Fecha aproximada del cambio.
+- Indicador afectado.
+- Valor anterior.
+- Valor posterior.
+- Magnitud del cambio.
+- Persistencia del cambio.
+
+No atribuyas el cambio a una causa concreta sin información que lo demuestre.
+
+## 5.4. Sistema de alertas
+
+Crea tres niveles:
+
+- NORMAL: comportamiento compatible con el histórico.
+- SEGUIMIENTO: desviación o deterioro que merece observación.
+- PRIORITARIO: empeoramiento importante y persistente.
+
+Cada alerta debe explicar qué criterio estadístico la ha generado.
+
+No utilices umbrales inventados ni presentes una anomalía como un fallo clínico demostrado.
+
+# 6. ANÁLISIS DE CONVERGENCIA Y DESIGUALDADES ENTRE HOSPITALES
+
+Incorpora una funcionalidad específica para estudiar si las diferencias entre hospitales están aumentando o disminuyendo.
+
+Quiero que el sistema responda a esta pregunta:
+
+**¿Están convergiendo los hospitales de la Comunidad de Madrid hacia niveles similares de espera o las desigualdades están aumentando?**
+
+## 6.1. Análisis de dispersión
+
+Calcula, cuando sea apropiado:
+
+- Rango intercuartílico.
+- Coeficiente de variación.
+- Diferencias entre percentiles.
+- Diferencias entre máximo y mínimo.
+- Ratios entre hospitales.
+- Dispersión dentro de cada grupo de complejidad.
+
+## 6.2. Convergencia temporal
+
+Estudia:
+
+- Sigma-convergencia.
+- Beta-convergencia, si se cumplen los requisitos estadísticos.
+- Evolución de las diferencias entre hospitales.
+- Persistencia de las posiciones desfavorables.
+- Cambios en la dispersión a lo largo del tiempo.
+
+No fuerces una conclusión de convergencia si los datos no la respaldan.
+
+## 6.3. Visualizaciones
+
+Incluye:
+
+- Evolución temporal de la dispersión.
+- Gráfico de diferencias entre hospitales.
+- Comparación por grupos.
+- Ranking de hospitales que más se alejan del promedio de su grupo.
+
+# 7. ANÁLISIS DE DESIGUALDADES TERRITORIALES
+
+Aprovecha el mapa geográfico existente.
+
+No quiero un mapa redundante: quiero enriquecer el actual con análisis territorial.
+
+## 7.1. Indicadores
+
+Analiza:
+
+- Hospitales con mayores tiempos de espera.
+- Territorios con mayor volumen de pacientes pendientes.
+- Diferencias entre centros cercanos.
+- Diferencias entre centros de complejidad similar.
+- Persistencia territorial de las desigualdades.
+- Evolución de los indicadores por zona.
+
+## 7.2. Análisis geoespacial
+
+Utiliza las coordenadas y localizaciones oficiales de los hospitales.
+
+Incorpora, cuando los datos lo permitan:
+
+- Distancias geográficas entre hospitales.
+- Comparaciones entre centros próximos.
+- Identificación de concentraciones territoriales de presión asistencial.
+- Visualización de desigualdades territoriales.
+
+No atribuyas a los residentes de un territorio una lista de espera hospitalaria concreta si no existe información de residencia y asignación sanitaria que lo permita.
+
+## 7.3. Interacción
+
+El usuario podrá:
+
+- Seleccionar tipo de lista.
+- Seleccionar periodo.
+- Filtrar por grupo de complejidad.
+- Consultar hospitales cercanos.
+- Comparar indicadores entre centros.
+- Consultar la evolución temporal.
+
+# 8. ANÁLISIS DE ESPECIALIDADES Y CONCENTRACIÓN DE PACIENTES
+
+Cuando los conjuntos de datos incluyan información por especialidad, desarrolla un análisis específico.
+
+## 8.1. Especialidades prioritarias
+
+Identifica:
+
+- Especialidades con mayor número de pacientes pendientes.
+- Especialidades con mayores demoras.
+- Especialidades con deterioro persistente.
+- Diferencias entre hospitales para una misma especialidad.
+- Especialidades que concentran una parte importante de la presión asistencial.
+
+## 8.2. Concentración
+
+Incorpora:
+
+- Curvas de Lorenz.
+- Índice de Gini.
+- Índice Herfindahl-Hirschman.
+- Análisis Pareto.
+
+Utilízalos para estudiar cómo se distribuyen los pacientes pendientes entre hospitales o especialidades.
+
+Diferencia claramente concentración de pacientes y desigualdad en tiempos de espera: son fenómenos distintos.
+
+# 9. IDENTIFICACIÓN DE OPORTUNIDADES DE COOPERACIÓN ENTRE HOSPITALES
+
+Esta funcionalidad debe integrar los resultados de clustering, comparación y detección de anomalías.
+
+Objetivo: identificar parejas de hospitales que presenten diferencias relevantes y que merezcan un estudio de posibles oportunidades de cooperación.
+
+## 9.1. Funcionamiento
+
+Para cada pareja de hospitales:
+
+1. Evaluar su similitud en complejidad y características disponibles.
+2. Comprobar si pertenecen al mismo grupo o tienen características comparables.
+3. Comparar sus tiempos de espera.
+4. Comparar el volumen de pacientes pendientes.
+5. Analizar las diferencias por tipo de lista.
+6. Analizar las especialidades cuando existan datos.
+7. Comprobar si las diferencias persisten históricamente.
+8. Identificar posibles oportunidades de investigación.
+
+## 9.2. Índice de oportunidad de cooperación
+
+Desarrolla una puntuación propia que combine:
+
+- Similitud entre hospitales.
+- Diferencia en los indicadores de espera.
+- Diferencia en el volumen de pacientes pendientes.
+- Persistencia temporal de las diferencias.
+- Calidad y disponibilidad de los datos.
+
+La puntuación debe estar normalizada y ser explicable.
+
+Permite ordenar las parejas de hospitales según su interés analítico.
+
+No presentes este índice como una medida de capacidad disponible.
+
+No recomiendes derivaciones automáticas de pacientes.
+
+No afirmes que un hospital puede absorber pacientes de otro sin disponer de datos sobre recursos, actividad, especialidades y capacidad.
+
+La finalidad es identificar oportunidades que merecen un estudio adicional.
+
+# 10. ANÁLISIS CONJUNTO DE CIRUGÍA, CONSULTAS EXTERNAS Y PRUEBAS DIAGNÓSTICAS
+
+Integra los distintos tipos de listas de espera en un análisis conjunto.
+
+Quiero poder detectar patrones entre las distintas categorías.
+
+## 10.1. Análisis
+
+- Comparar las demoras por tipo de lista.
+- Detectar hospitales con acumulaciones persistentes.
+- Identificar especialidades con mayores demoras.
+- Comparar la evolución de las distintas categorías.
+- Identificar patrones coincidentes entre listas.
+- Detectar centros con problemas en varias categorías simultáneamente.
+
+## 10.2. Relaciones entre etapas
+
+Investiga posibles coincidencias entre consultas, pruebas y cirugía únicamente cuando los datos sean compatibles.
+
+No afirmes que una demora en una etapa provoca otra sin datos vinculados que permitan estudiar esa relación.
+
+No sumes tiempos de espera de categorías diferentes.
+
+# 11. ÍNDICE DE PRIORIDAD DE ACTUACIÓN HOSPITALARIA
+
+Esta será la funcionalidad integradora principal del Radar de Oportunidades.
+
+Construye un índice propio que permita ordenar los hospitales según la prioridad con la que convendría investigar su situación.
+
+## 11.1. Componentes
+
+Combina:
+
+1. Tiempo de espera.
+2. Volumen de pacientes pendientes.
+3. Persistencia del problema.
+4. Tendencia reciente.
+5. Desviación respecto a hospitales comparables.
+6. Desigualdad dentro de su grupo.
+
+## 11.2. Requisitos estadísticos
+
+- Normalización de variables.
+- Tratamiento correcto de valores ausentes.
+- Justificación de ponderaciones.
+- Evitar duplicidad excesiva de información entre componentes.
+- Análisis de sensibilidad.
+- Comparación de diferentes esquemas de ponderación.
+- Evaluación de estabilidad del ranking.
+
+No asignes pesos arbitrarios sin explicar sus consecuencias.
+
+Si no existe una ponderación objetivamente justificable, presenta varios escenarios de ponderación y muestra cómo cambia la clasificación.
+
+## 11.3. Visualización
+
+Incluye:
+
+- Ranking de hospitales.
+- Puntuación global.
+- Contribución de cada componente.
+- Comparación con su grupo.
+- Evolución histórica de la puntuación.
+- Filtros por tipo de lista y periodo.
+
+El índice es una herramienta analítica propia, no un indicador oficial ni una medida de gravedad clínica.
+
+# 12. FICHAS AUTOMÁTICAS DE OPORTUNIDADES DETECTADAS
+
+Cada oportunidad debe disponer de una ficha explicativa.
+
+Incluye:
+
+- Nombre de la oportunidad.
+- Hospital o hospitales afectados.
+- Tipo de lista.
+- Periodo analizado.
+- Problema detectado.
+- Indicadores utilizados.
+- Comparación con hospitales similares.
+- Cluster al que pertenecen.
+- Diferencia observada.
+- Evolución histórica.
+- Técnica estadística utilizada.
+- Posible línea de actuación que convendría investigar.
+- Información adicional necesaria.
+- Indicador para evaluar una eventual intervención.
+- Calidad y cobertura de los datos.
+
+Las fichas deben generarse a partir de resultados reales y no mediante texto genérico.
+
+# 13. VISUALIZACIONES DEL NUEVO MÓDULO
+
+Crea un módulo visualmente integrado en MADRID SIN ESPERAS 3.0.
+
+Quiero que incluya las siguientes secciones:
+
+### A. PERFIL DE HOSPITALES
+- PCA interactivo.
+- Clusters.
+- Dendrograma.
+- Tabla de hospitales.
+- Características de cada grupo.
+
+### B. EVOLUCIÓN Y PATRONES
+- Clustering temporal.
+- Trayectorias históricas.
+- Detección de puntos de cambio.
+- Evolución de anomalías.
+- Comparación con hospitales del mismo grupo.
+
+### C. DESIGUALDADES
+- Mapa geográfico.
+- Dispersión entre hospitales.
+- Convergencia temporal.
+- Curvas de Lorenz.
+- Indicadores de concentración.
+
+### D. COOPERACIÓN
+- Comparador de parejas de hospitales.
+- Ranking de oportunidades.
+- Diferencias de indicadores.
+- Fichas explicativas.
+
+### E. PRIORIZACIÓN
+- Índice de Prioridad de Actuación.
+- Ranking.
+- Descomposición de puntuaciones.
+- Análisis de sensibilidad.
+- Alertas.
+
+Todas las visualizaciones deben ser interactivas y responder correctamente a los filtros.
+
+# 14. INTELIGENCIA ARTIFICIAL PARA EXPLICAR LOS RESULTADOS
+
+Si la arquitectura existente permite integrar Gemini, añade una capa de interpretación de resultados.
+
+La IA debe recibir los resultados calculados por los algoritmos y explicar:
+
+- Qué grupos de hospitales se han identificado.
+- Qué diferencias existen entre ellos.
+- Qué hospitales presentan comportamientos atípicos.
+- Qué deterioros se han detectado.
+- Dónde persisten las desigualdades.
+- Qué oportunidades de cooperación merecen investigación.
+- Por qué determinados hospitales aparecen en el ranking prioritario.
+
+No quiero que Gemini invente cifras ni calcule por su cuenta resultados que deben proceder de los algoritmos.
+
+Los cálculos estadísticos deben realizarse mediante código reproducible.
+
+La IA solo debe interpretar los resultados estructurados que recibe.
+
+Cada explicación debe mostrar los datos y periodos que la respaldan.
+
+# 15. REQUISITOS DE VALIDACIÓN ESTADÍSTICA
+
+Este apartado es obligatorio.
+
+No basta con que los algoritmos funcionen técnicamente. Debe comprobarse que sus resultados tienen sentido estadístico.
+
+## 15.1. Clustering
+
+- Evaluar el número de grupos.
+- Comparar algoritmos.
+- Analizar la estabilidad de los clusters.
+- Comprobar el efecto de la estandarización.
+- Identificar variables que dominan la agrupación.
+- Evitar grupos demasiado pequeños sin justificación.
+
+## 15.2. Anomalías
+
+- Comprobar la sensibilidad a los umbrales.
+- Distinguir anomalías puntuales de persistentes.
+- Evitar alertas por variaciones irrelevantes.
+- Explicar los criterios utilizados.
+
+## 15.3. Series temporales
+
+- Comprobar longitud de las series.
+- Evitar fuga de información.
+- Respetar el orden temporal.
+- Validar previsiones cuando existan suficientes observaciones.
+- Mostrar incertidumbre cuando proceda.
+
+## 15.4. Índices
+
+- Comprobar la sensibilidad a las ponderaciones.
+- Identificar componentes redundantes.
+- Comprobar la estabilidad de las clasificaciones.
+- Mostrar los resultados sin ocultar sus limitaciones.
+
+## 15.5. Interpretación
+
+Nunca confundas:
+
+- Correlación con causalidad.
+- Anomalía con fallo asistencial.
+- Resultado favorable con eficiencia demostrada.
+- Predicción con observación.
+- Similitud estadística con equivalencia clínica.
+- Volumen bajo con capacidad disponible.
+
+Si los datos no permiten sostener una conclusión, indícalo.
+
+# 16. TECNOLOGÍAS
+
+Adapta la implementación a la arquitectura existente.
+
+Cuando sea viable, utiliza:
+
+- Pandas para preparación de datos.
+- NumPy para cálculos.
+- Scikit-learn para clustering, PCA y detección de anomalías.
+- SciPy para distancias y clustering jerárquico.
+- Statsmodels para series temporales y análisis estadístico.
+- Ruptures para detección de cambios estructurales, si resulta necesario.
+- GeoPandas para análisis geoespacial.
+- Plotly para visualizaciones.
+- Gemini para explicación de resultados.
+
+No añadas librerías innecesarias.
+
+Si la aplicación no tiene backend Python, evalúa la integración más sencilla y segura. No expongas claves API ni dependencias privadas en el navegador.
+
+# 17. DISEÑO Y EXPERIENCIA DE USUARIO
+
+Mantén el diseño actual de MADRID SIN ESPERAS 3.0.
+
+No quiero un rediseño general.
+
+El nuevo módulo debe parecer parte de la misma aplicación.
+
+Requisitos:
+- Interfaz profesional.
+- Diseño limpio.
+- Gráficos legibles.
+- Navegación intuitiva.
+- Filtros coherentes.
+- Colores consistentes.
+- Información estadística explicada.
+- Tooltips con definiciones.
+- Posibilidad de consultar los datos de cada resultado.
+
+Evita añadir gráficos por añadirlos.
+
+Cada visualización debe responder a una pregunta concreta.
+
+# 18. PLAN DE IMPLEMENTACIÓN
+
+Trabaja por fases.
+
+### FASE 1. AUDITORÍA
+Identifica los datos, variables, componentes y funcionalidades existentes.
+
+Entrega un diagnóstico de viabilidad para cada análisis.
+
+### FASE 2. PREPARACIÓN
+Limpia y estructura los datos para crear una base analítica común por hospital, periodo y tipo de lista.
+
+### FASE 3. MODELOS
+Implementa:
+- Clustering de hospitales.
+- Clustering temporal.
+- PCA.
+- Detección de anomalías.
+- Detección de cambios estructurales.
+- Análisis de convergencia.
+- Análisis de concentración.
+
+### FASE 4. PRIORIZACIÓN
+Implementa:
+- Comparación de hospitales.
+- Índice de oportunidad de cooperación.
+- Índice de Prioridad de Actuación.
+- Fichas de oportunidades.
+
+### FASE 5. VISUALIZACIÓN
+Integra los resultados en el nuevo módulo.
+
+### FASE 6. VALIDACIÓN
+Comprueba los cálculos, filtros, resultados y coherencia con los datos originales.
+
+### FASE 7. INFORME
+Entrega un informe técnico con:
+- Datos utilizados.
+- Variables.
+- Algoritmos.
+- Parámetros.
+- Resultados.
+- Validación.
+- Limitaciones.
+- Funcionalidades implementadas.
+- Funcionalidades no implementadas y motivos.
+
+# 19. RESULTADO FINAL ESPERADO
+
+Quiero que MADRID SIN ESPERAS 4.0 permita pasar de una simple observación de las listas de espera a un análisis avanzado de los patrones hospitalarios.
+
+El usuario debe poder responder preguntas como:
+
+- ¿Qué hospitales presentan características similares?
+- ¿Qué hospitales tienen una evolución histórica parecida?
+- ¿Qué hospitales se alejan del comportamiento de su grupo?
+- ¿Qué centros están empeorando?
+- ¿Cuándo comenzó el deterioro?
+- ¿Están aumentando las desigualdades entre hospitales?
+- ¿Qué especialidades concentran más presión?
+- ¿Qué parejas de hospitales presentan diferencias que merecen investigar posibles oportunidades de cooperación?
+- ¿Qué hospitales deberían tener prioridad de análisis?
+- ¿Qué indicadores explican esa prioridad?
+
+**La finalidad no es etiquetar hospitales como buenos o malos, sino utilizar la Ciencia de Datos para identificar patrones, detectar desigualdades y orientar posibles mejoras del sistema sanitario.**
+
+El proyecto debe demostrar un uso real de datos abiertos, técnicas estadísticas y machine learning, con resultados reproducibles y explicables.
+
+No inventes resultados para completar funcionalidades. Si una técnica no puede aplicarse correctamente por limitaciones de los datos, explica por qué y propone una alternativa válida.
+
+**Prioriza la calidad analítica y la utilidad de los resultados sobre la cantidad de algoritmos implementados.**
+
+Mantén intactas todas las funcionalidades existentes de MADRID SIN ESPERAS 3.0 que no sea necesario modificar.

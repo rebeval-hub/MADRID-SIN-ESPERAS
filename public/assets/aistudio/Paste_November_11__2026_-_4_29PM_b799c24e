@@ -1,0 +1,884 @@
+# BUILD PROMPT — MADRID SIN ESPERAS
+## Plataforma de inteligencia sanitaria, análisis predictivo y detección temprana de anomalías en las listas de espera de la Comunidad de Madrid
+
+Actúa como un equipo multidisciplinar formado por:
+
+- Senior Data Scientist especializado en estadística, machine learning, forecasting y análisis de series temporales.
+- Senior Data Engineer especializado en integración de datos abiertos, ETL y validación de fuentes.
+- Senior Full-Stack Engineer especializado en aplicaciones web interactivas.
+- Senior UI/UX Designer especializado en dashboards de inteligencia de datos y visualización estadística.
+
+Tu misión es construir un prototipo funcional, visualmente profesional, interactivo y basado exclusivamente en datos oficiales para el proyecto MADRID SIN ESPERAS.
+
+No quiero una landing page comercial ni un dashboard estático con gráficos decorativos. Quiero una aplicación real de análisis de datos que permita explorar, comparar, comprender y anticipar posibles problemas en las listas de espera sanitarias de la Comunidad de Madrid.
+
+La calidad estadística, la trazabilidad de los datos y la utilidad de los análisis tienen prioridad sobre la cantidad de funcionalidades.
+
+---
+
+# 1. CONTEXTO Y OBJETIVO DEL PROYECTO
+
+Las listas de espera sanitarias pueden variar considerablemente entre hospitales, especialidades y procedimientos.
+
+El objetivo de MADRID SIN ESPERAS es desarrollar una herramienta de inteligencia sanitaria que permita:
+
+- Monitorizar la evolución de las listas de espera.
+- Identificar hospitales y especialidades con mayores demoras.
+- Detectar incrementos anormales en el número de pacientes pendientes.
+- Comparar el comportamiento de distintos hospitales.
+- Analizar tendencias históricas.
+- Detectar deterioros persistentes.
+- Desarrollar modelos predictivos para estimar la evolución futura.
+- Analizar posibles diferencias territoriales en el acceso a la atención sanitaria.
+- Explorar escenarios hipotéticos de reducción de las listas de espera.
+- Facilitar información útil para gestores sanitarios, investigadores, responsables de políticas públicas y ciudadanos.
+
+La aplicación debe responder principalmente a cuatro preguntas:
+
+1. ¿Dónde se concentran actualmente los mayores problemas de listas de espera?
+2. ¿Qué hospitales y especialidades están experimentando un deterioro?
+3. ¿Qué comportamientos anormales podemos detectar a partir de los datos históricos?
+4. ¿Cómo podrían evolucionar las listas de espera si se mantienen las tendencias actuales?
+
+El proyecto no debe limitarse a describir datos: debe aportar herramientas estadísticas para detectar y comprender problemas.
+
+# 2. REGLA FUNDAMENTAL: NO INVENTAR DATOS
+
+Esta es la condición más importante de todo el proyecto.
+
+Todos los datos mostrados deben proceder de fuentes oficiales verificables.
+
+Está estrictamente prohibido:
+
+- Inventar pacientes en lista de espera.
+- Generar hospitales ficticios.
+- Inventar tiempos medios de espera.
+- Crear observaciones históricas inexistentes.
+- Utilizar datos sintéticos para rellenar gráficos.
+- Presentar estimaciones de IA como estadísticas oficiales.
+- Inventar resultados de modelos predictivos.
+- Mostrar KPIs calculados a partir de datos inexistentes.
+- Simular conexiones exitosas con fuentes externas.
+
+Si una fuente no está disponible, muestra un mensaje indicando que no se ha podido recuperar la información.
+
+Si faltan datos para un hospital, especialidad o periodo, utiliza valores nulos y no los sustituyas por ceros.
+
+Distingue visualmente cuatro categorías:
+
+**A. DATOS OFICIALES**
+
+Información descargada de fuentes institucionales.
+
+**B. INDICADORES CALCULADOS**
+
+Métricas obtenidas mediante operaciones estadísticas sobre datos oficiales. Deben explicar su fórmula y periodo de referencia.
+
+**C. PREDICCIONES EXPERIMENTALES**
+
+Resultados generados mediante modelos estadísticos o machine learning entrenados con datos históricos reales.
+
+**D. SIMULACIONES HIPOTÉTICAS**
+
+Escenarios construidos a partir de supuestos modificables por el usuario. Nunca deben confundirse con resultados reales.
+
+Si todavía no hay suficientes observaciones para entrenar un modelo, muestra:
+
+"Datos insuficientes para realizar predicciones".
+
+No utilices datos mock, fixtures ni valores hardcodeados en la versión funcional.
+
+Se permiten datos de ejemplo únicamente para desarrollar la interfaz, pero deben estar claramente separados del entorno real, identificados como demostración y eliminados antes de presentar el producto como funcional.
+
+# 3. FUENTES DE DATOS OFICIALES
+
+Prioriza las siguientes fuentes.
+
+## Fuente 1. Lista de espera quirúrgica
+
+Portal oficial:
+
+https://www.comunidad.madrid/salud/lista-espera-quirurgica
+
+Investigar los datos disponibles:
+
+- Pacientes activos en lista de espera.
+- Demora media.
+- Datos por hospital.
+- Datos por especialidad.
+- Datos por proceso o patología.
+- Evolución histórica mensual o semanal.
+
+La fuente oficial indica disponibilidad de información desde enero de 2020. Comprobar la continuidad real de las series.
+
+## Fuente 2. Lista de espera de consultas externas
+
+Portal oficial:
+
+https://www.comunidad.madrid/salud/lista-espera-consultas-externas
+
+Investigar:
+
+- Número de pacientes activos.
+- Demora media en días naturales.
+- Hospital.
+- Especialidad.
+- Evolución temporal mensual o semanal.
+
+## Fuente 3. Lista de espera de pruebas diagnósticas y terapéuticas
+
+Portal oficial:
+
+https://www.comunidad.madrid/salud/lista-espera-pruebas-diagnosticas-terapeuticas
+
+Investigar:
+
+- Pacientes pendientes de pruebas.
+- Demora media.
+- Hospital.
+- Tipo de prueba.
+- Evolución temporal.
+
+Pruebas contempladas, si están disponibles:
+
+- Resonancia magnética.
+- Tomografía computarizada.
+- Ecografía.
+- Mamografía.
+- Colonoscopia.
+- Gastroscopia.
+- Otras pruebas disponibles en la fuente.
+
+## Fuente 4. Catálogo de datos abiertos de la Comunidad de Madrid
+
+Portal:
+
+https://datos.comunidad.madrid/
+
+Consultar específicamente los siguientes conjuntos:
+
+- Lista de espera quirúrgica.
+- Lista de espera quirúrgica por hospitales.
+- Lista de espera consultas externas.
+- Lista de espera para consultas externas por hospitales.
+- Lista de espera de pruebas diagnósticas y terapéuticas.
+
+IMPORTANTE:
+
+Algunos conjuntos del catálogo pueden tener metadatos de ámbito nacional y datos agregados a 31 de diciembre.
+
+No asumir que son datos exclusivamente madrileños por el mero hecho de que los publique la Comunidad de Madrid.
+
+Verificar el contenido, las columnas y el ámbito geográfico de cada fichero antes de incorporarlo.
+
+Utilizar preferentemente los servicios oficiales que permitan consultar información por hospital, especialidad y periodo.
+
+## Requisitos de integración
+
+Implementa un pipeline de adquisición de datos:
+
+1. Acceder a las páginas oficiales.
+2. Identificar recursos CSV, JSON o endpoints disponibles.
+3. Descargar los datos.
+4. Parsear correctamente los ficheros.
+5. Normalizar nombres de hospitales, especialidades y fechas.
+6. Identificar valores ausentes y duplicados.
+7. Validar tipos de datos.
+8. Registrar fuente y fecha de actualización.
+9. Exponer los datos procesados a la interfaz.
+
+No inventes endpoints ni estructuras JSON.
+
+Inspecciona primero las fuentes y utiliza sus URLs y estructuras reales.
+
+Si la web utiliza consultas dinámicas, inspecciona sus peticiones y determina si existe un endpoint público reutilizable.
+
+Si hay problemas de CORS, implementa un backend o proxy de lectura cuando el entorno lo permita.
+
+Si una fuente no puede integrarse automáticamente, permite importar el CSV oficial descargado manualmente.
+
+La aplicación debe indicar siempre qué fuentes están conectadas y cuáles no.
+
+# 4. ARQUITECTURA ANALÍTICA DEL PROYECTO
+
+Organiza la aplicación en tres grandes módulos principales.
+
+## MÓDULO 1. MONITORIZACIÓN Y DIAGNÓSTICO
+
+Permite conocer la situación actual, estudiar los hospitales y especialidades y analizar la evolución histórica.
+
+## MÓDULO 2. RADAR SANITARIO
+
+Es la funcionalidad diferencial del proyecto.
+
+Su objetivo es detectar anomalías estadísticas, incrementos inusuales y deterioros persistentes en las listas de espera.
+
+Debe permitir identificar posibles problemas que no resulten evidentes mediante una simple visualización descriptiva.
+
+## MÓDULO 3. PREDICCIÓN Y ESCENARIOS
+
+Permite estimar la evolución futura de las listas de espera y explorar escenarios hipotéticos de reducción.
+
+Estos módulos deben estar conectados entre sí y utilizar los mismos datos oficiales y filtros.
+
+# 5. DISEÑO DE LA APLICACIÓN
+
+Construye una aplicación web de escritorio y móvil con una interfaz moderna, profesional y orientada a la analítica.
+
+Nombre:
+
+MADRID SIN ESPERAS
+
+Subtítulo:
+
+Sistema de inteligencia y monitorización de las listas de espera sanitarias de la Comunidad de Madrid.
+
+Estética:
+
+- Diseño institucional y tecnológico.
+- Fondo blanco o gris muy claro.
+- Azul oscuro como color principal.
+- Tonos azules y turquesas para visualizaciones.
+- Rojo y naranja exclusivamente para alertas.
+- Tipografía moderna y legible.
+- Tarjetas con esquinas ligeramente redondeadas.
+- Gráficos limpios con tooltips y leyendas.
+- Navegación lateral.
+- Jerarquía visual clara.
+
+Evitar diseños genéricos de dashboards generados por IA.
+
+La interfaz debe transmitir credibilidad, rigor estadístico y transparencia.
+
+# 6. ESTRUCTURA DEL DASHBOARD
+
+## A. VISIÓN GENERAL
+
+Página principal con una visión agregada de la situación sanitaria.
+
+Incluir los siguientes KPIs, siempre que existan los datos correspondientes:
+
+- Total de pacientes en lista de espera por categoría.
+- Demora media.
+- Hospitales incluidos.
+- Especialidades analizadas.
+- Variación respecto al periodo anterior.
+- Fecha de última actualización.
+
+Separar los indicadores por tipo de lista:
+
+- Quirúrgica.
+- Consultas externas.
+- Pruebas diagnósticas.
+
+No sumar categorías que puedan solaparse ni mezclar universos estadísticos diferentes.
+
+Incluir:
+
+- Gráfico temporal de evolución del número de pacientes pendientes.
+- Gráfico temporal de evolución de la demora media.
+- Distribución por hospitales.
+- Indicadores de variación.
+- Resumen de posibles alertas detectadas.
+
+Filtros:
+
+- Tipo de lista de espera.
+- Hospital.
+- Especialidad.
+- Periodo temporal.
+
+Todos los filtros deben actualizar los indicadores y gráficos coherentemente.
+
+## B. ANÁLISIS POR HOSPITALES
+
+Crear una sección dedicada a comparar hospitales.
+
+Incluir:
+
+- Ranking según número de pacientes pendientes.
+- Ranking según demora media.
+- Comparación de evolución temporal.
+- Distribución de pacientes por hospital.
+- Identificación de hospitales con incrementos persistentes.
+
+Crear un gráfico de dispersión:
+
+- Eje X: número de pacientes pendientes.
+- Eje Y: demora media.
+- Cada punto representa un hospital.
+
+Permitir seleccionar un hospital para consultar su evolución histórica.
+
+### Comparación de desigualdad territorial
+
+Añadir un análisis comparativo entre hospitales para una misma especialidad.
+
+Calcular, cuando sea metodológicamente adecuado:
+
+- Diferencia de demora respecto a la referencia regional.
+- Cociente entre demora hospitalaria y referencia regional.
+- Dispersión de las demoras entre hospitales.
+- Variabilidad temporal.
+- Persistencia de diferencias.
+
+Permitir identificar hospitales cuyas demoras se mantienen alejadas del comportamiento regional.
+
+IMPORTANTE:
+
+Un hospital con más pacientes pendientes no es necesariamente menos eficiente.
+
+No construir rankings de eficiencia sin disponer de datos de capacidad, actividad, recursos y complejidad asistencial.
+
+Las diferencias observadas no demuestran por sí mismas desigualdad injustificada.
+
+## C. ANÁLISIS POR ESPECIALIDADES
+
+Crear una sección que permita estudiar las especialidades médicas.
+
+Incluir:
+
+- Pacientes pendientes por especialidad.
+- Demora media por especialidad.
+- Evolución temporal.
+- Comparación entre hospitales para una misma especialidad.
+- Detección de especialidades con deterioro persistente.
+
+Utilizar:
+
+- Gráficos de barras.
+- Series temporales.
+- Heatmaps de hospital × especialidad.
+- Tablas ordenables.
+
+Permitir filtrar por tipo de lista de espera.
+
+## D. EVOLUCIÓN TEMPORAL
+
+Crear una sección de análisis longitudinal.
+
+Objetivo: identificar patrones, tendencias y cambios en las listas de espera.
+
+Implementar:
+
+- Series temporales de pacientes pendientes.
+- Evolución de la demora media.
+- Variaciones absolutas y porcentuales.
+- Comparaciones interanuales.
+- Medias móviles cuando tengan sentido.
+- Identificación de cambios estructurales.
+- Comparaciones entre periodos.
+
+Permitir seleccionar periodos de tiempo.
+
+No interpolar observaciones ausentes sin indicarlo expresamente.
+
+Comprobar la continuidad de cada serie antes de aplicar modelos estadísticos.
+
+# 7. MÓDULO DIFERENCIAL: RADAR SANITARIO
+
+Crear una sección específica denominada RADAR SANITARIO.
+
+Debe ser una de las funcionalidades más importantes y visualmente destacadas de la aplicación.
+
+Objetivo: identificar comportamientos anormales en las listas de espera mediante métodos estadísticos.
+
+No limitarse a mostrar gráficos. El sistema debe analizar los datos y generar alertas explicables.
+
+## A. Tipos de anomalías
+
+Detectar:
+
+- Incrementos inusuales de pacientes pendientes.
+- Aumentos anormales de demora media.
+- Deterioros persistentes.
+- Cambios bruscos en las series.
+- Desviaciones respecto al comportamiento histórico.
+- Diferencias temporales inusuales entre hospitales.
+
+## B. Métodos estadísticos
+
+Priorizar los siguientes métodos:
+
+**1. Modified Z-score**
+
+Identificar observaciones que se alejan considerablemente de la distribución histórica utilizando la mediana y la desviación absoluta mediana.
+
+**2. Medias móviles**
+
+Detectar cambios respecto al comportamiento reciente de una serie temporal.
+
+**3. Control estadístico de procesos**
+
+Utilizar gráficos de control cuando las características de los datos lo permitan.
+
+**4. Detección de cambios estructurales**
+
+Identificar posibles modificaciones persistentes en el comportamiento de una serie.
+
+**5. Isolation Forest**
+
+Utilizarlo únicamente cuando exista suficiente cantidad de observaciones y su aplicación esté justificada.
+
+No es obligatorio utilizar todos los métodos.
+
+Seleccionar los que mejor se adapten a las características reales de los datos.
+
+## C. Clasificación de alertas
+
+Crear tres niveles:
+
+- ATENCIÓN: variación puntual inusual.
+- ALERTA: deterioro observado durante varios periodos.
+- ALERTA PERSISTENTE: empeoramiento sostenido respecto al comportamiento histórico.
+
+Los umbrales deben justificarse estadísticamente y poder configurarse.
+
+No clasificar automáticamente una observación como grave por superar un porcentaje arbitrario.
+
+## D. Ficha explicativa de cada anomalía
+
+Cada alerta debe mostrar:
+
+- Hospital.
+- Especialidad.
+- Tipo de lista de espera.
+- Indicador afectado.
+- Valor observado.
+- Valor de referencia.
+- Magnitud del cambio.
+- Periodo analizado.
+- Método estadístico utilizado.
+- Número de observaciones disponibles.
+- Interpretación del resultado.
+
+La aplicación debe explicar por qué se ha generado la alerta.
+
+Ejemplo de explicación:
+
+"Se ha detectado un incremento de pacientes pendientes que se aleja del comportamiento histórico de esta serie. La desviación se mantiene durante varios periodos y requiere una revisión adicional".
+
+No inventar explicaciones ni atribuir causas que no puedan demostrarse con los datos.
+
+Las anomalías estadísticas son señales para investigar, no pruebas de mala gestión ni diagnósticos de ineficiencia.
+
+No generar alertas cuando no haya datos suficientes.
+
+# 8. SISTEMA DE INDICADORES PROPIOS
+
+Incorporar indicadores calculados que permitan comprender mejor la evolución de las listas de espera.
+
+Entre ellos:
+
+**Variación intermensual**
+
+\[
+V_t=\frac{X_t-X_{t-1}}{X_{t-1}}\times100
+\]
+
+**Variación interanual**
+
+Comparar el valor actual con el mismo periodo del año anterior.
+
+**Diferencia respecto a la referencia regional**
+
+\[
+D_{h,t}=X_{h,t}-X_{regional,t}
+\]
+
+**Cociente respecto a la referencia regional**
+
+\[
+R_{h,t}=\frac{X_{h,t}}{X_{regional,t}}
+\]
+
+**Indicador de persistencia**
+
+Medir durante cuántos periodos consecutivos se mantiene una desviación respecto al comportamiento histórico.
+
+**Indicador de deterioro temporal**
+
+Combinar, cuando resulte metodológicamente justificable, variaciones, desviaciones y persistencia.
+
+Todos los indicadores deben incluir:
+
+- Fórmula.
+- Variables utilizadas.
+- Periodo de referencia.
+- Interpretación.
+- Limitaciones.
+
+No crear índices compuestos arbitrarios ni presentar sus resultados como indicadores oficiales.
+
+Evitar divisiones por cero y tratar correctamente valores nulos.
+
+# 9. MODELOS PREDICTIVOS
+
+Crear una sección experimental de forecasting.
+
+Objetivo: estimar la evolución futura de determinadas listas de espera.
+
+No implementar todos los modelos por obligación.
+
+Seleccionar los modelos adecuados según la cantidad, frecuencia y características de las observaciones disponibles.
+
+## Modelos a considerar
+
+**1. Naive estacional**
+
+Utilizarlo como baseline de comparación.
+
+**2. Exponential Smoothing**
+
+Considerar modelos de suavizado exponencial, Holt o Holt-Winters según las características de las series.
+
+**3. ARIMA / SARIMA**
+
+Aplicarlos cuando las propiedades de las series y el número de observaciones lo permitan.
+
+Otros modelos podrán explorarse únicamente si existen suficientes variables y observaciones.
+
+## Requisitos
+
+- Entrenar con observaciones históricas reales.
+- Separar entrenamiento y validación temporalmente.
+- Evitar data leakage.
+- Comparar modelos con un baseline sencillo.
+- Evaluar mediante MAE, RMSE y MAPE cuando MAPE sea adecuado.
+- Mostrar intervalos de predicción cuando sea posible.
+- Comparar predicciones con observaciones reales.
+- Documentar los parámetros y el periodo de entrenamiento.
+
+La interfaz debe distinguir claramente:
+
+- Histórico observado.
+- Predicción.
+- Intervalo de incertidumbre.
+
+No seleccionar automáticamente el modelo más complejo.
+
+Si un modelo no mejora el baseline, mostrarlo.
+
+Si no hay suficiente información histórica, explicar por qué no se puede entrenar el modelo.
+
+No generar predicciones ficticias para que el gráfico parezca completo.
+
+# 10. SIMULADOR DE ESCENARIOS Y OPTIMIZACIÓN EXPERIMENTAL
+
+Crear un módulo denominado SIMULADOR DE ESCENARIOS.
+
+Objetivo: explorar cómo podrían evolucionar las listas de espera bajo diferentes supuestos de capacidad asistencial.
+
+Permitir introducir supuestos hipotéticos como:
+
+- Incremento porcentual de capacidad.
+- Número hipotético de sesiones adicionales.
+- Variación de entradas de pacientes.
+- Variación de actividad asistencial.
+- Diferentes horizontes temporales.
+
+Mostrar cómo cambiarían los resultados bajo los supuestos seleccionados.
+
+IMPORTANTE:
+
+Una simulación no es una predicción real ni una recomendación sanitaria.
+
+Para realizar una optimización real se necesitan variables adicionales:
+
+- Capacidad disponible.
+- Número de quirófanos.
+- Personal sanitario.
+- Actividad asistencial.
+- Costes.
+- Duración de procedimientos.
+- Restricciones operativas.
+
+Si estos datos no están disponibles, no mostrar una supuesta solución óptima real.
+
+En su lugar, explicar qué variables faltan y qué información permitiría ejecutar el optimizador.
+
+Las simulaciones deben estar claramente identificadas como HIPOTÉTICAS.
+
+No utilizar valores inventados como si fueran información oficial.
+
+# 11. FUNCIONALIDADES INTERACTIVAS
+
+La aplicación debe permitir:
+
+- Cambiar entre las tres categorías de listas de espera.
+- Seleccionar hospitales.
+- Seleccionar especialidades.
+- Elegir periodos temporales.
+- Comparar dos o más hospitales.
+- Consultar valores exactos de los gráficos.
+- Ordenar y filtrar tablas.
+- Descargar los datos filtrados en CSV.
+- Consultar la metodología de cada indicador.
+- Acceder a la fuente original de cada conjunto de datos.
+- Consultar las alertas detectadas.
+- Consultar los resultados de los modelos predictivos.
+- Modificar los supuestos del simulador.
+
+Todos los filtros deben actualizar los gráficos y KPIs de forma coherente.
+
+Añadir una sección de calidad de datos que informe sobre:
+
+- Registros disponibles.
+- Registros descartados.
+- Valores ausentes.
+- Duplicados.
+- Última fecha observada.
+- Fuente de procedencia.
+- Continuidad temporal.
+- Periodos sin información.
+
+# 12. ARQUITECTURA TÉCNICA
+
+Utiliza una arquitectura modular y mantenible.
+
+Frontend:
+
+- React.
+- TypeScript.
+- Tailwind CSS.
+- Recharts o biblioteca equivalente.
+- Lucide para iconografía.
+
+Backend:
+
+- Python con FastAPI, si el entorno permite ejecutarlo.
+- Alternativamente, utilizar un backend compatible con Google AI Studio.
+
+Procesamiento:
+
+- Pandas.
+- NumPy.
+- Scikit-learn.
+- Statsmodels.
+
+Organización conceptual:
+
+data/
+- raw/
+- processed/
+
+backend/
+- ingestion/
+- validation/
+- processing/
+- analytics/
+- forecasting/
+- anomaly_detection/
+
+frontend/
+- components/
+- pages/
+- charts/
+- filters/
+- services/
+
+No es obligatorio implementar físicamente toda esta estructura si el entorno utiliza otra arquitectura, pero sí mantener una separación clara de responsabilidades.
+
+No utilizar Gemini para inventar valores estadísticos ni generar observaciones artificiales.
+
+Gemini puede ayudar a redactar explicaciones de resultados basadas exclusivamente en métricas calculadas y datos disponibles.
+
+La aplicación debe funcionar realmente en el entorno de Google AI Studio.
+
+No afirmar que existe un backend, conexión o proceso de descarga si no está implementado y comprobado.
+
+# 13. DISEÑO DE EXPERIENCIA DE USUARIO
+
+Quiero una aplicación que parezca un producto tecnológico real.
+
+La pantalla inicial debe mostrar:
+
+- Nombre y propósito del proyecto.
+- Estado de conexión con las fuentes oficiales.
+- Última actualización de datos.
+- Indicadores principales disponibles.
+- Resumen de alertas detectadas.
+- Accesos a las distintas secciones.
+
+Incluir navegación lateral:
+
+1. Visión general.
+2. Hospitales.
+3. Especialidades.
+4. Evolución temporal.
+5. Radar sanitario.
+6. Modelos predictivos.
+7. Simulador de escenarios.
+8. Calidad y fuentes de datos.
+
+Los gráficos deben ser interactivos y disponer de tooltips informativos.
+
+Incluir estados de carga, errores, ausencia de datos y mensajes de validación.
+
+La aplicación debe funcionar correctamente en diferentes tamaños de pantalla.
+
+El diseño debe ser limpio, profesional y consistente.
+
+Evitar exceso de tarjetas, gráficos innecesarios y elementos decorativos.
+
+# 14. TRANSPARENCIA Y TRAZABILIDAD
+
+Crear una página específica denominada "Fuentes y metodología".
+
+Para cada conjunto de datos mostrar:
+
+- Nombre oficial.
+- Organismo responsable.
+- URL original.
+- Formato.
+- Fecha de consulta.
+- Última fecha disponible.
+- Frecuencia de actualización declarada.
+- Variables utilizadas.
+- Limitaciones conocidas.
+
+Mostrar una etiqueta en cada visualización:
+
+- DATO OFICIAL.
+- INDICADOR CALCULADO.
+- PREDICCIÓN EXPERIMENTAL.
+- SIMULACIÓN HIPOTÉTICA.
+
+Nunca presentar un indicador calculado como si fuera una variable publicada directamente por la Administración.
+
+Cada gráfico debe permitir identificar la fuente de sus datos.
+
+# 15. PLAN DE EJECUCIÓN
+
+Trabaja por fases.
+
+## FASE 1 — AUDITORÍA DE DATOS
+
+Antes de construir el dashboard:
+
+- Accede a las fuentes oficiales.
+- Inspecciona sus recursos.
+- Descarga los datos disponibles.
+- Comprueba su estructura.
+- Identifica qué variables existen.
+- Comprueba el ámbito geográfico.
+- Determina qué series históricas pueden reconstruirse.
+- Comprueba la continuidad temporal.
+- Identifica cambios de metodología.
+- Genera un informe de disponibilidad de datos.
+
+No continúes asumiendo que una fuente está disponible si no has podido verificarla.
+
+## FASE 2 — INTEGRACIÓN
+
+Implementa la adquisición y limpieza de datos.
+
+Prioriza datos reales de la Comunidad de Madrid.
+
+Normaliza fechas, hospitales y especialidades.
+
+Documenta el tratamiento de valores ausentes y duplicados.
+
+## FASE 3 — DASHBOARD
+
+Construye las secciones y visualizaciones que puedan alimentarse con datos reales.
+
+Las secciones sin información suficiente deben mostrar una explicación clara de la limitación.
+
+## FASE 4 — ANALÍTICA
+
+Implementa:
+
+- Indicadores estadísticos.
+- Comparaciones entre hospitales.
+- Análisis de desigualdad territorial.
+- Detección de anomalías.
+- Análisis de deterioros persistentes.
+
+Solo implementar métodos estadísticos que puedan justificarse con los datos disponibles.
+
+## FASE 5 — PREDICCIÓN
+
+Entrenar y validar modelos predictivos.
+
+Comparar los resultados con un baseline.
+
+Mostrar las métricas de evaluación y la incertidumbre.
+
+## FASE 6 — SIMULACIÓN
+
+Incorporar el simulador de escenarios hipotéticos.
+
+Documentar los supuestos y limitaciones.
+
+## FASE 7 — VALIDACIÓN FINAL
+
+Verificar que:
+
+- Los totales coinciden con las fuentes originales.
+- Los filtros funcionan.
+- No hay duplicaciones.
+- No existen datos ficticios.
+- Los valores ausentes se gestionan correctamente.
+- Las predicciones no se confunden con datos observados.
+- Las alertas se calculan correctamente.
+- Las fuentes son accesibles.
+- Los gráficos no muestran resultados inventados.
+- Los modelos han sido validados temporalmente.
+- La aplicación funciona correctamente.
+
+# 16. RESULTADO ESPERADO
+
+Construye una aplicación funcional, no una simple representación visual.
+
+Prioriza la calidad de los datos y la integridad estadística por encima de la cantidad de gráficos.
+
+El producto final debe permitir:
+
+- Comprender la situación de las listas de espera.
+- Comparar hospitales y especialidades.
+- Identificar posibles anomalías.
+- Detectar deterioros persistentes.
+- Estudiar diferencias territoriales.
+- Analizar tendencias históricas.
+- Estimar posibles evoluciones futuras.
+- Explorar escenarios hipotéticos.
+
+La aplicación debe demostrar el potencial de la ciencia de datos aplicada a la gestión sanitaria pública.
+
+## IDENTIDAD DEL PROYECTO
+
+MADRID SIN ESPERAS
+
+"Del dato sanitario a la detección temprana de problemas".
+
+Una plataforma de inteligencia sanitaria que analiza, compara y anticipa la evolución de las listas de espera de la Comunidad de Madrid mediante estadística, detección de anomalías y modelos predictivos.
+
+# 17. INSTRUCCIÓN FINAL DE EJECUCIÓN
+
+Empieza por la FASE 1: AUDITORÍA DE DATOS.
+
+No construyas todavía todos los módulos.
+
+Primero inspecciona las fuentes oficiales y genera un informe que contenga:
+
+1. Fuentes que has conseguido consultar.
+2. Ficheros descargados.
+3. Variables disponibles.
+4. Periodos históricos disponibles.
+5. Nivel de desagregación geográfica.
+6. Problemas de calidad detectados.
+7. Posibilidades reales de integración.
+8. Análisis estadísticos que pueden realizarse.
+9. Modelos predictivos que podrían entrenarse.
+10. Funcionalidades que no pueden desarrollarse por falta de datos.
+
+Después de la auditoría, continúa con la implementación de las funcionalidades técnicamente viables.
+
+No te limites a describir lo que harías: realiza las tareas que permita el entorno.
+
+Si no puedes acceder a una fuente, informa del problema y solicita el CSV oficial cuando sea necesario.
+
+No afirmes haber descargado, procesado o validado datos que no hayas conseguido consultar realmente.
+
+La credibilidad de MADRID SIN ESPERAS depende de que cada cifra tenga una procedencia verificable y cada conclusión estadística esté correctamente justificada.
