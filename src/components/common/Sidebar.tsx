@@ -101,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           num: '08',
           label: 'Simuladores What-If',
           icon: Sliders,
-          badge: '4 modelos'
+          badge: '3 modelos'
         },
         {
           id: 'audit' as ActiveTab,

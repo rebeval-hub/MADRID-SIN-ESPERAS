@@ -3,13 +3,11 @@ import {
   Sliders,
   Activity,
   GitBranch,
-  TrendingUp,
   UserCheck,
   RotateCcw,
   Info,
   ArrowDownRight,
   ArrowUpRight,
-  AlertTriangle,
   CheckCircle2,
   Building2
 } from 'lucide-react';
@@ -17,10 +15,8 @@ import { FullHealthData, HospitalMetadata } from '../types';
 import {
   runCapacitySimulation,
   runRedistributionSimulation,
-  runDemandSimulation,
   runRejectionSimulation,
-  AreaScope,
-  DemandListScope
+  AreaScope
 } from '../utils/simulationEngine';
 
 interface SimulatorsPageProps {
@@ -40,11 +36,7 @@ export const SimulatorsPage: React.FC<SimulatorsPageProps> = ({ data, onSelectHo
   const [redistributionPct, setRedistributionPct] = useState<number>(15);
   const [areaScope, setAreaScope] = useState<AreaScope>('Todas');
 
-  // Estado Simulador 3: Presión de Demanda
-  const [demandShockPct, setDemandShockPct] = useState<number>(10);
-  const [demandListType, setDemandListType] = useState<DemandListScope>('quirurgica');
-
-  // Estado Simulador 4: Gestión de Rechazos
+  // Estado Simulador 3: Gestión de Rechazos
   const [rejectionReductionPct, setRejectionReductionPct] = useState<number>(30);
 
   // Resultados en tiempo real
@@ -67,15 +59,6 @@ export const SimulatorsPage: React.FC<SimulatorsPageProps> = ({ data, onSelectHo
     [data, redistributionPct, areaScope]
   );
 
-  const demRes = useMemo(
-    () =>
-      runDemandSimulation(data, {
-        demandShockPct,
-        listType: demandListType
-      }),
-    [data, demandShockPct, demandListType]
-  );
-
   const rejRes = useMemo(
     () =>
       runRejectionSimulation(data, {
@@ -83,13 +66,6 @@ export const SimulatorsPage: React.FC<SimulatorsPageProps> = ({ data, onSelectHo
       }),
     [data, rejectionReductionPct]
   );
-
-  const stressBadgeMap = {
-    desahogo: { label: 'Escenario de desahogo', cls: 'bg-[#EBF3EE] text-[#1F513B] border-[#2D6A4F]/30' },
-    estable: { label: 'Tendencia base Holt', cls: 'bg-[#EDF3F5] text-[#2D4F5A] border-[#426C79]/35' },
-    tension: { label: 'Tensión asistencial', cls: 'bg-[#FBF3E8] text-[#7D4710] border-[#B4691E]/40' },
-    saturacion: { label: 'Riesgo de saturación', cls: 'bg-[#FDF0EE] text-[#9E2A1C] border-[#C64B37]/40' }
-  };
 
   return (
     <div className="space-y-8 pb-6">
@@ -118,7 +94,7 @@ export const SimulatorsPage: React.FC<SimulatorsPageProps> = ({ data, onSelectHo
         </div>
 
         <p className="text-sm text-[#77766F] max-w-4xl leading-relaxed">
-          Explora cómo responderían las listas de espera de la Comunidad de Madrid ante cuatro intervenciones concretas: ampliación de capacidad quirúrgica, redistribución territorial por Libre Elección, cambios en la presión de demanda y reducción de rechazos a derivación. Todos los cálculos parten de los datos oficiales auditados y muestran explícitamente sus supuestos.
+          Explora cómo responderían las listas de espera de la Comunidad de Madrid ante tres intervenciones concretas: ampliación de capacidad quirúrgica, redistribución territorial por Libre Elección y reducción de rechazos a derivación. Todos los cálculos parten de los datos oficiales auditados y muestran explícitamente sus supuestos.
         </p>
       </header>
 
@@ -515,185 +491,7 @@ export const SimulatorsPage: React.FC<SimulatorsPageProps> = ({ data, onSelectHo
       </section>
 
       {/* ===================================================================== */}
-      {/* SIMULADOR 3: PRESIÓN DE DEMANDA FUTURA ("MÁS PACIENTES") */}
-      {/* ===================================================================== */}
-      <section className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm shadow-2xs overflow-hidden">
-        <div className="border-b border-[#DAD6CC] px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3 bg-[#F3F0E8]/60">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-[#C64B37]/10 text-[#C64B37] rounded-sm">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#C64B37] font-semibold">
-                Simulador 03 · Choque de Demanda
-              </span>
-              <h2 className="font-serif text-xl text-[#202321]">
-                Escenarios de Presión Demográfica y Demanda (2026–2027)
-              </h2>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <span
-              className={`font-mono text-[10px] font-semibold px-2.5 py-1 rounded-xs border ${stressBadgeMap[demRes.stressStatus].cls}`}
-            >
-              {stressBadgeMap[demRes.stressStatus].label}
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                setDemandShockPct(0);
-                setDemandListType('quirurgica');
-              }}
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-[#77766F] hover:text-[#202321] border border-[#DAD6CC] bg-[#FAF9F5] px-2.5 py-1.5 rounded-sm transition-colors cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Tendencia Holt (0%)</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Controles */}
-          <div className="lg:col-span-5 space-y-5">
-            <div className="space-y-2">
-              <span className="block text-xs font-medium text-[#202321]">
-                Lista de espera a someter a estrés
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                {(
-                  [
-                    { id: 'quirurgica', label: 'Quirúrgica' },
-                    { id: 'consultas', label: 'Consultas' },
-                    { id: 'pruebas', label: 'Pruebas' }
-                  ] as { id: DemandListScope; label: string }[]
-                ).map(item => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setDemandListType(item.id)}
-                    className={`py-1.5 text-xs font-mono rounded-sm border transition-colors cursor-pointer ${
-                      demandListType === item.id
-                        ? 'bg-[#C64B37] text-[#FAF9F5] border-[#C64B37] font-semibold'
-                        : 'bg-white text-[#202321] border-[#DAD6CC] hover:border-[#C64B37]'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <label htmlFor="sim3-shock" className="font-medium text-[#202321]">
-                  Variación de demanda sobre tendencia Holt
-                </label>
-                <span className="font-mono font-bold text-[#C64B37]">
-                  {demandShockPct > 0 ? `+${demandShockPct}%` : `${demandShockPct}%`}
-                </span>
-              </div>
-              <input
-                id="sim3-shock"
-                type="range"
-                min={-15}
-                max={30}
-                step={1}
-                value={demandShockPct}
-                onChange={e => setDemandShockPct(Number(e.target.value))}
-                className="w-full accent-[#C64B37] cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] font-mono text-[#77766F]">
-                <span>-15% (descenso)</span>
-                <span>0% (Holt)</span>
-                <span>+30% (envejecimiento / pico)</span>
-              </div>
-            </div>
-
-            {demRes.simOver180 !== null && demRes.baseOver180 !== null && (
-              <div className="bg-[#FDF0EE] border border-[#C64B37]/30 p-3.5 rounded-sm flex items-start gap-2.5">
-                <AlertTriangle className="w-4 h-4 text-[#C64B37] shrink-0 mt-0.5" />
-                <div className="text-xs">
-                  <p className="font-semibold text-[#202321]">
-                    Impacto estimado en espera crítica (&gt; 180 días)
-                  </p>
-                  <p className="text-[#77766F] mt-0.5">
-                    Pasaría de <strong className="font-mono text-[#202321]">{fmtInt(demRes.baseOver180)}</strong> a{' '}
-                    <strong className="font-mono text-[#C64B37]">{fmtInt(demRes.simOver180)} pacientes</strong> si no se amplía la capacidad quirúrgica.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Resultados comparativos 2025 -> 2026 -> 2027 */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="bg-[#F3F0E8] border border-[#DAD6CC] p-4 rounded-sm flex flex-col justify-between">
-              <div>
-                <p className="font-mono text-[10px] uppercase text-[#77766F]">
-                  Dato Oficial ({demRes.observedYear})
-                </p>
-                <p className="font-mono text-2xl font-bold text-[#202321] mt-1">
-                  {demRes.observedWait} d
-                </p>
-              </div>
-              {demRes.observedPatients !== null && (
-                <p className="text-[11px] font-mono text-[#77766F] mt-3 pt-2 border-t border-[#DAD6CC]">
-                  {fmtInt(demRes.observedPatients)} pacientes totales
-                </p>
-              )}
-            </div>
-
-            <div className="bg-white border border-[#DAD6CC] p-4 rounded-sm flex flex-col justify-between">
-              <div>
-                <p className="font-mono text-[10px] uppercase text-[#426C79] font-semibold">
-                  Escenario 2026
-                </p>
-                <p className="font-mono text-2xl font-bold text-[#202321] mt-1">
-                  {demRes.sim2026Wait} d
-                </p>
-                <p className="text-[11px] font-mono text-[#77766F] mt-0.5">
-                  Holt base: {demRes.holt2026Wait} d
-                </p>
-              </div>
-              {demRes.sim2026Patients !== null && demRes.holt2026Patients !== null && (
-                <p className="text-[11px] font-mono text-[#77766F] mt-3 pt-2 border-t border-[#DAD6CC]">
-                  {fmtInt(demRes.sim2026Patients)} pac. (Holt: {fmtInt(demRes.holt2026Patients)})
-                </p>
-              )}
-            </div>
-
-            <div className="bg-white border-2 border-[#C64B37]/40 p-4 rounded-sm flex flex-col justify-between">
-              <div>
-                <p className="font-mono text-[10px] uppercase text-[#C64B37] font-semibold">
-                  Escenario 2027
-                </p>
-                <p className="font-mono text-2xl font-bold text-[#C64B37] mt-1">
-                  {demRes.sim2027Wait} d
-                </p>
-                <p className="text-[11px] font-mono text-[#77766F] mt-0.5">
-                  Holt base: {demRes.holt2027Wait} d
-                </p>
-              </div>
-              {demRes.sim2027Patients !== null && demRes.holt2027Patients !== null && (
-                <p className="text-[11px] font-mono text-[#77766F] mt-3 pt-2 border-t border-[#DAD6CC]">
-                  {fmtInt(demRes.sim2027Patients)} pac. (Holt: {fmtInt(demRes.holt2027Patients)})
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Explicación breve obligatoria debajo del simulador */}
-        <div className="border-t border-[#DAD6CC] bg-[#F3F0E8]/50 px-5 sm:px-6 py-3.5 flex items-start gap-2.5">
-          <Info className="w-4 h-4 text-[#C64B37] shrink-0 mt-0.5" />
-          <p className="text-xs text-[#77766F] leading-relaxed">
-            <strong className="text-[#202321]">Cómo funciona:</strong> Toma como línea base las proyecciones estadísticas de suavizado exponencial de Holt (2026 y 2027) calculadas sobre las series históricas oficiales y aplica un choque porcentual de demanda. Cuando el choque es positivo, incorpora una penalización ligeramente superior a la linealidad para reflejar congestión de colas y calcula el crecimiento acelerado del tramo crítico de más de 180 días.
-          </p>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* SIMULADOR 4: IMPACTO DEL RECHAZO A DERIVACIÓN */}
+      {/* SIMULADOR 3: IMPACTO DEL RECHAZO A DERIVACIÓN */}
       {/* ===================================================================== */}
       <section className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm shadow-2xs overflow-hidden">
         <div className="border-b border-[#DAD6CC] px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3 bg-[#F3F0E8]/60">
@@ -703,7 +501,7 @@ export const SimulatorsPage: React.FC<SimulatorsPageProps> = ({ data, onSelectHo
             </div>
             <div>
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#4F3559] font-semibold">
-                Simulador 04 · Gestión del Paciente
+                Simulador 03 · Gestión del Paciente
               </span>
               <h2 className="font-serif text-xl text-[#202321]">
                 Impacto de Reducir el Rechazo a Derivación
