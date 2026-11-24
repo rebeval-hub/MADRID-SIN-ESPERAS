@@ -186,13 +186,6 @@ export const ProfileSelectionPage: React.FC<ProfileSelectionPageProps> = ({
             </div>
           </div>
         </div>
-
-        {/* Ethical / Methodological Micro-Guarantee Banner */}
-        <div className="mt-10 max-w-3xl mx-auto bg-[#FAF9F5]/70 border border-[#DAD6CC] rounded-sm p-4 text-center">
-          <p className="text-xs text-[#77766F] leading-relaxed">
-            <strong className="text-[#202321]">Compromiso de Integridad Informativa:</strong> Ambas experiencias utilizan la misma base de datos oficial auditada del Servicio Madrileño de Salud (SERMAS) y del Portal de Datos Abiertos de la Comunidad de Madrid, distinguiendo siempre entre datos observados, estimaciones y campos no disponibles.
-          </p>
-        </div>
       </main>
 
       {/* Footer */}
