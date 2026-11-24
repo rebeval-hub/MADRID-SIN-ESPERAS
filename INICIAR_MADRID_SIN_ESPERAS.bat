@@ -8,7 +8,7 @@ cd /d "%~dp0"
 set "PATH=%LOCALAPPDATA%\Programs\nodejs;%PATH%"
 
 echo 1. Abriendo la aplicacion en tu navegador...
-start http://localhost:3000
+start http://localhost:3000/?perfil=inicio
 
 echo 2. Iniciando servidor en http://localhost:3000
 echo    (Para cerrar la pagina cuando termines, pulsa Ctrl + C en esta ventana)

@@ -20,8 +20,7 @@ export default function App() {
       if (perfilParam === 'analista' || perfilParam === 'analyst') return 'analyst';
       if (perfilParam === 'inicio' || perfilParam === 'landing') return 'landing';
 
-      const saved = localStorage.getItem('madrid_sin_esperas_profile');
-      if (saved === 'patient' || saved === 'analyst') return saved;
+      // Si no hay parámetro explícito en la URL, se inicia siempre en la pantalla principal (landing)
     }
     return 'landing';
   });
