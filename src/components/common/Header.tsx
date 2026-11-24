@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Search, X } from 'lucide-react';
+import { Download, Search, X, Users, Compass } from 'lucide-react';
 import { formatEsInt } from '../../utils/format';
 
 interface HeaderProps {
@@ -8,6 +8,8 @@ interface HeaderProps {
   onExportCsv: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
+  onSwitchProfile?: () => void;
+  onGoToPatient?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,7 +17,9 @@ export const Header: React.FC<HeaderProps> = ({
   totalRecords,
   onExportCsv,
   searchQuery,
-  onSearchChange
+  onSearchChange,
+  onSwitchProfile,
+  onGoToPatient
 }) => {
   const compiledDate = lastUpdated ? lastUpdated.slice(0, 10) : 'N/D';
 
@@ -88,6 +92,18 @@ export const Header: React.FC<HeaderProps> = ({
               <Download className="w-3.5 h-3.5" />
               <span>Exportar CSV</span>
             </button>
+
+            {onSwitchProfile && (
+              <button
+                onClick={onSwitchProfile}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#FAF9F5] hover:bg-[#F3F0E8] text-[#202321] border border-[#DAD6CC] hover:border-[#A6A18F] font-medium text-xs transition-colors cursor-pointer whitespace-nowrap shrink-0"
+                title="Volver a la selección de perfil (Paciente / Analista)"
+              >
+                <Compass className="w-3.5 h-3.5 text-[#426C79]" />
+                <span className="hidden sm:inline">Cambiar perfil</span>
+                <span className="sm:hidden">Perfil</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
