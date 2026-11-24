@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "madrid-sin-esperas": {
+      "command": "npx",
+      "args": ["tsx", "mcp/server.ts"],
+      "description": "Servidor MCP de Inteligencia Sanitaria SERMAS (Madrid Sin Esperas): listas de espera, recursos hospitalarios, alertas estadísticas y forecasting."
+    }
+  }
+}
