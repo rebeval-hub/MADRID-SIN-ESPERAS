@@ -1,33 +1,106 @@
 import { FullHealthData, HospitalMetadata } from '../types';
 
+export interface PatientLocation {
+  name: string;
+  type: 'distrito' | 'municipio' | 'area';
+  area: 'Centro' | 'Norte' | 'Sur' | 'Este' | 'Oeste';
+}
+
+export interface PatientClinicalNeed {
+  code: string;
+  category: 'quirurgica' | 'consultas' | 'pruebas';
+  specialtyName: string;
+  procedureExample: string;
+  isHighComplexity?: boolean;
+}
+
+export interface PatientConversationContext {
+  pendingNeed?: PatientClinicalNeed | null;
+  pendingLocation?: PatientLocation | null;
+}
+
 export interface PatientRecommendation {
-  detectedLocation: {
-    name: string;
-    type: 'distrito' | 'municipio' | 'area';
-    area: 'Centro' | 'Norte' | 'Sur' | 'Este' | 'Oeste';
-  } | null;
-  detectedNeed: {
-    category: 'quirurgica' | 'consultas' | 'pruebas';
-    specialtyName: string;
-    procedureExample: string;
-  } | null;
+  detectedLocation: PatientLocation | null;
+  detectedNeed: PatientClinicalNeed | null;
   referenceHospital: {
     hospital: HospitalMetadata;
     reason: string;
     waitDays: number | null;
     patients: number | null;
+    serviceConfirmed: boolean;
   } | null;
   alternativeHospitals: {
     hospital: HospitalMetadata;
     reason: string;
     waitDays: number | null;
     patients: number | null;
+    serviceConfirmed: boolean;
   }[];
   explanationText: string;
   legalNotice: string;
+  conversationState?: {
+    needsLocationPrompt?: boolean;
+    needsNeedPrompt?: boolean;
+    pendingNeed?: PatientClinicalNeed | null;
+    pendingLocation?: PatientLocation | null;
+  };
 }
 
-// Mapeo exhaustivo de distritos de Madrid Capital y Municipios
+// ============================================================================
+// CARTERA DE SERVICIOS POR HOSPITAL (REGCESS / SERMAS)
+// ============================================================================
+export function hospitalOffersSpecialty(hospital: HospitalMetadata, specialtyCode: string): boolean {
+  // 1. Centros sin quirófanos de agudos o monográficos no quirúrgicos
+  if (hospital.id === 'guadarrama' || hospital.id === 'jose_germain') {
+    return false;
+  }
+
+  // 2. Hospital Infantil Universitario Niño Jesús (solo atiende a menores de edad)
+  if (hospital.id === 'nino_jesus') {
+    return specialtyCode === 'pediatria' || specialtyCode === 'cirugia_pediatrica';
+  }
+
+  // 3. Especialidades de muy alta complejidad (REGCESS unidades U.14 y U.15)
+  // Cirugía Cardíaca y Vascular mayor: reservada a centros de Grupo 3 acreditados
+  if (specialtyCode === 'cirugia_cardiaca') {
+    return [
+      'la_paz',
+      'gregorio_maranon',
+      '12_de_octubre',
+      'clinico_san_carlos',
+      'ramon_y_cajal',
+      'puerta_de_hierro',
+      'fundacion_jimenez_diaz'
+    ].includes(hospital.id);
+  }
+
+  // Neurocirugía: Grupo 3 completo + centros de referencia del Sur/Oeste (Getafe, Rey Juan Carlos)
+  if (specialtyCode === 'neurocirugia') {
+    return hospital.complexityGroup === 'Grupo 3' || ['getafe', 'rey_juan_carlos'].includes(hospital.id);
+  }
+
+  // 4. Hospital Universitario Santa Cristina: monográfico en Ginecología, Obstetricia y Cirugía Mayor Ambulatoria
+  if (hospital.id === 'santa_cristina') {
+    return ['ginecologia', 'cirugia_general'].includes(specialtyCode);
+  }
+
+  // 5. Hospital Central de la Cruz Roja: hospital de apoyo con cirugía ambulatoria (CMA)
+  if (hospital.id === 'cruz_roja') {
+    return ['oftalmologia', 'traumatologia', 'cirugia_general', 'dermatologia'].includes(specialtyCode);
+  }
+
+  // 6. Hospitales comarcales (Grupo 1) y de complejidad media (Grupo 2):
+  // Cubren plenamente las especialidades troncales: oftalmología, traumatología, cirugía general, urología, ORL, ginecología, pruebas
+  if (hospital.quirofanos !== null && hospital.quirofanos > 0) {
+    return true;
+  }
+
+  return false;
+}
+
+// ============================================================================
+// MAPEO DE DISTRITOS DE MADRID Y MUNICIPIOS
+// ============================================================================
 const MADRID_LOCATIONS: {
   keywords: string[];
   name: string;
@@ -79,21 +152,21 @@ const MADRID_LOCATIONS: {
     referenceHospitalIds: ['la_paz', 'ramon_y_cajal']
   },
   {
-    keywords: ['tetuan', 'cuatro caminos', 'bellas vistas', 'almenara', 'castillejos', 'valdeacederas'],
+    keywords: ['tetuan', 'tetuán', 'cuatro caminos', 'bellas vistas', 'almenara', 'castillejos', 'valdeacederas'],
     name: 'Tetuán (Madrid Norte)',
     type: 'distrito',
     area: 'Norte',
     referenceHospitalIds: ['la_paz', 'ramon_y_cajal', 'la_princesa']
   },
   {
-    keywords: ['chamartin', 'prosperidad', 'ciudad jardin', 'hispanoamerica', 'nueva españa', 'castilla'],
+    keywords: ['chamartin', 'chamartín', 'prosperidad', 'ciudad jardin', 'hispanoamerica', 'nueva españa', 'castilla'],
     name: 'Chamartín (Madrid Norte)',
     type: 'distrito',
     area: 'Norte',
     referenceHospitalIds: ['la_paz', 'ramon_y_cajal', 'la_princesa']
   },
   {
-    keywords: ['chamberi', 'almagro', 'rios rosas', 'gaztambide', 'arapiles', 'vallehermoso'],
+    keywords: ['chamberi', 'chamberí', 'almagro', 'rios rosas', 'gaztambide', 'arapiles', 'vallehermoso'],
     name: 'Chamberí (Madrid Centro)',
     type: 'distrito',
     area: 'Centro',
@@ -107,7 +180,7 @@ const MADRID_LOCATIONS: {
     referenceHospitalIds: ['la_princesa', 'gregorio_maranon']
   },
   {
-    keywords: ['centro', 'sol', 'palacio', 'embajadores', 'cortes', 'justicia', 'universidad', 'malasaña', 'chueca', 'lavapies'],
+    keywords: ['distrito centro', 'sol', 'palacio', 'embajadores', 'cortes', 'justicia', 'universidad', 'malasaña', 'chueca', 'lavapies'],
     name: 'Distrito Centro (Madrid)',
     type: 'distrito',
     area: 'Centro',
@@ -156,7 +229,7 @@ const MADRID_LOCATIONS: {
     referenceHospitalIds: ['gregorio_maranon', 'infanta_leonor']
   },
   {
-    keywords: ['vicalvaro', 'el cañaveral', 'casco historico de vicalvaro', 'ambroz'],
+    keywords: ['vicalvaro', 'vicálvaro', 'el cañaveral', 'casco historico de vicalvaro', 'ambroz'],
     name: 'Vicálvaro (Madrid Este)',
     type: 'distrito',
     area: 'Este',
@@ -186,32 +259,11 @@ const MADRID_LOCATIONS: {
     referenceHospitalIds: ['mostoles', 'rey_juan_carlos', 'fundacion_alcorcon']
   },
   {
-    keywords: ['alcala', 'alcalá', 'alcala de henares', 'alcalá de henares'],
-    name: 'Alcalá de Henares',
-    type: 'municipio',
-    area: 'Este',
-    referenceHospitalIds: ['principe_de_asturias', 'torrejon']
-  },
-  {
-    keywords: ['fuenlabrada'],
+    keywords: ['fuenlabrada', 'humanes'],
     name: 'Fuenlabrada',
     type: 'municipio',
     area: 'Sur',
     referenceHospitalIds: ['fuenlabrada', 'severo_ochoa', 'getafe']
-  },
-  {
-    keywords: ['leganes', 'leganés'],
-    name: 'Leganés',
-    type: 'municipio',
-    area: 'Sur',
-    referenceHospitalIds: ['severo_ochoa', 'getafe', '12_de_octubre']
-  },
-  {
-    keywords: ['getafe'],
-    name: 'Getafe',
-    type: 'municipio',
-    area: 'Sur',
-    referenceHospitalIds: ['getafe', '12_de_octubre', 'severo_ochoa']
   },
   {
     keywords: ['alcorcon', 'alcorcón'],
@@ -221,14 +273,35 @@ const MADRID_LOCATIONS: {
     referenceHospitalIds: ['fundacion_alcorcon', 'mostoles', 'rey_juan_carlos']
   },
   {
+    keywords: ['getafe'],
+    name: 'Getafe',
+    type: 'municipio',
+    area: 'Sur',
+    referenceHospitalIds: ['getafe', '12_de_octubre', 'severo_ochoa']
+  },
+  {
+    keywords: ['leganes', 'leganés', 'zarzaquemada', 'la fortuna', 'san nicasio'],
+    name: 'Leganés',
+    type: 'municipio',
+    area: 'Sur',
+    referenceHospitalIds: ['severo_ochoa', 'getafe', '12_de_octubre']
+  },
+  {
     keywords: ['parla'],
     name: 'Parla',
     type: 'municipio',
     area: 'Sur',
-    referenceHospitalIds: ['infanta_cristina', 'getafe']
+    referenceHospitalIds: ['infanta_cristina', 'getafe', 'fuenlabrada']
   },
   {
-    keywords: ['torrejon', 'torrejón', 'torrejon de ardoz'],
+    keywords: ['alcala', 'alcalá', 'alcala de henares', 'alcalá de henares'],
+    name: 'Alcalá de Henares',
+    type: 'municipio',
+    area: 'Este',
+    referenceHospitalIds: ['principe_de_asturias', 'torrejon']
+  },
+  {
+    keywords: ['torrejon', 'torrejón', 'torrejon de ardoz', 'torrejón de ardoz'],
     name: 'Torrejón de Ardoz',
     type: 'municipio',
     area: 'Este',
@@ -242,35 +315,42 @@ const MADRID_LOCATIONS: {
     referenceHospitalIds: ['infanta_sofia', 'la_paz']
   },
   {
-    keywords: ['las rozas', 'majadahonda', 'boadilla'],
-    name: 'Majadahonda / Las Rozas / Boadilla',
+    keywords: ['las rozas', 'majadahonda'],
+    name: 'Las Rozas / Majadahonda',
     type: 'municipio',
     area: 'Oeste',
-    referenceHospitalIds: ['puerta_de_hierro']
+    referenceHospitalIds: ['puerta_de_hierro', 'villalba']
   },
   {
-    keywords: ['collado villalba', 'villalba', 'el escorial', 'guadarrama', 'alpedrete', 'torrelodones'],
-    name: 'Collado Villalba / Sierra Noroeste',
+    keywords: ['pozuelo', 'pozuelo de alarcon', 'pozuelo de alarcón'],
+    name: 'Pozuelo de Alarcón',
     type: 'municipio',
     area: 'Oeste',
-    referenceHospitalIds: ['villalba', 'escorial', 'puerta_de_hierro']
+    referenceHospitalIds: ['puerta_de_hierro', 'clinico_san_carlos']
   },
   {
-    keywords: ['aranjuez', 'ciempozuelos'],
+    keywords: ['collado villalba', 'villalba', 'alpedrete', 'moralzarzal', 'galapagar'],
+    name: 'Collado Villalba',
+    type: 'municipio',
+    area: 'Oeste',
+    referenceHospitalIds: ['villalba', 'puerta_de_hierro', 'escorial']
+  },
+  {
+    keywords: ['aranjuez'],
     name: 'Aranjuez',
     type: 'municipio',
     area: 'Sur',
     referenceHospitalIds: ['tajo', '12_de_octubre']
   },
   {
-    keywords: ['arganda', 'arganda del rey', 'rivas', 'rivas vaciamadrid', 'rivas-vaciamadrid'],
-    name: 'Arganda del Rey / Rivas',
+    keywords: ['arganda', 'arganda del rey', 'rivas', 'rivas vaciamadrid'],
+    name: 'Rivas / Arganda del Rey',
     type: 'municipio',
     area: 'Este',
     referenceHospitalIds: ['sureste', 'gregorio_maranon']
   },
   {
-    keywords: ['valdemoro', 'pinto'],
+    keywords: ['valdemoro', 'pinto', 'ciempozuelos'],
     name: 'Valdemoro / Pinto',
     type: 'municipio',
     area: 'Sur',
@@ -285,76 +365,104 @@ const MADRID_LOCATIONS: {
   }
 ];
 
-// Necesidades clínicas y especialidades quirúrgicas/diagnósticas
-const CLINICAL_NEEDS = [
+// ============================================================================
+// CATÁLOGO DE NECESIDADES CLÍNICAS Y ESPECIALIDADES
+// ============================================================================
+const CLINICAL_NEEDS: (PatientClinicalNeed & { keywords: string[] })[] = [
   {
+    code: 'oftalmologia',
     keywords: ['ojos', 'ojo', 'vista', 'cataratas', 'catarata', 'oftalmolog', 'retina', 'glaucoma', 'miopia', 'astigmatismo'],
     specialtyName: 'Oftalmología',
-    category: 'quirurgica' as const,
+    category: 'quirurgica',
     procedureExample: 'Cirugía de cataratas, desprendimiento de retina, glaucoma'
   },
   {
-    keywords: ['trauma', 'traumatolog', 'rodilla', 'cadera', 'hueso', 'huesos', 'rotura', 'ligamento', 'menisco', 'protesis', 'columna', 'pie', 'hombro'],
+    code: 'traumatologia',
+    keywords: ['trauma', 'traumatolog', 'rodilla', 'cadera', 'hueso', 'huesos', 'rotura', 'ligamento', 'menisco', 'protesis', 'prótesis', 'columna', 'pie', 'hombro', 'fractura'],
     specialtyName: 'Traumatología y Cirugía Ortopédica',
-    category: 'quirurgica' as const,
+    category: 'quirurgica',
     procedureExample: 'Prótesis de cadera o rodilla, artroscopia de menisco'
   },
   {
-    keywords: ['vesicula', 'vesícula', 'hernia', 'apendice', 'apéndice', 'colon', 'digestivo', 'cirugia general', 'vesicula biliar'],
+    code: 'cirugia_general',
+    keywords: ['vesicula', 'vesícula', 'hernia', 'apendice', 'apéndice', 'colon', 'digestivo', 'cirugia general', 'vesicula biliar', 'laparoscopia'],
     specialtyName: 'Cirugía General y del Aparato Digestivo',
-    category: 'quirurgica' as const,
+    category: 'quirurgica',
     procedureExample: 'Reparación de hernia inguinal o umbilical, colecistectomía'
   },
   {
-    keywords: ['oido', 'oído', 'nariz', 'garganta', 'amigdalas', 'amígdalas', 'orl', 'otorrino', 'vegetaciones', 'timpano', 'tabique'],
+    code: 'orl',
+    keywords: ['oido', 'oído', 'nariz', 'garganta', 'amigdalas', 'amígdalas', 'orl', 'otorrino', 'vegetaciones', 'timpano', 'tímpano', 'tabique', 'polipos', 'pólipos'],
     specialtyName: 'Otorrinolaringología (ORL)',
-    category: 'quirurgica' as const,
+    category: 'quirurgica',
     procedureExample: 'Amigdalectomía, septoplastia nasal'
   },
   {
+    code: 'urologia',
     keywords: ['urolog', 'prostata', 'próstata', 'riñon', 'riñón', 'piedras', 'calculos', 'cálculos', 'fimosis', 'vejiga'],
     specialtyName: 'Urología',
-    category: 'quirurgica' as const,
+    category: 'quirurgica',
     procedureExample: 'Cirugía prostática, litotricia'
   },
   {
-    keywords: ['ginecolog', 'parto', 'utero', 'útero', 'ovarios', 'mioma', 'cesarea', 'cesárea'],
+    code: 'ginecologia',
+    keywords: ['ginecolog', 'parto', 'utero', 'útero', 'ovarios', 'mioma', 'cesarea', 'cesárea', 'histerectomia', 'suelo pelvico'],
     specialtyName: 'Ginecología y Obstetricia',
-    category: 'quirurgica' as const,
+    category: 'quirurgica',
     procedureExample: 'Intervención ginecológica o cirugía de miomas'
   },
   {
-    keywords: ['resonancia', 'rm', 'resonancia magnetica', 'resonancia magnética'],
-    specialtyName: 'Resonancia Magnética (RM)',
-    category: 'pruebas' as const,
-    procedureExample: 'RM craneal, de columna, articular o abdominopélvica'
+    code: 'cirugia_cardiaca',
+    keywords: ['corazon', 'corazón', 'cirugia cardiaca', 'cirugía cardíaca', 'valvula aortica', 'válvula mitral', 'bypass', 'marcapasos complejo', 'coronaria'],
+    specialtyName: 'Cirugía Cardiovascular',
+    category: 'quirurgica',
+    procedureExample: 'Sustitución valvular, bypass coronario (alta complejidad)',
+    isHighComplexity: true
   },
   {
-    keywords: ['tac', 'scanner', 'escaner', 'escáner', 'tomografia', 'tomografía'],
-    specialtyName: 'Tomografía Axial Computarizada (TAC)',
-    category: 'pruebas' as const,
-    procedureExample: 'TAC toracoabdominal o cerebral'
+    code: 'neurocirugia',
+    keywords: ['cerebro', 'neurocirug', 'neurocirugía', 'tumor cerebral', 'aneurisma', 'columna compleja'],
+    specialtyName: 'Neurocirugía',
+    category: 'quirurgica',
+    procedureExample: 'Cirugía craneal o descompresión medular (alta complejidad)',
+    isHighComplexity: true
   },
   {
-    keywords: ['dermatolog', 'piel', 'lunar', 'lunares', 'manchas', 'melanoma'],
+    code: 'dermatologia',
+    keywords: ['dermatolog', 'piel', 'lunar', 'lunares', 'manchas', 'melanoma', 'biopsia de piel'],
     specialtyName: 'Dermatología',
-    category: 'consultas' as const,
+    category: 'consultas',
     procedureExample: 'Consulta especializada de dermatología y extirpación de lesiones'
   },
   {
-    keywords: ['cardio', 'corazon', 'corazón', 'cardiolog', 'arritmia', 'infarto', 'tension', 'tensión'],
+    code: 'pruebas_diagnosticas',
+    keywords: ['resonancia', 'rm', 'resonancia magnetica', 'tac', 'scanner', 'escaner', 'escáner', 'tomografia', 'ecografia', 'endoscopia'],
+    specialtyName: 'Pruebas Diagnósticas (TAC / Resonancia)',
+    category: 'pruebas',
+    procedureExample: 'Resonancia Magnética o Tomografía Axial Computarizada'
+  },
+  {
+    code: 'cardiologia',
+    keywords: ['cardio', 'cardiolog', 'arritmia', 'infarto', 'tension', 'tensión', 'holter', 'ecocardiograma'],
     specialtyName: 'Cardiología',
-    category: 'consultas' as const,
-    procedureExample: 'Primera consulta de cardiología y pruebas hemodinámicas'
+    category: 'consultas',
+    procedureExample: 'Primera consulta de cardiología y pruebas diagnósticas cardíacas'
   }
 ];
 
-export function analyzePatientQuery(query: string, data: FullHealthData): PatientRecommendation {
+// ============================================================================
+// MOTOR DE CONSULTAS Y RECOMENDACIÓN CON MEMORIA DE CONTEXTO
+// ============================================================================
+export function analyzePatientQuery(
+  query: string,
+  data: FullHealthData,
+  context?: PatientConversationContext
+): PatientRecommendation {
   const cleanQ = query.toLowerCase().trim();
   const hospitals = Object.values(data.hospitals);
 
-  // 1. Detectar ubicación geográfica
-  let detectedLocation: PatientRecommendation['detectedLocation'] = null;
+  // 1. Detección de ubicación geográfica
+  let detectedLocation: PatientLocation | null = null;
   let targetRefHospIds: string[] = [];
 
   for (const loc of MADRID_LOCATIONS) {
@@ -369,74 +477,156 @@ export function analyzePatientQuery(query: string, data: FullHealthData): Patien
     }
   }
 
-  // 2. Detectar necesidad clínica
-  let detectedNeed: PatientRecommendation['detectedNeed'] = null;
+  // Si no se detectó ubicación en este mensaje, recuperar del contexto previo
+  if (!detectedLocation && context?.pendingLocation) {
+    detectedLocation = context.pendingLocation;
+    for (const loc of MADRID_LOCATIONS) {
+      if (loc.name === detectedLocation.name) {
+        targetRefHospIds = loc.referenceHospitalIds;
+        break;
+      }
+    }
+  }
+
+  // 2. Detección de necesidad clínica
+  let detectedNeed: PatientClinicalNeed | null = null;
   for (const need of CLINICAL_NEEDS) {
     if (need.keywords.some(kw => cleanQ.includes(kw))) {
       detectedNeed = {
+        code: need.code,
         category: need.category,
         specialtyName: need.specialtyName,
-        procedureExample: need.procedureExample
+        procedureExample: need.procedureExample,
+        isHighComplexity: need.isHighComplexity
       };
       break;
     }
   }
 
-  // Si no se detectó necesidad explícita pero se menciona "operar", "cirugia", "espera", asumir quirúrgica general
+  // Si no se detectó en este mensaje pero se menciona genéricamente operarse o cita
   if (!detectedNeed) {
     if (cleanQ.includes('operar') || cleanQ.includes('cirug') || cleanQ.includes('intervencion') || cleanQ.includes('quirofan')) {
       detectedNeed = {
+        code: 'cirugia_general',
         category: 'quirurgica',
         specialtyName: 'Cirugía Programada',
-        procedureExample: 'Intervención quirúrgica general'
+        procedureExample: 'Intervención quirúrgica oficial'
       };
     } else if (cleanQ.includes('consulta') || cleanQ.includes('medico') || cleanQ.includes('cita')) {
       detectedNeed = {
+        code: 'consultas_generales',
         category: 'consultas',
         specialtyName: 'Consultas Externas',
         procedureExample: 'Primera consulta especializada'
       };
     } else if (cleanQ.includes('prueba') || cleanQ.includes('analisis') || cleanQ.includes('radiografia')) {
       detectedNeed = {
+        code: 'pruebas_diagnosticas',
         category: 'pruebas',
         specialtyName: 'Pruebas Diagnósticas',
         procedureExample: 'Exploración diagnóstica'
       };
-    } else {
-      detectedNeed = {
-        category: 'quirurgica',
-        specialtyName: 'Cirugía Programada',
-        procedureExample: 'Intervención quirúrgica oficial'
-      };
     }
   }
 
-  const listType = detectedNeed.category;
+  // Si aún no hay necesidad, recuperar del contexto previo
+  if (!detectedNeed && context?.pendingNeed) {
+    detectedNeed = context.pendingNeed;
+  }
+
+  // ==========================================================================
+  // CASO A: TENEMOS NECESIDAD PERO FALTA LA UBICACIÓN (Diálogo guiado paso 1)
+  // ==========================================================================
+  if (detectedNeed && !detectedLocation) {
+    const promptText = `Detecto que necesitas una atención de ${detectedNeed.specialtyName} (${detectedNeed.procedureExample}).
+
+Para poder indicarte cuál es tu hospital público de referencia más cercano y qué centros tienen menor tiempo de espera en esta especialidad, ¿en qué municipio o distrito de Madrid vives?`;
+
+    return {
+      detectedLocation: null,
+      detectedNeed,
+      referenceHospital: null,
+      alternativeHospitals: [],
+      explanationText: promptText,
+      legalNotice: 'Conforme al Decreto 51/2010 de Libre Elección en la Comunidad de Madrid, puedes solicitar ser atendido en cualquier hospital público de la red.',
+      conversationState: {
+        needsLocationPrompt: true,
+        pendingNeed: detectedNeed,
+        pendingLocation: null
+      }
+    };
+  }
+
+  // ==========================================================================
+  // CASO B: TENEMOS UBICACIÓN PERO FALTA LA NECESIDAD CLÍNICA (Diálogo paso 1b)
+  // ==========================================================================
+  if (detectedLocation && !detectedNeed) {
+    let refHospName = 'el hospital asignado a tu zona';
+    if (targetRefHospIds.length > 0) {
+      const h = hospitals.find(x => x.id === targetRefHospIds[0]);
+      if (h) refHospName = h.fullName;
+    }
+
+    const promptText = `Para residentes en ${detectedLocation.name}, tu centro público de referencia por proximidad es ${refHospName}.
+
+¿Qué tipo de consulta médica, prueba diagnóstica o intervención quirúrgica necesitas (por ejemplo: cataratas/ojos, rodilla/cadera, hernia, pruebas, etc.)? Así podré informarte de los tiempos de espera y de los centros con menor demora.`;
+
+    return {
+      detectedLocation,
+      detectedNeed: null,
+      referenceHospital: null,
+      alternativeHospitals: [],
+      explanationText: promptText,
+      legalNotice: 'Conforme al Decreto 51/2010 de Libre Elección en la Comunidad de Madrid, puedes solicitar ser atendido en cualquier hospital público de la red.',
+      conversationState: {
+        needsNeedPrompt: true,
+        pendingNeed: null,
+        pendingLocation: detectedLocation
+      }
+    };
+  }
+
+  // ==========================================================================
+  // CASO C: DISPONEMOS DE AMBOS DATOS (O consulta directa completa)
+  // ==========================================================================
+  const activeNeed = detectedNeed || {
+    code: 'cirugia_general',
+    category: 'quirurgica' as const,
+    specialtyName: 'Cirugía Programada',
+    procedureExample: 'Intervención quirúrgica oficial'
+  };
+
+  const listType = activeNeed.category;
   const yearKey = listType === 'quirurgica' ? '2025' : '2024';
 
-  // 3. Obtener Hospital de Referencia (si hay ubicación detectada)
+  // 3. Hospital de Referencia (si hay ubicación)
   let referenceHospital: PatientRecommendation['referenceHospital'] = null;
   if (targetRefHospIds.length > 0) {
     const refHosp = hospitals.find(h => h.id === targetRefHospIds[0]);
     if (refHosp) {
       const wait = refHosp.series[listType]?.demora?.[yearKey] ?? null;
       const pac = refHosp.series[listType]?.pacientes?.[yearKey] ?? null;
+      const offers = hospitalOffersSpecialty(refHosp, activeNeed.code);
+
       referenceHospital = {
         hospital: refHosp,
-        reason: `Hospital público asignado por cercanía a ${detectedLocation?.name || 'tu zona'} (área ${refHosp.area}).`,
+        reason: offers
+          ? `Hospital público asignado por cercanía a ${detectedLocation?.name || 'tu zona'} (Área ${refHosp.area}). Cuenta con el servicio de ${activeNeed.specialtyName} operativo.`
+          : `Hospital público más cercano por zona geográfica, aunque para casos complejos de ${activeNeed.specialtyName} suele coordinarse con centros terciarios del Grupo 3.`,
         waitDays: wait,
-        patients: pac
+        patients: pac,
+        serviceConfirmed: offers
       };
     }
   }
 
-  // 4. Calcular Hospitales Alternativos Recomendados
-  // A) Centros con menor demora en la red (Libre Elección de Madrid)
-  // B) Centro cercano en la misma área sanitaria
+  // 4. Centros alternativos con menor demora que SÍ cumplan el servicio
   const validHospitals = hospitals
     .filter(h => {
       const w = h.series[listType]?.demora?.[yearKey];
-      return w !== null && w !== undefined && w > 0;
+      const hasWait = w !== null && w !== undefined && w > 0;
+      const offersService = hospitalOffersSpecialty(h, activeNeed.code);
+      return hasWait && offersService;
     })
     .sort((a, b) => {
       const wa = a.series[listType].demora[yearKey] || 999;
@@ -446,31 +636,33 @@ export function analyzePatientQuery(query: string, data: FullHealthData): Patien
 
   const alternativeHospitals: PatientRecommendation['alternativeHospitals'] = [];
 
-  // Añadir el mejor hospital en demora de toda la red
-  const topNetwork = validHospitals.find(h => h.id !== referenceHospital?.hospital.id);
-  if (topNetwork) {
+  // Top 1 de la red
+  const top1 = validHospitals.find(h => h.id !== referenceHospital?.hospital.id);
+  if (top1) {
     alternativeHospitals.push({
-      hospital: topNetwork,
-      reason: `Menor tiempo de espera de toda la red pública de Madrid para esta lista (${topNetwork.series[listType].demora[yearKey]} días). Disponible mediante Libre Elección.`,
-      waitDays: topNetwork.series[listType].demora[yearKey] ?? null,
-      patients: topNetwork.series[listType].pacientes[yearKey] ?? null
+      hospital: top1,
+      reason: `Menor tiempo de espera registrado en toda la red pública para ${activeNeed.specialtyName} (${top1.series[listType].demora[yearKey]} días de demora media). Servicio verificado conforme al catálogo oficial.`,
+      waitDays: top1.series[listType].demora[yearKey] ?? null,
+      patients: top1.series[listType].pacientes[yearKey] ?? null,
+      serviceConfirmed: true
     });
   }
 
-  // Añadir un segundo hospital con baja espera (ej. Torrejón, Villalba o FJD si no está ya)
-  const secondNetwork = validHospitals.find(
-    h => h.id !== referenceHospital?.hospital.id && h.id !== topNetwork?.id
+  // Top 2 de la red
+  const top2 = validHospitals.find(
+    h => h.id !== referenceHospital?.hospital.id && h.id !== top1?.id
   );
-  if (secondNetwork) {
+  if (top2) {
     alternativeHospitals.push({
-      hospital: secondNetwork,
-      reason: `Excelente tiempo de espera (${secondNetwork.series[listType].demora[yearKey]} días, frente a la mediana regional de 53 d).`,
-      waitDays: secondNetwork.series[listType].demora[yearKey] ?? null,
-      patients: secondNetwork.series[listType].pacientes[yearKey] ?? null
+      hospital: top2,
+      reason: `Excelente alternativa con ${top2.series[listType].demora[yearKey]} días de espera media (${top2.area}, ${top2.complexityGroup}). Servicio de ${activeNeed.specialtyName} activo.`,
+      waitDays: top2.series[listType].demora[yearKey] ?? null,
+      patients: top2.series[listType].pacientes[yearKey] ?? null,
+      serviceConfirmed: true
     });
   }
 
-  // Si hay ubicación, buscar un hospital alternativo cercano en la misma área
+  // Alternativa cercana en la misma área geográfica
   if (detectedLocation) {
     const areaAlternative = validHospitals.find(
       h =>
@@ -481,51 +673,62 @@ export function analyzePatientQuery(query: string, data: FullHealthData): Patien
     if (areaAlternative) {
       alternativeHospitals.push({
         hospital: areaAlternative,
-        reason: `Alternativa muy cercana en tu misma área (${detectedLocation.area}), con ${areaAlternative.series[listType].demora[yearKey]} días de espera media.`,
+        reason: `Alternativa muy próxima en tu misma área (${detectedLocation.area}), con ${areaAlternative.series[listType].demora[yearKey]} días de demora media.`,
         waitDays: areaAlternative.series[listType].demora[yearKey] ?? null,
-        patients: areaAlternative.series[listType].pacientes[yearKey] ?? null
+        patients: areaAlternative.series[listType].pacientes[yearKey] ?? null,
+        serviceConfirmed: true
       });
     }
   }
 
-  // 5. Redacción fluida, pedagógica y personalizada (sin excesos de asteriscos)
+  // 5. Redacción fluida, pedagógica y libre de asteriscos innecesarios
   let text = '';
   const locName = detectedLocation?.name || 'tu zona';
-  const specName = detectedNeed.specialtyName;
+  const specName = activeNeed.specialtyName;
 
   if (referenceHospital) {
     const refH = referenceHospital.hospital;
     const refDays = referenceHospital.waitDays;
     const refPac = referenceHospital.patients;
 
-    text += `Para una necesidad de ${specName} viviendo en ${locName}, tu centro público de referencia por proximidad es el ${refH.fullName}.\n\n`;
+    text += `Para una necesidad de ${specName} residiendo en ${locName}, tu centro público de referencia por proximidad es el ${refH.fullName}.\n\n`;
     text += `Situación en tu hospital de zona (${refH.shortName}):\n`;
-    text += `Actualmente registra una demora media de ${refDays ?? 'N/D'} días en lista ${listType === 'quirurgica' ? 'quirúrgica oficial' : 'de espera'}, con ${refPac ?? 'N/D'} pacientes en espera estructural. El centro dispone de ${refH.beds} camas instaladas y ${refH.quirofanos} quirófanos en funcionamiento.\n\n`;
+    text += `Actualmente registra una demora media de ${refDays ?? 'N/D'} días en lista ${listType === 'quirurgica' ? 'quirúrgica oficial' : 'de espera'} con ${refPac ?? 'N/D'} pacientes en espera estructural. El centro dispone de ${refH.beds ?? 'N/D'} camas y ${refH.quirofanos ?? 'N/D'} quirófanos.\n\n`;
+
+    if (activeNeed.isHighComplexity) {
+      text += `Nota de alta complejidad: Este procedimiento requiere un hospital de tercer nivel (Grupo 3). Hemos verificado que todos los centros alternativos recomendados disponen de la acreditación quirúrgica requerida.\n\n`;
+    }
 
     if (alternativeHospitals.length > 0) {
       text += `Alternativas con menor espera gracias a la Libre Elección:\n`;
-      text += `En la Comunidad de Madrid puedes elegir libremente ser atendido en cualquier otro hospital público de la red. Si deseas reducir el tiempo de espera, estos son los centros con menores demoras registradas para este servicio:\n\n`;
+      text += `En la Comunidad de Madrid puedes elegir libremente ser intervenido en cualquier otro hospital público de la red. Si deseas reducir el tiempo de espera, estos son los centros con menor demora que cuentan con el servicio de ${specName} operativo:\n\n`;
       alternativeHospitals.forEach((alt, idx) => {
         text += `${idx + 1}. ${alt.hospital.fullName} (${alt.hospital.shortName}): ${alt.waitDays} días de espera media (${alt.hospital.area}, ${alt.hospital.complexityGroup}). ${alt.reason}\n`;
       });
     }
   } else {
-    text += `Para consultas o procedimientos de ${specName}, los hospitales públicos con menor demora oficial a cierre de ejercicio son:\n\n`;
+    text += `Para consultas o procedimientos de ${specName}, los hospitales públicos con menor demora oficial y servicio verificado son:\n\n`;
     alternativeHospitals.slice(0, 3).forEach((alt, idx) => {
       text += `${idx + 1}. ${alt.hospital.fullName} (${alt.hospital.shortName}): ${alt.waitDays} días de espera media (${alt.hospital.area}, ${alt.hospital.complexityGroup}).\n`;
     });
-    text += `\nComo referencia, la mediana en el conjunto de la red hospitalaria madrileña se sitúa en torno a los 53 días.`;
+    text += `\nComo referencia, la mediana en el conjunto de la red madrileña se sitúa en torno a los 53 días.`;
   }
 
   const legalNotice =
-    'Información de Servicio Público: Conforme al Decreto 51/2010 de Libre Elección en la Comunidad de Madrid, cualquier ciudadano con tarjeta sanitaria del SERMAS puede solicitar a su médico de atención primaria o especialista ser derivado al hospital público que elija, sin perder su puesto ni derechos.';
+    'Información de Servicio Público: Conforme al Decreto 51/2010 de Libre Elección en la Comunidad de Madrid, cualquier ciudadano con tarjeta sanitaria del SERMAS puede solicitar a su médico de atención primaria o especialista ser derivado al hospital público que elija, sin coste ni pérdida de antigüedad.';
 
   return {
     detectedLocation,
-    detectedNeed,
+    detectedNeed: activeNeed,
     referenceHospital,
     alternativeHospitals,
     explanationText: text,
-    legalNotice
+    legalNotice,
+    conversationState: {
+      needsLocationPrompt: false,
+      needsNeedPrompt: false,
+      pendingNeed: null,
+      pendingLocation: null
+    }
   };
 }

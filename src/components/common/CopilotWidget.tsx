@@ -14,7 +14,10 @@ import {
   Info
 } from 'lucide-react';
 import { FullHealthData, HospitalMetadata, WaitListType } from '../../types';
-import { analyzePatientQuery } from '../../utils/patientConsultationEngine';
+import {
+  analyzePatientQuery,
+  PatientConversationContext
+} from '../../utils/patientConsultationEngine';
 
 interface CopilotWidgetProps {
   data: FullHealthData;
@@ -48,6 +51,7 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [patientContext, setPatientContext] = useState<PatientConversationContext>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const hospitalsList = Object.values(data.hospitals);
@@ -60,7 +64,7 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
           id: 'welcome',
           sender: 'bot',
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          text: 'Hola, soy el asistente de MADRID SIN ESPERAS. Estoy conectado en tiempo real a los datos oficiales del SERMAS (2015–2025). Puedes preguntarme por los tiempos de espera de cualquier hospital, pedirme comparativas entre centros, consultar el Radar Sanitario o revisar las proyecciones para los próximos años.'
+          text: 'Hola, soy el asistente de MADRID SIN ESPERAS. Estoy conectado en tiempo real a los datos oficiales del SERMAS (2015–2025). Puedes preguntarme por los tiempos de espera de cualquier hospital, pedirme comparativas entre centros, consultar el Radar Sanitario o indicarme qué operación o consulta necesitas para orientarte sobre los mejores hospitales.'
         }
       ]);
     }
@@ -74,11 +78,11 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
 
   const quickQuestions = [
     'Vivo en Villaverde y me quiero operar de los ojos qué recomiendas',
+    'Necesito operarme de cataratas',
     '¿Qué hospital tiene menor demora quirúrgica?',
     'Comparar La Paz vs 12 de Octubre',
     '¿Qué alertas tiene el Infanta Cristina?',
-    'Menor espera en consultas en el Sur',
-    '¿Qué predicen los modelos para 2026?'
+    'Menor espera en consultas en el Sur'
   ];
 
   // Motor analítico del copiloto sanitario (100% determinista sobre datos oficiales)
@@ -87,37 +91,79 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const msgId = Date.now().toString();
 
-    // 0. CONSULTA ESPECÍFICA DE PACIENTE (Ubicación + Necesidad / Operación)
-    if (
+    // 0. CONSULTA ESPECÍFICA DE PACIENTE (Ubicación, Operación o Diálogo Guiado en varios pasos)
+    const isPatientIntent =
+      Boolean(patientContext.pendingNeed) ||
+      Boolean(patientContext.pendingLocation) ||
       q.includes('vivo en') ||
+      q.includes('soy de') ||
       q.includes('recomiend') ||
       q.includes('me quiero operar') ||
+      q.includes('necesito operarme') ||
+      q.includes('operarme') ||
       q.includes('donde operarme') ||
       q.includes('dónde operarme') ||
-      q.includes('villaverde') ||
+      q.includes('catarata') ||
+      q.includes('rodilla') ||
+      q.includes('cadera') ||
+      q.includes('hernia') ||
+      q.includes('vesicula') ||
+      q.includes('vesícula') ||
       q.includes('ojos') ||
-      (q.includes('operar') && (q.includes('en ') || q.includes('cerca') || q.includes('zona')))
-    ) {
-      const rec = analyzePatientQuery(q, data);
+      (q.includes('operar') && (q.includes('en ') || q.includes('cerca') || q.includes('zona')));
+
+    if (isPatientIntent) {
+      const rec = analyzePatientQuery(q, data, patientContext);
+
+      // Si el motor necesita aclaración de ubicación (paso 1 del diálogo guiado)
+      if (rec.conversationState?.needsLocationPrompt) {
+        setPatientContext({ pendingNeed: rec.detectedNeed });
+        return {
+          id: msgId,
+          sender: 'bot',
+          timestamp: time,
+          text: rec.explanationText
+        };
+      }
+
+      // Si el motor necesita aclaración de necesidad (paso 1b del diálogo guiado)
+      if (rec.conversationState?.needsNeedPrompt) {
+        setPatientContext({ pendingLocation: rec.detectedLocation });
+        return {
+          id: msgId,
+          sender: 'bot',
+          timestamp: time,
+          text: rec.explanationText
+        };
+      }
+
+      // Si se resolvió la consulta completa con ambos datos
       if (rec.referenceHospital || rec.alternativeHospitals.length > 0) {
+        setPatientContext({}); // limpiar estado pendiente una vez resuelto
+
         return {
           id: msgId,
           sender: 'bot',
           timestamp: time,
           text: rec.explanationText,
           detailsCard: rec.referenceHospital ? {
-            title: `Centro Asignado vs Opciones de Menor Espera (${rec.detectedLocation?.name || 'Tu Zona'})`,
+            title: `Centro Asignado vs Opciones con Menor Demora (${rec.detectedLocation?.name || 'Tu Zona'})`,
             metrics: [
               {
                 label: `${rec.referenceHospital.hospital.shortName} (Asignado)`,
                 value: `${rec.referenceHospital.waitDays ?? 'N/D'} d`,
                 badge: rec.referenceHospital.hospital.area
               },
-              {
-                label: `${rec.alternativeHospitals[0]?.hospital.shortName || 'Alternativa'}`,
-                value: `${rec.alternativeHospitals[0]?.waitDays ?? 'N/D'} d`,
+              ...(rec.alternativeHospitals[0] ? [{
+                label: `${rec.alternativeHospitals[0].hospital.shortName} (Menor espera)`,
+                value: `${rec.alternativeHospitals[0].waitDays ?? 'N/D'} d`,
                 badge: 'Libre Elección'
-              }
+              }] : []),
+              ...(rec.alternativeHospitals[1] ? [{
+                label: `${rec.alternativeHospitals[1].hospital.shortName}`,
+                value: `${rec.alternativeHospitals[1].waitDays ?? 'N/D'} d`,
+                badge: 'Alternativa'
+              }] : [])
             ],
             note: rec.legalNotice
           } : undefined,
@@ -438,6 +484,7 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
             <div className="flex items-center gap-1">
               <button
                 onClick={() => {
+                  setPatientContext({});
                   setMessages([
                     {
                       id: 'welcome',
