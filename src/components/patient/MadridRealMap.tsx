@@ -3,6 +3,11 @@ import L from 'leaflet';
 import { HospitalMetadata, WaitListType } from '../../types';
 import { MadridMunicipality, calculateDistanceKm } from '../../data/madridMunicipalities';
 import { formatEsDec } from '../../utils/format';
+import {
+  initMadridMap,
+  createHospitalBuildingIcon,
+  MADRID_MAP_CENTER
+} from '../../utils/leafletMapConfig';
 
 interface MadridRealMapProps {
   hospitals: HospitalMetadata[];
@@ -32,58 +37,11 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
     if (!mapContainerRef.current) return;
     if (mapInstanceRef.current) return;
 
-    // Center on Madrid region
-    const map = L.map(mapContainerRef.current, {
-      center: [40.45, -3.70],
+    const map = initMadridMap(mapContainerRef.current, {
       zoom: 10,
       minZoom: 8,
-      maxZoom: 18,
-      zoomControl: false,
-      attributionControl: true
+      maxZoom: 18
     });
-
-    // Add zoom control top-right
-    L.control.zoom({ position: 'topright' }).addTo(map);
-
-    // Free, open cartography layers without API key requirement
-    const esriStreetLayer = L.tileLayer(
-      'https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-      {
-        attribution:
-          '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, USGS, IGN España',
-        maxZoom: 19
-      }
-    );
-
-    const esriGrayLayer = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-      {
-        attribution:
-          '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, IGN',
-        maxZoom: 19
-      }
-    );
-
-    const ignLayer = L.tileLayer(
-      'https://www.ign.es/wmts/ign-base?service=WMTS&request=GetTile&version=1.0.0&Format=image/png&layer=IGNBaseTodo&style=default&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}',
-      {
-        attribution:
-          '&copy; <a href="https://www.ign.es/">Instituto Geográfico Nacional (IGN España)</a>',
-        maxZoom: 19
-      }
-    );
-
-    // Add default street map layer
-    esriStreetLayer.addTo(map);
-
-    // Base layers switcher
-    const baseMaps = {
-      'Callejero y Carreteras': esriStreetLayer,
-      'Oficial IGN España': ignLayer,
-      'Gris Editorial': esriGrayLayer
-    };
-
-    L.control.layers(baseMaps, undefined, { position: 'topright' }).addTo(map);
 
     const markersLayer = L.layerGroup().addTo(map);
     markersLayerRef.current = markersLayer;
@@ -108,15 +66,15 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
     const userIcon = L.divIcon({
       className: 'custom-user-marker',
       html: `
-        <div style="position:relative; width:36px; height:36px; display:flex; align-items:center; justify-content:center;">
-          <div style="position:absolute; width:32px; height:32px; border-radius:50%; background:rgba(66, 108, 121, 0.25); animation:ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
-          <div style="position:relative; width:22px; height:22px; border-radius:50%; background:#426C79; border:2.5px solid #FAF9F5; box-shadow:0 2px 6px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; color:#FAF9F5; font-size:11px; font-weight:bold;">
+        <div style="position:relative; width:38px; height:38px; display:flex; align-items:center; justify-content:center;">
+          <div style="position:absolute; width:34px; height:34px; border-radius:50%; background:rgba(66, 108, 121, 0.25); animation:ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+          <div style="position:relative; width:24px; height:24px; border-radius:50%; background:#426C79; border:2.5px solid #FAF9F5; box-shadow:0 2px 6px rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; color:#FAF9F5; font-size:12px; font-weight:bold;">
             ⌂
           </div>
         </div>
       `,
-      iconSize: [36, 36],
-      iconAnchor: [18, 18]
+      iconSize: [38, 38],
+      iconAnchor: [19, 19]
     });
 
     const userMarker = L.marker([selectedMunicipality.lat, selectedMunicipality.lng], {
@@ -132,7 +90,7 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
     `);
     markersLayer.addLayer(userMarker);
 
-    // 2. Hospital Markers
+    // 2. Hospital Markers using improved building icon
     hospitals.forEach(h => {
       const isSelected = h.id === selectedHospitalId;
       const isClosest = closestHospitalIds.has(h.id);
@@ -149,53 +107,26 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
         h.lng
       );
 
-      // Marker badge colors:
-      // Nearest hospitals get an accented petrol/terracotta border
-      const bgColor = isSelected ? '#C64B37' : isClosest ? '#426C79' : '#202321';
-      const textColor = '#FAF9F5';
-      const borderColor = isSelected ? '#FAF9F5' : isClosest ? '#FAF9F5' : '#FAF9F5';
-      const zIndex = isSelected ? 900 : isClosest ? 500 : 100;
-      const badgeRing = isClosest ? 'box-shadow: 0 0 0 3px rgba(66, 108, 121, 0.4);' : '';
+      // Color coding based on delay
+      let metricColor = '#0284c7';
+      if (delayVal !== null && delayVal !== undefined) {
+        if (delayVal < 45) metricColor = '#10b981';
+        else if (delayVal < 65) metricColor = '#0284c7';
+        else if (delayVal < 80) metricColor = '#d97706';
+        else metricColor = '#e11d48';
+      }
 
-      const markerHtml = `
-        <div style="display:flex; flex-direction:column; align-items:center; cursor:pointer; ${badgeRing}">
-          <div style="
-            background:${bgColor};
-            color:${textColor};
-            border:2px solid ${borderColor};
-            border-radius:4px;
-            padding:2px 6px;
-            font-size:11px;
-            font-weight:700;
-            font-family:monospace;
-            white-space:nowrap;
-            box-shadow:0 2px 5px rgba(0,0,0,0.25);
-            display:flex;
-            align-items:center;
-            gap:4px;
-          ">
-            <span>${delayFormatted}</span>
-          </div>
-          <div style="
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 6px solid ${bgColor};
-          "></div>
-        </div>
-      `;
-
-      const hospIcon = L.divIcon({
-        className: 'custom-hospital-marker',
-        html: markerHtml,
-        iconSize: [48, 30],
-        iconAnchor: [24, 30]
+      const hospIcon = createHospitalBuildingIcon({
+        hospital: h,
+        delayFormatted,
+        metricColor,
+        isSelected,
+        isClosest
       });
 
       const marker = L.marker([h.lat, h.lng], {
         icon: hospIcon,
-        zIndexOffset: zIndex
+        zIndexOffset: isSelected ? 900 : isClosest ? 500 : 100
       });
 
       marker.on('click', () => {
@@ -203,9 +134,9 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
       });
 
       marker.bindPopup(`
-        <div style="font-family:sans-serif; padding:4px; font-size:12px; line-height:1.4; min-width:180px;">
+        <div style="font-family:sans-serif; padding:4px; font-size:12px; line-height:1.4; min-width:190px;">
           <div style="font-size:10px; font-weight:700; color:${isClosest ? '#426C79' : '#77766F'}; text-transform:uppercase;">
-            ${isClosest ? '★ Hospital en tu entorno cercano' : 'Hospital Red SERMAS'}
+            ${isClosest ? '★ Hospital en tu entorno cercano' : h.complexityGroup}
           </div>
           <strong style="color:#202321; font-size:13px; display:block; margin:2px 0;">${h.shortName}</strong>
           <div style="color:#77766F; font-size:11px;">
@@ -213,7 +144,7 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
           </div>
           <div style="margin-top:6px; padding-top:6px; border-top:1px solid #DAD6CC; display:flex; justify-content:between; align-items:center;">
             <div>
-              <span style="font-size:10px; color:#77766F;">Demora oficial:</span><br/>
+              <span style="font-size:10px; color:#77766F;">Demora oficial (${delayYear}):</span><br/>
               <strong style="font-size:13px; color:#202321;">${delayVal !== null && delayVal !== undefined ? `${formatEsDec(delayVal, 1)} días` : 'No disponible'}</strong>
             </div>
             <div style="text-align:right;">
@@ -227,12 +158,12 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
       markersLayer.addLayer(marker);
     });
 
-    // Auto-fit bounds including user location and nearby hospitals
+    // Auto-fit bounds within Madrid
     const bounds = L.latLngBounds([
       [selectedMunicipality.lat, selectedMunicipality.lng],
       ...hospitals.map(h => [h.lat, h.lng] as [number, number])
     ]);
-    map.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+    map.fitBounds(bounds, { padding: [25, 25], maxZoom: 13 });
   }, [hospitals, selectedMunicipality, selectedCareType, selectedHospitalId, closestHospitalIds]);
 
   return (
@@ -256,14 +187,14 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
             <span className="text-[#202321]">Tu municipio</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-xs bg-[#426C79] text-[#FAF9F5] text-[8px] flex items-center justify-center font-bold">
+            <span className="w-3.5 h-3.5 rounded-xs bg-[#426C79] text-[#FAF9F5] text-[9px] flex items-center justify-center font-bold">
               ★
             </span>
             <span className="text-[#202321]">Entorno cercano</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-xs bg-[#202321] text-[#FAF9F5] text-[8px] flex items-center justify-center font-bold">
-              ·
+            <span className="w-3.5 h-3.5 rounded-xs bg-[#202321] text-[#FAF9F5] text-[9px] flex items-center justify-center font-bold">
+              +
             </span>
             <span className="text-[#77766F]">Resto de Madrid</span>
           </div>
