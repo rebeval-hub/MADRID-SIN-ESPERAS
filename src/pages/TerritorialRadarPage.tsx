@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import L from 'leaflet';
 import {
   Compass,
   Search,
@@ -20,6 +21,11 @@ import {
 import { CategoryBadge } from '../components/common/Badge';
 import { InteractiveLineChart, LineSeries } from '../components/charts/InteractiveLineChart';
 import { formatEsDec, formatEsInt } from '../utils/format';
+import {
+  initMadridMap,
+  createHospitalBuildingIcon,
+  MADRID_MAP_CENTER
+} from '../utils/leafletMapConfig';
 
 interface TerritorialRadarPageProps {
   data: FullHealthData;
@@ -95,26 +101,12 @@ export const TerritorialRadarPage: React.FC<TerritorialRadarPageProps> = ({
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [peerId, setPeerId] = useState<string | null>(null);
 
-  // Interactive Zoom & Pan state
-  const [zoom, setZoom] = useState<number>(1);
-  const [pan, setPan] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const dragStartRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
-  const didDragRef = useRef<boolean>(false);
+  // Leaflet Map state & refs
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const markersLayerRef = useRef<L.LayerGroup | null>(null);
+  const polylinesLayerRef = useRef<L.LayerGroup | null>(null);
   const [hoveredHosp, setHoveredHosp] = useState<HospitalMetadata | null>(null);
-
-  // Geographic projection box covering Comunidad de Madrid
-  const minLat = 39.98;
-  const maxLat = 40.72;
-  const minLng = -4.22;
-  const maxLng = -3.22;
-  const width = 860;
-  const height = 520;
-
-  const project = (lat: number, lng: number) => ({
-    x: ((lng - minLng) / (maxLng - minLng)) * width,
-    y: ((maxLat - lat) / (maxLat - minLat)) * height
-  });
 
   // Extract official values for a hospital under active list + year
   const getHospitalObs = (h: HospitalMetadata, year = selectedYear) => {
@@ -324,39 +316,111 @@ export const TerritorialRadarPage: React.FC<TerritorialRadarPageProps> = ({
     ];
   }, [focusedHospital, peerHospital, selectedList, availableYears, indicator]);
 
-  // Pan & Zoom Handlers
-  const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
-    e.preventDefault();
-    const factor = e.deltaY < 0 ? 1.15 : 0.87;
-    setZoom(z => Math.min(4.5, Math.max(0.85, Number((z * factor).toFixed(2)))));
-  };
+  // Initialize Leaflet Map
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    if (!mapInstanceRef.current) {
+      mapInstanceRef.current = initMadridMap(mapContainerRef.current, {
+        zoom: 9.5
+      });
+      polylinesLayerRef.current = L.layerGroup().addTo(mapInstanceRef.current);
+      markersLayerRef.current = L.layerGroup().addTo(mapInstanceRef.current);
+    }
 
-  const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (e.button !== 0) return;
-    didDragRef.current = false;
-    setIsDragging(true);
-    dragStartRef.current = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y };
-  };
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (!isDragging || !dragStartRef.current) return;
-    const dx = e.clientX - dragStartRef.current.x;
-    const dy = e.clientY - dragStartRef.current.y;
-    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) didDragRef.current = true;
-    setPan({
-      x: dragStartRef.current.panX + dx / zoom,
-      y: dragStartRef.current.panY + dy / zoom
+  // Update Leaflet Markers and Connections
+  useEffect(() => {
+    if (!mapInstanceRef.current || !markersLayerRef.current || !polylinesLayerRef.current) return;
+
+    markersLayerRef.current.clearLayers();
+    polylinesLayerRef.current.clearLayers();
+
+    // 1. Dibuja líneas geodésicas de conexión con hospitales cercanos de misma complejidad
+    if (focusedHospital) {
+      neighborsInfo.sameComplexityNearest.slice(0, 3).forEach(neighbor => {
+        const isActivePeer = peerHospital?.id === neighbor.hospital.id;
+        const line = L.polyline(
+          [
+            [focusedHospital.lat, focusedHospital.lng],
+            [neighbor.hospital.lat, neighbor.hospital.lng]
+          ],
+          {
+            color: isActivePeer ? '#426C79' : '#77766F',
+            weight: isActivePeer ? 3.5 : 1.8,
+            dashArray: '5, 5',
+            opacity: isActivePeer ? 0.95 : 0.5
+          }
+        );
+
+        if (isActivePeer) {
+          line.bindTooltip(`${formatEsDec(neighbor.distanceKm, 1)} km`, {
+            permanent: true,
+            direction: 'center',
+            className: 'leaflet-distance-tooltip'
+          });
+        }
+        line.addTo(polylinesLayerRef.current!);
+      });
+    }
+
+    // 2. Dibuja los marcadores de los hospitales filtrados
+    filteredHospitals.forEach(h => {
+      const obs = getHospitalObs(h);
+      const isFocused = focusedHospital?.id === h.id;
+      const isPeer = peerHospital?.id === h.id;
+      const metricColor = getMarkerColor(obs);
+      const delayFormatted =
+        indicator === 'demora'
+          ? obs.delay !== null
+            ? `${formatEsDec(obs.delay, 1)} d`
+            : 'N/D'
+          : obs.patients !== null
+          ? formatEsInt(obs.patients)
+          : 'N/D';
+
+      const icon = createHospitalBuildingIcon({
+        hospital: h,
+        delayFormatted,
+        metricColor,
+        isSelected: isFocused,
+        isPeer
+      });
+
+      const marker = L.marker([h.lat, h.lng], { icon });
+
+      marker.on('click', () => {
+        setFocusedId(h.id);
+      });
+
+      marker.on('mouseover', () => {
+        setHoveredHosp(h);
+      });
+
+      marker.on('mouseout', () => {
+        setHoveredHosp(null);
+      });
+
+      marker.addTo(markersLayerRef.current!);
     });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    dragStartRef.current = null;
-  };
+  }, [
+    filteredHospitals,
+    focusedHospital,
+    peerHospital,
+    indicator,
+    selectedList,
+    selectedYear,
+    neighborsInfo
+  ]);
 
   const resetMapView = () => {
-    setZoom(1);
-    setPan({ x: 0, y: 0 });
+    mapInstanceRef.current?.setView(MADRID_MAP_CENTER, 9.5);
   };
 
   const activeListMeta = LIST_OPTIONS.find(l => l.id === selectedList)!;
@@ -492,14 +556,14 @@ export const TerritorialRadarPage: React.FC<TerritorialRadarPageProps> = ({
 
             <div className="flex items-center gap-1 bg-[#ECE8DD] p-1 rounded-xs text-xs">
               <button
-                onClick={() => setZoom(z => Math.min(4.5, Number((z + 0.35).toFixed(2))))}
+                onClick={() => mapInstanceRef.current?.zoomIn()}
                 title="Acercar"
                 className="p-1.5 rounded-xs bg-[#FAF9F5] text-[#202321] hover:bg-[#F3F0E8] border border-[#DAD6CC] cursor-pointer"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
               </button>
               <button
-                onClick={() => setZoom(z => Math.max(0.85, Number((z - 0.35).toFixed(2))))}
+                onClick={() => mapInstanceRef.current?.zoomOut()}
                 title="Alejar"
                 className="p-1.5 rounded-xs bg-[#FAF9F5] text-[#202321] hover:bg-[#F3F0E8] border border-[#DAD6CC] cursor-pointer"
               >
@@ -511,187 +575,23 @@ export const TerritorialRadarPage: React.FC<TerritorialRadarPageProps> = ({
                 className="px-2 py-1 rounded-xs bg-[#FAF9F5] text-[#202321] hover:bg-[#F3F0E8] border border-[#DAD6CC] text-[11px] font-mono font-semibold inline-flex items-center gap-1 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
-                <span>{formatEsDec(zoom, 1)}x</span>
+                <span>Centrar</span>
               </button>
             </div>
           </div>
 
           <div className="relative w-full bg-[#EFECE3] rounded-xs border border-[#DAD6CC] overflow-hidden">
-            <svg
-              viewBox={`0 0 ${width} ${height}`}
-              onWheel={handleWheel}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              className={`w-full h-auto min-h-[420px] max-h-[540px] ${
-                isDragging ? 'cursor-grabbing' : 'cursor-grab'
-              }`}
-            >
-              {/* Cartographic subtle coordinate graticule */}
-              <g stroke="#DDD8CA" strokeWidth="0.8" opacity="0.65">
-                {[120, 260, 400, 540, 680].map(gx => (
-                  <line key={`vx-${gx}`} x1={gx} y1={0} x2={gx} y2={height} />
-                ))}
-                {[100, 220, 340, 460].map(gy => (
-                  <line key={`hy-${gy}`} x1={0} y1={gy} x2={width} y2={gy} />
-                ))}
-              </g>
-
-              <g
-                transform={`translate(${width / 2}, ${height / 2}) scale(${zoom}) translate(${
-                  -width / 2 + pan.x
-                }, ${-height / 2 + pan.y})`}
-              >
-                {/* Madrid regional contour */}
-                <path
-                  d="M 310 22 L 455 16 L 590 65 L 685 120 L 755 185 L 775 280 L 708 380 L 625 445 L 515 495 L 435 505 L 350 485 L 235 430 L 145 355 L 105 255 L 130 150 L 200 72 Z"
-                  fill="#E3DEC9"
-                  fillOpacity="0.68"
-                  stroke="#A6A18F"
-                  strokeWidth={1.4 / zoom}
-                  strokeDasharray="5 3"
-                />
-
-                {/* Geographic area labels */}
-                <text x="430" y="245" textAnchor="middle" className="text-[12px] font-bold fill-[#A6A18F] tracking-widest uppercase pointer-events-none">
-                  Área Centro / Madrid Capital
-                </text>
-                <text x="440" y="85" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F] tracking-wider uppercase pointer-events-none">
-                  Sierra Norte
-                </text>
-                <text x="415" y="415" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F] tracking-wider uppercase pointer-events-none">
-                  Área Sur Metropolitana
-                </text>
-                <text x="665" y="255" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F] tracking-wider uppercase pointer-events-none">
-                  Corredor del Henares
-                </text>
-                <text x="205" y="255" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F] tracking-wider uppercase pointer-events-none">
-                  Área Noroeste
-                </text>
-
-                {/* Highlight geodesic links to nearby same-complexity hospitals */}
-                {focusedHospital &&
-                  neighborsInfo.sameComplexityNearest.slice(0, 3).map(neighbor => {
-                    const pA = project(focusedHospital.lat, focusedHospital.lng);
-                    const pB = project(neighbor.hospital.lat, neighbor.hospital.lng);
-                    const isActivePeer = peerHospital?.id === neighbor.hospital.id;
-                    const midX = (pA.x + pB.x) / 2;
-                    const midY = (pA.y + pB.y) / 2;
-                    return (
-                      <g key={neighbor.hospital.id} className="pointer-events-none">
-                        <line
-                          x1={pA.x}
-                          y1={pA.y}
-                          x2={pB.x}
-                          y2={pB.y}
-                          stroke={isActivePeer ? '#426C79' : '#77766F'}
-                          strokeWidth={(isActivePeer ? 2.4 : 1.3) / zoom}
-                          strokeDasharray="4 3"
-                          strokeOpacity={isActivePeer ? 0.92 : 0.45}
-                        />
-                        {isActivePeer && (
-                          <g transform={`translate(${midX}, ${midY}) scale(${1 / Math.max(0.9, Math.sqrt(zoom))})`}>
-                            <rect x="-28" y="-9" width="56" height="16" rx="2" fill="#202321" />
-                            <text x="0" y="2" textAnchor="middle" className="text-[9px] font-mono font-bold fill-[#FAF9F5]">
-                              {formatEsDec(neighbor.distanceKm, 1)} km
-                            </text>
-                          </g>
-                        )}
-                      </g>
-                    );
-                  })}
-
-                {/* Hospital nodes */}
-                {filteredHospitals.map(h => {
-                  const { x, y } = project(h.lat, h.lng);
-                  const obs = getHospitalObs(h);
-                  const valueAvailable =
-                    indicator === 'demora' ? obs.delay !== null : obs.patients !== null;
-                  const fillColor = getMarkerColor(obs);
-                  const ringColor = COMPLEXITY_RING_COLOR[h.complexityGroup] || '#4A4D48';
-                  const baseR = getMarkerRadius(obs.patients);
-                  const r = baseR / Math.pow(zoom, 0.35);
-                  const isFocused = focusedHospital?.id === h.id;
-                  const isPeer = peerHospital?.id === h.id;
-                  const isHovered = hoveredHosp?.id === h.id;
-
-                  return (
-                    <g
-                      key={h.id}
-                      className="cursor-pointer"
-                      onClick={e => {
-                        e.stopPropagation();
-                        if (didDragRef.current) return;
-                        setFocusedId(h.id);
-                      }}
-                      onMouseEnter={() => setHoveredHosp(h)}
-                      onMouseLeave={() => setHoveredHosp(null)}
-                    >
-                      {isFocused && (
-                        <circle
-                          cx={x}
-                          cy={y}
-                          r={r + 6 / Math.pow(zoom, 0.35)}
-                          fill="none"
-                          stroke="#C64B37"
-                          strokeWidth={2.5 / zoom}
-                          strokeDasharray="3 2"
-                        />
-                      )}
-                      {isPeer && (
-                        <circle
-                          cx={x}
-                          cy={y}
-                          r={r + 5 / Math.pow(zoom, 0.35)}
-                          fill="none"
-                          stroke="#426C79"
-                          strokeWidth={2.2 / zoom}
-                        />
-                      )}
-
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r={r}
-                        fill={fillColor}
-                        fillOpacity={valueAvailable ? (isFocused || isHovered ? 0.96 : 0.85) : 0.45}
-                        stroke={valueAvailable ? ringColor : '#77766F'}
-                        strokeWidth={(valueAvailable ? 2.1 : 1.5) / zoom}
-                        strokeDasharray={valueAvailable ? undefined : '2 2'}
-                      />
-
-                      {(isFocused || isPeer || isHovered || zoom >= 1.35 || !valueAvailable || baseR >= 12) && (
-                        <text
-                          x={x}
-                          y={y - r - 3 / Math.pow(zoom, 0.35)}
-                          textAnchor="middle"
-                          style={{ fontSize: `${9.5 / Math.pow(zoom, 0.45)}px` }}
-                          className={`font-bold pointer-events-none ${
-                            !valueAvailable
-                              ? 'fill-[#77766F] italic'
-                              : isFocused
-                              ? 'fill-[#9A3323]'
-                              : isPeer
-                              ? 'fill-[#2D4F5A]'
-                              : 'fill-[#202321]'
-                          }`}
-                        >
-                          {h.shortName}
-                          {!valueAvailable ? ' (N/D)' : ''}
-                        </text>
-                      )}
-                    </g>
-                  );
-                })}
-              </g>
-            </svg>
+            <div
+              ref={mapContainerRef}
+              className="w-full h-[520px] z-0"
+              style={{ minHeight: '480px' }}
+            />
 
             {/* Hover Tooltip */}
             {hoveredHosp && (() => {
               const o = getHospitalObs(hoveredHosp);
               return (
-                <div className="absolute top-3 right-3 bg-[#202321] text-[#FAF9F5] rounded-xs shadow-lg p-3 text-xs border border-[#3B3F3C] pointer-events-none z-20 max-w-[290px]">
+                <div className="absolute top-3 right-3 bg-[#202321] text-[#FAF9F5] rounded-xs shadow-lg p-3 text-xs border border-[#3B3F3C] pointer-events-none z-[1000] max-w-[290px]">
                   <div className="font-bold text-[#FAF9F5]">{hoveredHosp.fullName}</div>
                   <div className="text-[10px] text-[#D7D2C5] mt-0.5">
                     {hoveredHosp.complexityGroup} • {hoveredHosp.managementModel}
