@@ -45,13 +45,45 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
     // Add zoom control top-right
     L.control.zoom({ position: 'topright' }).addTo(map);
 
-    // High clarity CartoDB Positron tiles for clean Swiss editorial look
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19
-    }).addTo(map);
+    // Free, open cartography layers without API key requirement
+    const esriStreetLayer = L.tileLayer(
+      'https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution:
+          '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, USGS, IGN España',
+        maxZoom: 19
+      }
+    );
+
+    const esriGrayLayer = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution:
+          '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, IGN',
+        maxZoom: 19
+      }
+    );
+
+    const ignLayer = L.tileLayer(
+      'https://www.ign.es/wmts/ign-base?service=WMTS&request=GetTile&version=1.0.0&Format=image/png&layer=IGNBaseTodo&style=default&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}',
+      {
+        attribution:
+          '&copy; <a href="https://www.ign.es/">Instituto Geográfico Nacional (IGN España)</a>',
+        maxZoom: 19
+      }
+    );
+
+    // Add default street map layer
+    esriStreetLayer.addTo(map);
+
+    // Base layers switcher
+    const baseMaps = {
+      'Callejero y Carreteras': esriStreetLayer,
+      'Oficial IGN España': ignLayer,
+      'Gris Editorial': esriGrayLayer
+    };
+
+    L.control.layers(baseMaps, undefined, { position: 'topright' }).addTo(map);
 
     const markersLayer = L.layerGroup().addTo(map);
     markersLayerRef.current = markersLayer;
@@ -248,7 +280,7 @@ export const MadridRealMap: React.FC<MadridRealMapProps> = ({
       {/* Bottom informational bar */}
       <div className="bg-[#FAF9F5]/90 border-t border-[#DAD6CC] px-3 py-1.5 text-[11px] text-[#77766F] flex items-center justify-between">
         <span>Cartografía interactiva: Haz clic en cualquier hospital para abrir su ficha completa y comparar indicadores.</span>
-        <span className="font-mono hidden md:inline">OpenStreetMap · CARTO Positron</span>
+        <span className="font-mono hidden md:inline">Esri ArcGIS · IGN España (Sin API Key)</span>
       </div>
     </div>
   );
