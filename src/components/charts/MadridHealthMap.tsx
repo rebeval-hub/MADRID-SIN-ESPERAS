@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import L from 'leaflet';
 import { HospitalMetadata, HospitalViewCategory } from '../../types';
 import { formatEsDec, formatEsInt } from '../../utils/format';
+import {
+  initMadridMap,
+  createHospitalBuildingIcon
+} from '../../utils/leafletMapConfig';
 
 export interface MapHospitalPoint {
   hospital: HospitalMetadata;
@@ -45,22 +50,12 @@ export const MadridHealthMap: React.FC<MadridHealthMapProps> = ({
   onSelectHospital,
   highlightedPairs = []
 }) => {
-  const [hoveredHosp, setHoveredHosp] = useState<HospitalMetadata | null>(null);
   const [filterArea, setFilterArea] = useState<string>('ALL');
 
-  const minLat = 40.0;
-  const maxLat = 40.72;
-  const minLng = -4.2;
-  const maxLng = -3.25;
-
-  const width = 760;
-  const height = 480;
-
-  const project = (lat: number, lng: number) => {
-    const x = ((lng - minLng) / (maxLng - minLng)) * width;
-    const y = ((maxLat - lat) / (maxLat - minLat)) * height;
-    return { x, y };
-  };
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const markersLayerRef = useRef<L.LayerGroup | null>(null);
+  const polylinesLayerRef = useRef<L.LayerGroup | null>(null);
 
   const hospitalList = Object.values(hospitals).filter(h => {
     if (filteredIds && !filteredIds.has(h.id)) return false;
@@ -126,7 +121,164 @@ export const MadridHealthMap: React.FC<MadridHealthMapProps> = ({
   const validCentersCount = hospitalList.filter(h => getMapMetrics(h).delay !== null).length;
   const missingCentersCount = hospitalList.length - validCentersCount;
 
-  const hoveredMetrics = hoveredHosp ? getMapMetrics(hoveredHosp) : null;
+  // Initialize unified Leaflet map
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    if (mapInstanceRef.current) return;
+
+    const map = initMadridMap(mapContainerRef.current, {
+      zoom: 10,
+      minZoom: 8,
+      maxZoom: 18
+    });
+
+    const polylinesLayer = L.layerGroup().addTo(map);
+    const markersLayer = L.layerGroup().addTo(map);
+
+    polylinesLayerRef.current = polylinesLayer;
+    markersLayerRef.current = markersLayer;
+    mapInstanceRef.current = map;
+
+    return () => {
+      map.remove();
+      mapInstanceRef.current = null;
+      markersLayerRef.current = null;
+      polylinesLayerRef.current = null;
+    };
+  }, []);
+
+  // Update Markers and Polylines
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    const markersLayer = markersLayerRef.current;
+    const polylinesLayer = polylinesLayerRef.current;
+    if (!map || !markersLayer || !polylinesLayer) return;
+
+    markersLayer.clearLayers();
+    polylinesLayer.clearLayers();
+
+    // 1. Render highlighted pairs as polylines
+    highlightedPairs.forEach((pair, idx) => {
+      const hA = hospitals[pair.fromId];
+      const hB = hospitals[pair.toId];
+      if (!hA || !hB) return;
+
+      const polyline = L.polyline(
+        [
+          [hA.lat, hA.lng],
+          [hB.lat, hB.lng]
+        ],
+        {
+          color: '#426C79',
+          weight: 2.5,
+          dashArray: '5, 4',
+          opacity: 0.85
+        }
+      );
+
+      if (pair.label) {
+        polyline.bindTooltip(pair.label, {
+          permanent: true,
+          direction: 'center',
+          className: 'leaflet-pair-tooltip font-mono text-[10px] font-bold bg-[#202321] text-[#FAF9F5] px-1.5 py-0.5 rounded-xs'
+        });
+      }
+
+      polylinesLayer.addLayer(polyline);
+    });
+
+    // 2. Render hospital building markers
+    hospitalList.forEach(h => {
+      const m = getMapMetrics(h);
+      const color = getDelayColor(m.delay);
+      const isSelected = selectedHospitalId === h.id;
+      const delayFormatted = m.delay !== null && !isNaN(m.delay) ? `${Math.round(m.delay)}d` : 'S/D';
+
+      const hospIcon = createHospitalBuildingIcon({
+        hospital: h,
+        delayFormatted,
+        metricColor: color,
+        isSelected
+      });
+
+      const marker = L.marker([h.lat, h.lng], {
+        icon: hospIcon,
+        zIndexOffset: isSelected ? 900 : 100
+      });
+
+      marker.on('click', () => {
+        onSelectHospital(h);
+      });
+
+      // Rich popup with full official metrics
+      const popupHtml = `
+        <div style="font-family:sans-serif; padding:4px; font-size:12px; line-height:1.4; min-width:220px; color:#202321;">
+          <div style="font-size:10px; font-weight:700; color:#426C79; text-transform:uppercase;">
+            ${h.complexityGroup} · ${h.managementModel}
+          </div>
+          <strong style="color:#202321; font-size:13px; display:block; margin:2px 0;">${h.fullName}</strong>
+          <div style="color:#77766F; font-size:11px;">
+            ${h.municipality} · Área ${h.area}
+          </div>
+
+          <div style="margin-top:8px; padding-top:6px; border-top:1px solid #DAD6CC; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+            <div style="background:#F3F0E8; padding:4px 6px; border-radius:3px;">
+              <span style="font-size:10px; color:#77766F; display:block;">
+                ${activeCategory === 'general' ? 'Peor Demora:' : `Demora (${selectedYear}):`}
+              </span>
+              <strong style="font-size:13px; color:${color};">
+                ${m.delay !== null ? `${formatEsDec(m.delay, 1)} d` : 'No disp.'}
+              </strong>
+              ${m.bottleneckQueue ? `<span style="font-size:9px; color:#77766F; display:block;">${m.bottleneckQueue}</span>` : ''}
+            </div>
+            <div style="background:#F3F0E8; padding:4px 6px; border-radius:3px;">
+              <span style="font-size:10px; color:#77766F; display:block;">Pacientes:</span>
+              <strong style="font-size:13px; color:#202321;">
+                ${m.patients !== null ? formatEsInt(m.patients) : 'No disp.'}
+              </strong>
+              <span style="font-size:9px; color:#77766F; display:block;">${m.cutoffLabel}</span>
+            </div>
+          </div>
+
+          <div style="margin-top:6px; display:flex; justify-content:space-between; font-size:10px; color:#77766F; border-top:1px solid #ECE8DD; padding-top:4px;">
+            <span>Camas: <strong style="color:#202321;">${h.beds !== null ? formatEsInt(h.beds) : 'N/D'}</strong></span>
+            <span>Quirófanos: <strong style="color:#202321;">${h.quirofanos !== null ? formatEsInt(h.quirofanos) : 'N/D'}</strong></span>
+          </div>
+
+          <button
+            onclick="document.dispatchEvent(new CustomEvent('open-hospital-modal', { detail: '${h.id}' }))"
+            style="width:100%; margin-top:8px; background:#426C79; color:#FAF9F5; border:none; padding:4px 8px; border-radius:3px; font-weight:600; font-size:11px; cursor:pointer;"
+          >
+            Ver Ficha Completa
+          </button>
+        </div>
+      `;
+
+      marker.bindPopup(popupHtml);
+      markersLayer.addLayer(marker);
+    });
+
+    // Auto-fit if filtered
+    if (hospitalList.length > 0) {
+      const bounds = L.latLngBounds(hospitalList.map(h => [h.lat, h.lng] as [number, number]));
+      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
+    }
+  }, [hospitalList, activeCategory, selectedYear, selectedHospitalId, highlightedPairs]);
+
+  // Listener for popup "Ver Ficha Completa" button
+  useEffect(() => {
+    const handleCustomOpen = (e: any) => {
+      const hId = e.detail;
+      const target = hospitals[hId];
+      if (target) {
+        onSelectHospital(target);
+      }
+    };
+    document.addEventListener('open-hospital-modal', handleCustomOpen);
+    return () => {
+      document.removeEventListener('open-hospital-modal', handleCustomOpen);
+    };
+  }, [hospitals, onSelectHospital]);
 
   return (
     <div className="w-full bg-[#FAF9F5] rounded-sm border border-[#DAD6CC] p-5 select-none flex flex-col justify-between">
@@ -140,8 +292,8 @@ export const MadridHealthMap: React.FC<MadridHealthMapProps> = ({
             </h4>
             <p className="text-xs text-[#77766F] mt-0.5">
               {activeCategory === 'general'
-                ? 'Visión General (corte común 31-dic-2024) · Tamaño = Carga acumulada (LEQ+LECE+LEPD) · Color = Demora máxima entre listas separadas'
-                : `Geolocalización SERMAS · Corte 31-dic-${selectedYear} · Tamaño = Pacientes, Color = Demora media`}
+                ? 'Visión General (corte común 31-dic-2024) · Cartografía realista unificada · Iconos de edificios hospitalarios con cruz médica'
+                : `Geolocalización SERMAS · Corte 31-dic-${selectedYear} · Base cartográfica oficial`}
             </p>
           </div>
         </div>
@@ -182,226 +334,13 @@ export const MadridHealthMap: React.FC<MadridHealthMapProps> = ({
         </div>
       </div>
 
-      <div className="relative w-full bg-[#EFECE3] rounded-sm border border-[#DAD6CC] overflow-hidden">
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto max-h-[460px]">
-          {/* Subtle cartographic coordinate graticule */}
-          {[0.2, 0.4, 0.6, 0.8].map(f => (
-            <g key={`grid-${f}`} stroke="#DAD6CC" strokeWidth="0.6" strokeDasharray="2 4">
-              <line x1={width * f} y1={0} x2={width * f} y2={height} />
-              <line x1={0} y1={height * f} x2={width} y2={height * f} />
-            </g>
-          ))}
-
-          <path
-            d="M 280 20 L 410 15 L 530 60 L 610 110 L 670 170 L 690 260 L 630 350 L 560 410 L 460 460 L 390 470 L 320 450 L 220 400 L 140 330 L 100 240 L 120 140 L 180 70 Z"
-            fill="#E3DEC9"
-            fillOpacity="0.6"
-            stroke="#A6A18F"
-            strokeWidth="1.5"
-            strokeDasharray="4 2"
-          />
-
-          <text x="380" y="225" textAnchor="middle" className="text-xs font-extrabold fill-[#A6A18F]/80 tracking-widest uppercase">
-            Área Centro / Madrid Capital
-          </text>
-          <text x="390" y="80" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F]/80 tracking-wider uppercase">
-            Sierra Norte
-          </text>
-          <text x="360" y="380" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F]/80 tracking-wider uppercase">
-            Área Sur Metropolitana
-          </text>
-          <text x="590" y="240" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F]/80 tracking-wider uppercase">
-            Corredor del Henares (Este)
-          </text>
-          <text x="180" y="240" textAnchor="middle" className="text-[11px] font-bold fill-[#A6A18F]/80 tracking-wider uppercase">
-            Área Noroeste / Guadarrama
-          </text>
-
-          {/* Optional territorial comparable neighbor pairs (used by Section C) */}
-          {highlightedPairs.map((pair, idx) => {
-            const hA = hospitals[pair.fromId];
-            const hB = hospitals[pair.toId];
-            if (!hA || !hB) return null;
-            const pA = project(hA.lat, hA.lng);
-            const pB = project(hB.lat, hB.lng);
-            const midX = (pA.x + pB.x) / 2;
-            const midY = (pA.y + pB.y) / 2;
-            return (
-              <g key={`${pair.fromId}-${pair.toId}-${idx}`} className="pointer-events-none">
-                <line
-                  x1={pA.x}
-                  y1={pA.y}
-                  x2={pB.x}
-                  y2={pB.y}
-                  stroke="#426C79"
-                  strokeWidth="1.8"
-                  strokeDasharray="4 3"
-                  strokeOpacity="0.85"
-                />
-                {pair.label && (
-                  <g transform={`translate(${midX}, ${midY})`}>
-                    <rect x="-26" y="-8" width="52" height="14" rx="2" fill="#426C79" fillOpacity="0.95" />
-                    <text x="0" y="2" textAnchor="middle" className="text-[8px] font-mono font-bold fill-[#FAF9F5]">
-                      {pair.label}
-                    </text>
-                  </g>
-                )}
-              </g>
-            );
-          })}
-
-          {hospitalList.map(h => {
-            const { x, y } = project(h.lat, h.lng);
-            const m = getMapMetrics(h);
-            const hasData = m.delay !== null && m.patients !== null;
-            const color = getDelayColor(m.delay);
-            const isSelected = selectedHospitalId === h.id;
-            const isHovered = hoveredHosp?.id === h.id;
-            const radius = hasData
-              ? activeCategory === 'general'
-                ? Math.min(18, Math.max(6, Math.sqrt(m.patients || 100) * 0.085))
-                : Math.min(16, Math.max(6, Math.sqrt(m.patients || 100) * 0.16))
-              : 6;
-
-            return (
-              <g
-                key={h.id}
-                className="cursor-pointer transition-transform duration-200"
-                onClick={() => onSelectHospital(h)}
-                onMouseEnter={() => setHoveredHosp(h)}
-                onMouseLeave={() => setHoveredHosp(null)}
-              >
-                {isSelected && (
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={radius + 7}
-                    fill="none"
-                    stroke="#C64B37"
-                    strokeWidth="2.5"
-                    strokeDasharray="3 3"
-                  />
-                )}
-
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={radius}
-                  fill={color}
-                  fillOpacity={hasData ? (isHovered || isSelected ? 0.96 : 0.82) : 0.45}
-                  stroke={hasData ? '#FAF9F5' : '#55544E'}
-                  strokeWidth={hasData ? '1.8' : '1.4'}
-                  strokeDasharray={hasData ? undefined : '2 2'}
-                />
-
-                <circle cx={x} cy={y} r="2.2" fill="#FAF9F5" />
-
-                {(isHovered || isSelected || radius > 10 || !hasData) && (
-                  <text
-                    x={x}
-                    y={y - radius - 3}
-                    textAnchor="middle"
-                    className={`text-[9px] font-bold ${
-                      !hasData
-                        ? 'fill-[#77766F] italic'
-                        : isSelected
-                        ? 'fill-[#C64B37] font-extrabold'
-                        : 'fill-[#202321]'
-                    }`}
-                  >
-                    {h.shortName}{!hasData ? ' (N/D)' : ''}
-                  </text>
-                )}
-              </g>
-            );
-          })}
-        </svg>
-
-        {hoveredHosp && hoveredMetrics && (
-          <div className="absolute top-3 right-3 bg-[#202321]/95 text-[#FAF9F5] backdrop-blur-xs rounded-sm shadow-2xl p-3.5 text-xs border border-[#A6A18F]/40 pointer-events-none z-30 min-w-[295px] max-w-[330px]">
-            <div className="border-b border-[#FAF9F5]/15 pb-2 mb-2">
-              <h5 className="font-bold text-[#E88A78] text-sm">{hoveredHosp.fullName}</h5>
-              <p className="text-[11px] text-[#DAD6CC]">
-                {hoveredHosp.complexityGroup} · {hoveredHosp.managementModel}
-              </p>
-              <p className="text-[10px] text-[#A6A18F]">
-                Titularidad {hoveredHosp.ownership} · {hoveredHosp.municipality}
-              </p>
-            </div>
-
-            {activeCategory === 'general' ? (
-              <div className="space-y-2">
-                <div className="grid grid-cols-2 gap-2 font-mono">
-                  <div className="bg-[#2B2F2C] p-2 rounded-xs">
-                    <span className="text-[#A6A18F] text-[9px] block font-sans">Carga acumulada (31-dic-2024):</span>
-                    <span className="text-[#84C6A3] font-bold text-sm tabular-nums">
-                      {formatEsInt(hoveredMetrics.patients)}
-                    </span>
-                    <span className="text-[9px] text-[#A6A18F] block">
-                      {hoveredMetrics.activeQueuesCount}/3 listas activas
-                    </span>
-                  </div>
-                  <div className="bg-[#2B2F2C] p-2 rounded-xs">
-                    <span className="text-[#A6A18F] text-[9px] block font-sans">Cuello de botella (2024):</span>
-                    <span className="text-[#E6B86A] font-bold text-sm tabular-nums">
-                      {hoveredMetrics.delay !== null ? `${formatEsDec(hoveredMetrics.delay, 1)} d` : 'N/D'}
-                    </span>
-                    <span className="text-[9px] text-[#A6A18F] block">
-                      {hoveredMetrics.bottleneckQueue || 'N/A'}
-                    </span>
-                  </div>
-                </div>
-                <div className="bg-[#2B2F2C]/70 rounded-xs p-2 text-[10px] font-mono space-y-1">
-                  <div className="flex justify-between">
-                    <span className="text-[#A6A18F] font-sans">Quirúrgica (2024 / 2025):</span>
-                    <span className="text-[#FAF9F5]">
-                      {hoveredHosp.series.quirurgica.demora['2024'] !== null
-                        ? `${formatEsDec(hoveredHosp.series.quirurgica.demora['2024'], 1)} d / ${hoveredHosp.series.quirurgica.demora['2025'] !== null ? `${formatEsDec(hoveredHosp.series.quirurgica.demora['2025'], 1)} d` : 'N/D'}`
-                        : 'N/A'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#A6A18F] font-sans">Consultas Ext. (2024):</span>
-                    <span className="text-[#FAF9F5]">
-                      {hoveredHosp.series.consultas.demora['2024'] !== null
-                        ? `${formatEsDec(hoveredHosp.series.consultas.demora['2024'], 1)} d (${formatEsInt(hoveredHosp.series.consultas.pacientes['2024'])} pac.)`
-                        : 'N/A'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#A6A18F] font-sans">Pruebas Diag. (2024):</span>
-                    <span className="text-[#FAF9F5]">
-                      {hoveredHosp.series.pruebas.demora['2024'] !== null
-                        ? `${formatEsDec(hoveredHosp.series.pruebas.demora['2024'], 1)} d (${formatEsInt(hoveredHosp.series.pruebas.pacientes['2024'])} pac.)`
-                        : 'N/A'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-2 font-mono">
-                <div className="bg-[#2B2F2C] p-2 rounded-xs">
-                  <span className="text-[#A6A18F] text-[10px] block font-sans">Demora Media ({selectedYear}):</span>
-                  <span className="text-[#E6B86A] font-bold text-sm tabular-nums">
-                    {hoveredMetrics.delay !== null ? `${formatEsDec(hoveredMetrics.delay, 1)} días` : 'No aplicable / N/D'}
-                  </span>
-                </div>
-                <div className="bg-[#2B2F2C] p-2 rounded-xs">
-                  <span className="text-[#A6A18F] text-[10px] block font-sans">Pacientes ({selectedYear}):</span>
-                  <span className="text-[#84C6A3] font-bold text-sm tabular-nums">
-                    {hoveredMetrics.patients !== null ? formatEsInt(hoveredMetrics.patients) : 'No aplicable / N/D'}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            <div className="mt-2 flex items-center justify-between text-[10px] text-[#A6A18F] border-t border-[#FAF9F5]/15 pt-1.5">
-              <span>Camas inst.: <strong className="text-[#FAF9F5]">{hoveredHosp.beds !== null ? formatEsInt(hoveredHosp.beds) : 'No disp.'}</strong></span>
-              <span>Quir.: <strong className="text-[#FAF9F5]">{hoveredHosp.quirofanos !== null ? formatEsInt(hoveredHosp.quirofanos) : 'No disp.'}</strong></span>
-              <span>Área: <strong className="text-[#FAF9F5]">{hoveredHosp.area}</strong></span>
-            </div>
-          </div>
-        )}
+      {/* Realistic Leaflet Map Canvas */}
+      <div className="relative w-full rounded-sm border border-[#DAD6CC] overflow-hidden bg-[#EFECE3]">
+        <div
+          ref={mapContainerRef}
+          style={{ height: '460px', width: '100%' }}
+          className="z-10 focus:outline-none"
+        />
       </div>
 
       {/* Dynamic Legend */}
