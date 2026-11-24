@@ -10,6 +10,7 @@ import { TimeSeriesPage } from '../../pages/TimeSeriesPage';
 import { RadarPage } from '../../pages/RadarPage';
 import { TerritorialRadarPage } from '../../pages/TerritorialRadarPage';
 import { PredictivePage } from '../../pages/PredictivePage';
+import { SimulatorsPage } from '../../pages/SimulatorsPage';
 import { DataQualityPage } from '../../pages/DataQualityPage';
 
 interface AnalystAppProps {
@@ -178,6 +179,13 @@ export const AnalystApp: React.FC<AnalystAppProps> = ({
             )}
 
             {activeTab === 'predictive' && <PredictivePage data={data} />}
+
+            {activeTab === 'simulators' && (
+              <SimulatorsPage
+                data={data}
+                onSelectHospital={handleSelectHospital}
+              />
+            )}
 
             {activeTab === 'audit' && (
               <DataQualityPage

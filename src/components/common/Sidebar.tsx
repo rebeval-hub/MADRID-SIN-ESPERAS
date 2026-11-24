@@ -7,6 +7,7 @@ import {
   Radar,
   Compass,
   LineChart,
+  Sliders,
   Database
 } from 'lucide-react';
 
@@ -18,6 +19,7 @@ export type ActiveTab =
   | 'radar'
   | 'opportunities'
   | 'predictive'
+  | 'simulators'
   | 'audit';
 
 interface SidebarProps {
@@ -95,8 +97,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
           badge: 'Experimental'
         },
         {
-          id: 'audit' as ActiveTab,
+          id: 'simulators' as ActiveTab,
           num: '08',
+          label: 'Simuladores What-If',
+          icon: Sliders,
+          badge: '4 modelos'
+        },
+        {
+          id: 'audit' as ActiveTab,
+          num: '09',
           label: 'Fuentes y Créditos',
           icon: Database,
           badge: 'DATAMAD'
