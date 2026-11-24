@@ -14,6 +14,7 @@ import {
   Info
 } from 'lucide-react';
 import { FullHealthData, HospitalMetadata, WaitListType } from '../../types';
+import { analyzePatientQuery } from '../../utils/patientConsultationEngine';
 
 interface CopilotWidgetProps {
   data: FullHealthData;
@@ -72,12 +73,12 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
   }, [messages, isOpen]);
 
   const quickQuestions = [
+    'Vivo en Villaverde y me quiero operar de los ojos qué recomiendas',
     '¿Qué hospital tiene menor demora quirúrgica?',
     'Comparar La Paz vs 12 de Octubre',
     '¿Qué alertas tiene el Infanta Cristina?',
     'Menor espera en consultas en el Sur',
-    '¿Qué predicen los modelos para 2026?',
-    '¿Qué significa el Modified Z-Score?'
+    '¿Qué predicen los modelos para 2026?'
   ];
 
   // Motor analítico del copiloto sanitario (100% determinista sobre datos oficiales)
@@ -85,6 +86,49 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
     const q = userQuery.toLowerCase().trim();
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const msgId = Date.now().toString();
+
+    // 0. CONSULTA ESPECÍFICA DE PACIENTE (Ubicación + Necesidad / Operación)
+    if (
+      q.includes('vivo en') ||
+      q.includes('recomiend') ||
+      q.includes('me quiero operar') ||
+      q.includes('donde operarme') ||
+      q.includes('dónde operarme') ||
+      q.includes('villaverde') ||
+      q.includes('ojos') ||
+      (q.includes('operar') && (q.includes('en ') || q.includes('cerca') || q.includes('zona')))
+    ) {
+      const rec = analyzePatientQuery(q, data);
+      if (rec.referenceHospital || rec.alternativeHospitals.length > 0) {
+        return {
+          id: msgId,
+          sender: 'bot',
+          timestamp: time,
+          text: rec.explanationText,
+          detailsCard: rec.referenceHospital ? {
+            title: `Centro Asignado vs Opciones de Menor Espera (${rec.detectedLocation?.name || 'Tu Zona'})`,
+            metrics: [
+              {
+                label: `${rec.referenceHospital.hospital.shortName} (Asignado)`,
+                value: `${rec.referenceHospital.waitDays ?? 'N/D'} d`,
+                badge: rec.referenceHospital.hospital.area
+              },
+              {
+                label: `${rec.alternativeHospitals[0]?.hospital.shortName || 'Alternativa'}`,
+                value: `${rec.alternativeHospitals[0]?.waitDays ?? 'N/D'} d`,
+                badge: 'Libre Elección'
+              }
+            ],
+            note: rec.legalNotice
+          } : undefined,
+          action: rec.referenceHospital ? {
+            type: 'open_hospital',
+            payload: rec.referenceHospital.hospital,
+            label: `Ver Ficha de ${rec.referenceHospital.hospital.shortName}`
+          } : undefined
+        };
+      }
+    }
 
     // 1. COMPARATIVA DE HOSPITALES ("compara la paz vs 12 de octubre", etc.)
     if (q.includes('compar') || q.includes(' vs ') || q.includes('frente a')) {
