@@ -426,11 +426,10 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
                 className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
               >
                 <div
-                  className={`max-w-[90%] p-3.5 rounded-sm ${
-                    msg.sender === 'user'
+                  className={`max-w-[90%] p-3.5 rounded-sm ${msg.sender === 'user'
                       ? 'bg-[#C64B37] text-[#FAF9F5] font-medium'
                       : 'bg-[#FAF9F5] text-[#202321] border border-[#DAD6CC] shadow-xs'
-                  }`}
+                    }`}
                 >
                   {renderFormattedMessage(msg.text, msg.sender === 'user')}
 
