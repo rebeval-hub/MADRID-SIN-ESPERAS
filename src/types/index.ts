@@ -43,6 +43,32 @@ export interface StructuralDatumProvenance {
   discrepancyNote?: string;
 }
 
+export interface AgePyramidBracket {
+  rango: string;
+  hombres: number;
+  mujeres: number;
+}
+
+export interface HospitalEquipmentItem {
+  nombre: string;
+  u2023: number;
+  u2024: number;
+}
+
+export interface HospitalDemographics {
+  hasDemographics: boolean;
+  poblacionReferenciaTotal: number | null;
+  poblacionHombres: number | null;
+  poblacionMujeres: number | null;
+  pctMujeres: number | null;
+  pctHombres: number | null;
+  pctMayores65: number | null;
+  sourceNote: string;
+  piramide: AgePyramidBracket[];
+  altaTecnologia: HospitalEquipmentItem[];
+  otrosEquipos: HospitalEquipmentItem[];
+}
+
 export interface HospitalMetadata {
   id: string;
   fullName: string;
@@ -72,6 +98,7 @@ export interface HospitalMetadata {
   camRegistro?: string | null;
   sermasMemoriaUrl?: string;
   structuralProvenance?: Record<string, StructuralDatumProvenance>;
+  demografiaYEquipamiento?: HospitalDemographics;
   series: {
     quirurgica: HospitalSeries;
     consultas: HospitalSeries;

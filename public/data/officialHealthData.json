@@ -597,6 +597,247 @@
             "2024": 81.59
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 587614,
+        "poblacionHombres": 277753,
+        "poblacionMujeres": 309861,
+        "pctMujeres": 52.73,
+        "pctHombres": 47.27,
+        "pctMayores65": 18.53,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 11616,
+            "mujeres": 10809
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 14190,
+            "mujeres": 13583
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 15792,
+            "mujeres": 15002
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 15404,
+            "mujeres": 14715
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 14354,
+            "mujeres": 14386
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 16380,
+            "mujeres": 17613
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 19227,
+            "mujeres": 20792
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 20082,
+            "mujeres": 22397
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 22508,
+            "mujeres": 24653
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 24741,
+            "mujeres": 26337
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 22925,
+            "mujeres": 24758
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 19353,
+            "mujeres": 21381
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 16469,
+            "mujeres": 19284
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 13092,
+            "mujeres": 16343
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 10180,
+            "mujeres": 13534
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 9158,
+            "mujeres": 12407
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 6492,
+            "mujeres": 9545
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 3471,
+            "mujeres": 6426
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 1831,
+            "mujeres": 4218
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 488,
+            "mujeres": 1678
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 4,
+            "u2024": 4
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 17,
+            "u2024": 17
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 20,
+            "u2024": 22
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 18,
+            "u2024": 19
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 17,
+            "u2024": 14
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 30,
+            "u2024": 35
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 30,
+            "u2024": 31
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 7,
+            "u2024": 5
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 7,
+            "u2024": 6
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 7,
+            "u2024": 5
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 2,
+            "u2024": 2
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "gregorio_maranon": {
@@ -808,6 +1049,227 @@
             "2024": 43.54
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 329594,
+        "poblacionHombres": 154042,
+        "poblacionMujeres": 175552,
+        "pctMujeres": 53.26,
+        "pctHombres": 46.74,
+        "pctMayores65": 20.82,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 5332,
+            "mujeres": 5026
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 6193,
+            "mujeres": 6014
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 7198,
+            "mujeres": 7196
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 8159,
+            "mujeres": 7812
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 8510,
+            "mujeres": 8578
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 10034,
+            "mujeres": 10701
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 11181,
+            "mujeres": 11720
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 10609,
+            "mujeres": 11584
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 11466,
+            "mujeres": 11977
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 12314,
+            "mujeres": 13438
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 13192,
+            "mujeres": 14137
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 12013,
+            "mujeres": 13891
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 10510,
+            "mujeres": 12184
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 7876,
+            "mujeres": 9947
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 5762,
+            "mujeres": 7697
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 4956,
+            "mujeres": 7578
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 4275,
+            "mujeres": 6993
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 2709,
+            "mujeres": 4997
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 1445,
+            "mujeres": 3059
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 308,
+            "mujeres": 1023
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 5,
+            "u2024": 5
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 14,
+            "u2024": 14
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 28,
+            "u2024": 27
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 18,
+            "u2024": 18
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 19,
+            "u2024": 19
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 22,
+            "u2024": 22
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 8,
+            "u2024": 10
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 4,
+            "u2024": 4
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "12_de_octubre": {
@@ -1018,6 +1480,252 @@
             "2024": 62.03
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 473958,
+        "poblacionHombres": 226941,
+        "poblacionMujeres": 247017,
+        "pctMujeres": 52.12,
+        "pctHombres": 47.88,
+        "pctMayores65": 16.28,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 7895,
+            "mujeres": 7424
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 10130,
+            "mujeres": 9777
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 12344,
+            "mujeres": 11733
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 13844,
+            "mujeres": 13374
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 14139,
+            "mujeres": 13948
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 15307,
+            "mujeres": 16059
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 16546,
+            "mujeres": 17312
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 15769,
+            "mujeres": 17046
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 17156,
+            "mujeres": 18221
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 19975,
+            "mujeres": 21039
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 20473,
+            "mujeres": 21043
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 17680,
+            "mujeres": 18600
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 14419,
+            "mujeres": 15549
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 9967,
+            "mujeres": 11414
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 6499,
+            "mujeres": 8567
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 5555,
+            "mujeres": 8249
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 4457,
+            "mujeres": 7380
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 2894,
+            "mujeres": 5618
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 1538,
+            "mujeres": 3583
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 354,
+            "mujeres": 1081
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 3,
+            "u2024": 5
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 3,
+            "u2024": 3
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 16,
+            "u2024": 16
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 13,
+            "u2024": 13
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 31,
+            "u2024": 31
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 42,
+            "u2024": 42
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "clinico_san_carlos": {
@@ -1232,6 +1940,237 @@
             "2024": 25.21
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 384245,
+        "poblacionHombres": 177418,
+        "poblacionMujeres": 206827,
+        "pctMujeres": 53.83,
+        "pctHombres": 46.17,
+        "pctMayores65": 20.35,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 5692,
+            "mujeres": 5447
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 7054,
+            "mujeres": 6574
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 7692,
+            "mujeres": 7521
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 8248,
+            "mujeres": 7919
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 9171,
+            "mujeres": 9459
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 12423,
+            "mujeres": 14128
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 14542,
+            "mujeres": 16184
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 13869,
+            "mujeres": 15135
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 14292,
+            "mujeres": 15371
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 15249,
+            "mujeres": 16218
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 14478,
+            "mujeres": 15985
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 13400,
+            "mujeres": 15321
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 11094,
+            "mujeres": 13597
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 8443,
+            "mujeres": 11082
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 6251,
+            "mujeres": 8950
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 5563,
+            "mujeres": 9109
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 5022,
+            "mujeres": 8454
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 3056,
+            "mujeres": 5564
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 1462,
+            "mujeres": 3523
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 417,
+            "mujeres": 1286
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 3,
+            "u2024": 3
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 20,
+            "u2024": 24
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 20,
+            "u2024": 20
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 14,
+            "u2024": 14
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 3,
+            "u2024": 2
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "ramon_y_cajal": {
@@ -1443,6 +2382,242 @@
             "2024": 67.38
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 600128,
+        "poblacionHombres": 283947,
+        "poblacionMujeres": 316181,
+        "pctMujeres": 52.69,
+        "pctHombres": 47.31,
+        "pctMayores65": 19.01,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 10249,
+            "mujeres": 9699
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 13198,
+            "mujeres": 12348
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 15425,
+            "mujeres": 14646
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 16359,
+            "mujeres": 15714
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 16381,
+            "mujeres": 16085
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 16815,
+            "mujeres": 17663
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 18818,
+            "mujeres": 20225
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 18933,
+            "mujeres": 20820
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 21307,
+            "mujeres": 22933
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 24451,
+            "mujeres": 26188
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 24351,
+            "mujeres": 26758
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 22278,
+            "mujeres": 24310
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 18633,
+            "mujeres": 21458
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 13896,
+            "mujeres": 16404
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 9846,
+            "mujeres": 13284
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 9010,
+            "mujeres": 12943
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 7192,
+            "mujeres": 10543
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 4024,
+            "mujeres": 7526
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 2255,
+            "mujeres": 4939
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 526,
+            "mujeres": 1695
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 2,
+            "u2024": 2
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 21,
+            "u2024": 21
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 21,
+            "u2024": 21
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 2,
+            "u2024": 2
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "puerta_de_hierro": {
@@ -1653,6 +2828,247 @@
             "2024": 23.65
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 424164,
+        "poblacionHombres": 203968,
+        "poblacionMujeres": 220196,
+        "pctMujeres": 51.91,
+        "pctHombres": 48.09,
+        "pctMayores65": 16.0,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 7760,
+            "mujeres": 7304
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 10847,
+            "mujeres": 10340
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 14007,
+            "mujeres": 13293
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 16084,
+            "mujeres": 15126
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 14636,
+            "mujeres": 14256
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 11576,
+            "mujeres": 11502
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 10379,
+            "mujeres": 10718
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 10494,
+            "mujeres": 12388
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 13280,
+            "mujeres": 15245
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 16794,
+            "mujeres": 19420
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 18886,
+            "mujeres": 21314
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 16412,
+            "mujeres": 17654
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 12836,
+            "mujeres": 13758
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 9325,
+            "mujeres": 10189
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 7084,
+            "mujeres": 8392
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 6195,
+            "mujeres": 7440
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 4177,
+            "mujeres": 5176
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1937,
+            "mujeres": 3261
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 975,
+            "mujeres": 2338
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 284,
+            "mujeres": 1082
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 2,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 2,
+            "u2024": 2
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 7,
+            "u2024": 9
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 8,
+            "u2024": 11
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 25,
+            "u2024": 44
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 16,
+            "u2024": 38
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "la_princesa": {
@@ -1864,6 +3280,232 @@
             "2024": 60.54
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 337091,
+        "poblacionHombres": 151300,
+        "poblacionMujeres": 185791,
+        "pctMujeres": 55.12,
+        "pctHombres": 44.88,
+        "pctMayores65": 22.72,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 5570,
+            "mujeres": 5377
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 6228,
+            "mujeres": 6155
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 6656,
+            "mujeres": 6650
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 6923,
+            "mujeres": 6550
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 7169,
+            "mujeres": 7440
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 9550,
+            "mujeres": 11135
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 12213,
+            "mujeres": 14286
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 11666,
+            "mujeres": 13417
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 11711,
+            "mujeres": 13328
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 12241,
+            "mujeres": 14036
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 11594,
+            "mujeres": 13901
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 10778,
+            "mujeres": 13381
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 9853,
+            "mujeres": 12708
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 7848,
+            "mujeres": 11234
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 6464,
+            "mujeres": 9288
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 5886,
+            "mujeres": 8900
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 4486,
+            "mujeres": 7610
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 2538,
+            "mujeres": 5278
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 1499,
+            "mujeres": 3689
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 427,
+            "mujeres": 1428
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 2,
+            "u2024": 2
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 4,
+            "u2024": 10
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 15,
+            "u2024": 15
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 4,
+            "u2024": 5
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 9,
+            "u2024": 8
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 10,
+            "u2024": 10
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 2,
+            "u2024": 3
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "fundacion_jimenez_diaz": {
@@ -2075,6 +3717,242 @@
             "2024": 34.64
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 464757,
+        "poblacionHombres": 222671,
+        "poblacionMujeres": 242086,
+        "pctMujeres": 52.09,
+        "pctHombres": 47.91,
+        "pctMayores65": 18.8,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 6625,
+            "mujeres": 6148
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 7797,
+            "mujeres": 7441
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 8692,
+            "mujeres": 8301
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 9053,
+            "mujeres": 8731
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 10177,
+            "mujeres": 10494
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 15055,
+            "mujeres": 16509
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 19800,
+            "mujeres": 20381
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 19747,
+            "mujeres": 19486
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 20617,
+            "mujeres": 19781
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 20593,
+            "mujeres": 19919
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 18548,
+            "mujeres": 18693
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 16734,
+            "mujeres": 17717
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 14313,
+            "mujeres": 16015
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 11165,
+            "mujeres": 13967
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 8219,
+            "mujeres": 10943
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 6748,
+            "mujeres": 9355
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 4550,
+            "mujeres": 7469
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 2416,
+            "mujeres": 5255
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 1401,
+            "mujeres": 3871
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 421,
+            "mujeres": 1610
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 2,
+            "u2024": 5
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 2
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 8,
+            "u2024": 9
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 52,
+            "u2024": 68
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 49,
+            "u2024": 52
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 20,
+            "u2024": 27
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 21,
+            "u2024": 29
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 11,
+            "u2024": 12
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 3,
+            "u2024": 4
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 2,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "getafe": {
@@ -2285,6 +4163,217 @@
             "2024": 73.19
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 242715,
+        "poblacionHombres": 118560,
+        "poblacionMujeres": 124155,
+        "pctMujeres": 51.15,
+        "pctHombres": 48.85,
+        "pctMayores65": 18.03,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 4603,
+            "mujeres": 4330
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 6596,
+            "mujeres": 6135
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 7056,
+            "mujeres": 6626
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 7118,
+            "mujeres": 6576
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 6386,
+            "mujeres": 6311
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 6156,
+            "mujeres": 6142
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 6619,
+            "mujeres": 7197
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 7872,
+            "mujeres": 8579
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 9784,
+            "mujeres": 10029
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 11961,
+            "mujeres": 11721
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 11039,
+            "mujeres": 10800
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 8110,
+            "mujeres": 8336
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 6277,
+            "mujeres": 6589
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 4781,
+            "mujeres": 5658
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 4163,
+            "mujeres": 5444
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 4721,
+            "mujeres": 6291
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 3405,
+            "mujeres": 3992
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1312,
+            "mujeres": 2028
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 499,
+            "mujeres": 1032
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 102,
+            "mujeres": 339
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 6,
+            "u2024": 7
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 3,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "severo_ochoa": {
@@ -2495,6 +4584,187 @@
             "2024": 57.29
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 196797,
+        "poblacionHombres": 94957,
+        "poblacionMujeres": 101840,
+        "pctMujeres": 51.75,
+        "pctHombres": 48.25,
+        "pctMayores65": 21.92,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 2922,
+            "mujeres": 2812
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 4361,
+            "mujeres": 4116
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 5371,
+            "mujeres": 5121
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 5540,
+            "mujeres": 5372
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 5137,
+            "mujeres": 4914
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4896,
+            "mujeres": 5054
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 5432,
+            "mujeres": 5620
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 5854,
+            "mujeres": 5994
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 7089,
+            "mujeres": 7289
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 9482,
+            "mujeres": 9416
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 8487,
+            "mujeres": 8488
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 6650,
+            "mujeres": 6787
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 5457,
+            "mujeres": 6004
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 4151,
+            "mujeres": 4972
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 4036,
+            "mujeres": 5866
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 4801,
+            "mujeres": 6292
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 3252,
+            "mujeres": 4228
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1402,
+            "mujeres": 2115
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 551,
+            "mujeres": 1055
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 86,
+            "mujeres": 325
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "mostoles": {
@@ -2705,6 +4975,191 @@
             "2024": 67.52
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 182234,
+        "poblacionHombres": 88168,
+        "poblacionMujeres": 94066,
+        "pctMujeres": 51.62,
+        "pctHombres": 48.38,
+        "pctMayores65": 18.08,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 3595,
+            "mujeres": 3369
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 5136,
+            "mujeres": 4952
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 5620,
+            "mujeres": 5232
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 5320,
+            "mujeres": 5198
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 4676,
+            "mujeres": 4549
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4347,
+            "mujeres": 4449
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 4796,
+            "mujeres": 5127
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 5955,
+            "mujeres": 6507
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 7887,
+            "mujeres": 8263
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 9282,
+            "mujeres": 9330
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 7108,
+            "mujeres": 7091
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 5539,
+            "mujeres": 6052
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 4655,
+            "mujeres": 5260
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 4060,
+            "mujeres": 5249
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 4190,
+            "mujeres": 5357
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 3412,
+            "mujeres": 4104
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1632,
+            "mujeres": 2018
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 640,
+            "mujeres": 1112
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 250,
+            "mujeres": 615
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 68,
+            "mujeres": 232
+          }
+        ],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 3,
+            "u2024": 5
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 5,
+            "u2024": 6
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 2
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "fundacion_alcorcon": {
@@ -2915,6 +5370,232 @@
             "2024": 47.7
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 175780,
+        "poblacionHombres": 84148,
+        "poblacionMujeres": 91632,
+        "pctMujeres": 52.13,
+        "pctHombres": 47.87,
+        "pctMayores65": 21.5,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 2718,
+            "mujeres": 2481
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 3903,
+            "mujeres": 3771
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 4490,
+            "mujeres": 4393
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 5043,
+            "mujeres": 4762
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 4929,
+            "mujeres": 4758
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4260,
+            "mujeres": 4426
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 4258,
+            "mujeres": 4484
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 4775,
+            "mujeres": 5134
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 6212,
+            "mujeres": 6580
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 8337,
+            "mujeres": 8560
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 8379,
+            "mujeres": 8499
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 6452,
+            "mujeres": 6688
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 4647,
+            "mujeres": 5041
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 3223,
+            "mujeres": 4103
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 3251,
+            "mujeres": 4753
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 4079,
+            "mujeres": 5799
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 3211,
+            "mujeres": 4184
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1402,
+            "mujeres": 1929
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 475,
+            "mujeres": 954
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 104,
+            "mujeres": 333
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 13,
+            "u2024": 13
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "fuenlabrada": {
@@ -3125,6 +5806,237 @@
             "2024": 79.63
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 226468,
+        "poblacionHombres": 111243,
+        "poblacionMujeres": 115225,
+        "pctMujeres": 50.88,
+        "pctHombres": 49.12,
+        "pctMayores65": 17.4,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 3682,
+            "mujeres": 3378
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 5350,
+            "mujeres": 4965
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 6369,
+            "mujeres": 6083
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 7213,
+            "mujeres": 6837
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 6645,
+            "mujeres": 6467
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 6057,
+            "mujeres": 5866
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 6273,
+            "mujeres": 6521
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 7650,
+            "mujeres": 7776
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 9467,
+            "mujeres": 9739
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 10452,
+            "mujeres": 10357
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 9069,
+            "mujeres": 9303
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 8209,
+            "mujeres": 8676
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 6851,
+            "mujeres": 7809
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 6946,
+            "mujeres": 8644
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 5844,
+            "mujeres": 5629
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 2920,
+            "mujeres": 3277
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1363,
+            "mujeres": 1935
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 576,
+            "mujeres": 1083
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 250,
+            "mujeres": 668
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 57,
+            "mujeres": 212
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 3,
+            "u2024": 4
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 6,
+            "u2024": 5
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 27,
+            "u2024": 27
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "",
+            "u2023": 0,
+            "u2024": 4
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "principe_de_asturias": {
@@ -3335,6 +6247,217 @@
             "2024": 72.24
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 263638,
+        "poblacionHombres": 128906,
+        "poblacionMujeres": 134732,
+        "pctMujeres": 51.1,
+        "pctHombres": 48.9,
+        "pctMayores65": 17.65,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 4786,
+            "mujeres": 4386
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 6092,
+            "mujeres": 5737
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 7233,
+            "mujeres": 6656
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 8123,
+            "mujeres": 7581
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 7432,
+            "mujeres": 7056
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 6833,
+            "mujeres": 6945
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 7670,
+            "mujeres": 8018
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 8578,
+            "mujeres": 9209
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 10559,
+            "mujeres": 10826
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 12427,
+            "mujeres": 12334
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 11689,
+            "mujeres": 11666
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 9823,
+            "mujeres": 9891
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 7422,
+            "mujeres": 8140
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 6147,
+            "mujeres": 7439
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 5057,
+            "mujeres": 6008
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 4212,
+            "mujeres": 5247
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 2771,
+            "mujeres": 3617
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1310,
+            "mujeres": 2212
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 598,
+            "mujeres": 1316
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 144,
+            "mujeres": 448
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 7,
+            "u2024": 8
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 4,
+            "u2024": 7
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 30,
+            "u2024": 30
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 22,
+            "u2024": 22
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 10,
+            "u2024": 10
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "infanta_sofia": {
@@ -3546,6 +6669,197 @@
             "2024": 92.09
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 354088,
+        "poblacionHombres": 172164,
+        "poblacionMujeres": 181924,
+        "pctMujeres": 51.38,
+        "pctHombres": 48.62,
+        "pctMayores65": 16.18,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 6009,
+            "mujeres": 5750
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 9234,
+            "mujeres": 8636
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 11598,
+            "mujeres": 10863
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 11625,
+            "mujeres": 10904
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 10189,
+            "mujeres": 9912
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 9313,
+            "mujeres": 9505
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 9339,
+            "mujeres": 10077
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 10637,
+            "mujeres": 11544
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 13175,
+            "mujeres": 14637
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 16556,
+            "mujeres": 17668
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 15875,
+            "mujeres": 16387
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 12977,
+            "mujeres": 13355
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 10177,
+            "mujeres": 10850
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 7663,
+            "mujeres": 8553
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 6167,
+            "mujeres": 7315
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 5404,
+            "mujeres": 6389
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 3442,
+            "mujeres": 4371
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1725,
+            "mujeres": 2712
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 845,
+            "mujeres": 1753
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 214,
+            "mujeres": 743
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 13,
+            "u2024": 13
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 14,
+            "u2024": 14
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 3
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 2,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "infanta_leonor": {
@@ -3757,6 +7071,197 @@
             "2024": 45.28
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 327813,
+        "poblacionHombres": 157935,
+        "poblacionMujeres": 169878,
+        "pctMujeres": 51.82,
+        "pctHombres": 48.18,
+        "pctMayores65": 16.06,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 6139,
+            "mujeres": 5832
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 8098,
+            "mujeres": 7718
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 8624,
+            "mujeres": 8284
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 8593,
+            "mujeres": 8100
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 9076,
+            "mujeres": 8922
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 10674,
+            "mujeres": 11009
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 11829,
+            "mujeres": 12369
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 11913,
+            "mujeres": 12341
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 12826,
+            "mujeres": 13164
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 14417,
+            "mujeres": 14275
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 12496,
+            "mujeres": 12766
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 11481,
+            "mujeres": 12569
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 10032,
+            "mujeres": 11621
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 7570,
+            "mujeres": 8763
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 4838,
+            "mujeres": 6248
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 3926,
+            "mujeres": 5302
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 2628,
+            "mujeres": 4296
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1649,
+            "mujeres": 3471
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 925,
+            "mujeres": 2164
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 201,
+            "mujeres": 664
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 4,
+            "u2024": 12
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 10,
+            "u2024": 10
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "torrejon": {
@@ -3967,6 +7472,207 @@
             "2024": 15.19
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 164487,
+        "poblacionHombres": 80593,
+        "poblacionMujeres": 83894,
+        "pctMujeres": 51.0,
+        "pctHombres": 49.0,
+        "pctMayores65": 15.51,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 3082,
+            "mujeres": 2881
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 4264,
+            "mujeres": 4065
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 4942,
+            "mujeres": 4836
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 4998,
+            "mujeres": 4776
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 4493,
+            "mujeres": 4458
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4303,
+            "mujeres": 4195
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 4667,
+            "mujeres": 4887
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 5619,
+            "mujeres": 6149
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 6973,
+            "mujeres": 7394
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 8652,
+            "mujeres": 8285
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 7091,
+            "mujeres": 7121
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 5878,
+            "mujeres": 5893
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 4414,
+            "mujeres": 4657
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 3463,
+            "mujeres": 4135
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 3057,
+            "mujeres": 3659
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 2413,
+            "mujeres": 2825
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1333,
+            "mujeres": 1812
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 611,
+            "mujeres": 1046
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 275,
+            "mujeres": 615
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 65,
+            "mujeres": 205
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 3,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 8,
+            "u2024": 10
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 8,
+            "u2024": 12
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 9,
+            "u2024": 5
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 6,
+            "u2024": 7
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 5,
+            "u2024": 7
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "rey_juan_carlos": {
@@ -4178,6 +7884,237 @@
             "2024": 44
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 190169,
+        "poblacionHombres": 92516,
+        "poblacionMujeres": 97653,
+        "pctMujeres": 51.35,
+        "pctHombres": 48.65,
+        "pctMayores65": 21.55,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 3178,
+            "mujeres": 3057
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 4471,
+            "mujeres": 4069
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 5298,
+            "mujeres": 5002
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 5612,
+            "mujeres": 5217
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 5098,
+            "mujeres": 4834
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4657,
+            "mujeres": 4743
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 4911,
+            "mujeres": 5073
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 5851,
+            "mujeres": 6229
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 7206,
+            "mujeres": 7580
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 8677,
+            "mujeres": 8453
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 7715,
+            "mujeres": 7638
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 6415,
+            "mujeres": 6747
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 5506,
+            "mujeres": 5946
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 4768,
+            "mujeres": 5515
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 4501,
+            "mujeres": 5346
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 4065,
+            "mujeres": 4879
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 2501,
+            "mujeres": 3146
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1258,
+            "mujeres": 2139
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 653,
+            "mujeres": 1438
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 175,
+            "mujeres": 602
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Tomografía por emisión de positrones",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Simulador",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 2,
+            "u2024": 3
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 6,
+            "u2024": 7
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 17,
+            "u2024": 17
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 10,
+            "u2024": 10
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 10,
+            "u2024": 15
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 11,
+            "u2024": 15
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 3,
+            "u2024": 4
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "villalba": {
@@ -4388,6 +8325,212 @@
             "2024": 29.52
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 129993,
+        "poblacionHombres": 63210,
+        "poblacionMujeres": 66783,
+        "pctMujeres": 51.37,
+        "pctHombres": 48.63,
+        "pctMayores65": 16.25,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 2145,
+            "mujeres": 2057
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 3019,
+            "mujeres": 2877
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 3686,
+            "mujeres": 3406
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 4061,
+            "mujeres": 4026
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 3996,
+            "mujeres": 3889
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 3697,
+            "mujeres": 3626
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 3795,
+            "mujeres": 3834
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 3913,
+            "mujeres": 4048
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 4449,
+            "mujeres": 4812
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 5531,
+            "mujeres": 5962
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 5861,
+            "mujeres": 6110
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 5351,
+            "mujeres": 5564
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 4460,
+            "mujeres": 4695
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 3228,
+            "mujeres": 3419
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 2151,
+            "mujeres": 2495
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 1706,
+            "mujeres": 2152
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1155,
+            "mujeres": 1674
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 592,
+            "mujeres": 1146
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 332,
+            "mujeres": 700
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 82,
+            "mujeres": 291
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 10,
+            "u2024": 10
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 3,
+            "u2024": 5
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "gomez_ulla": {
@@ -4602,6 +8745,232 @@
             "2024": 49.57
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 100685,
+        "poblacionHombres": 46879,
+        "poblacionMujeres": 53806,
+        "pctMujeres": 53.44,
+        "pctHombres": 46.56,
+        "pctMayores65": 23.03,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 1344,
+            "mujeres": 1306
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 1873,
+            "mujeres": 1718
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 2136,
+            "mujeres": 2066
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 2441,
+            "mujeres": 2330
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 2512,
+            "mujeres": 2508
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 2822,
+            "mujeres": 3222
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 3181,
+            "mujeres": 3515
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 3305,
+            "mujeres": 3449
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 3535,
+            "mujeres": 3837
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 4026,
+            "mujeres": 4336
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 4067,
+            "mujeres": 4347
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 3483,
+            "mujeres": 3908
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 2879,
+            "mujeres": 3347
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 2296,
+            "mujeres": 2846
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 1744,
+            "mujeres": 2475
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 1930,
+            "mujeres": 2971
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1719,
+            "mujeres": 2720
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 1026,
+            "mujeres": 1657
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 450,
+            "mujeres": 960
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 110,
+            "mujeres": 288
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Acelerador lineal",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Planificador",
+            "u2023": 3,
+            "u2024": 4
+          },
+          {
+            "nombre": "Gammacámara",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Litotriptor",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 2
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 17,
+            "u2024": 17
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 15,
+            "u2024": 18
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 22,
+            "u2024": 30
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 30,
+            "u2024": 33
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 6,
+            "u2024": 7
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 1
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Cámara hiperbárica multiplaza",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "nino_jesus": {
@@ -4812,6 +9181,85 @@
             "2024": 27.41
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": false,
+        "poblacionReferenciaTotal": null,
+        "poblacionHombres": null,
+        "poblacionMujeres": null,
+        "pctMujeres": null,
+        "pctHombres": null,
+        "pctMayores65": null,
+        "piramide": [],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 4,
+            "u2024": 3
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 1,
+            "u2024": 5
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 2,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "henares": {
@@ -5023,6 +9471,171 @@
             "2024": 49.91
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 175837,
+        "poblacionHombres": 86453,
+        "poblacionMujeres": 89384,
+        "pctMujeres": 50.83,
+        "pctHombres": 49.17,
+        "pctMayores65": 19.25,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 2846,
+            "mujeres": 2690
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 3852,
+            "mujeres": 3589
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 4454,
+            "mujeres": 4219
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 4900,
+            "mujeres": 4599
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 4645,
+            "mujeres": 4434
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4548,
+            "mujeres": 4356
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 5114,
+            "mujeres": 5396
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 6229,
+            "mujeres": 6337
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 7228,
+            "mujeres": 7129
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 8232,
+            "mujeres": 8138
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 7314,
+            "mujeres": 7017
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 6230,
+            "mujeres": 6686
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 5649,
+            "mujeres": 6153
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 5217,
+            "mujeres": 6151
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 4340,
+            "mujeres": 4784
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 2951,
+            "mujeres": 3466
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1623,
+            "mujeres": 2059
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 668,
+            "mujeres": 1186
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 333,
+            "mujeres": 726
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 80,
+            "mujeres": 269
+          }
+        ],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "sureste": {
@@ -5233,6 +9846,186 @@
             "2024": 119.14
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 210002,
+        "poblacionHombres": 104458,
+        "poblacionMujeres": 105544,
+        "pctMujeres": 50.26,
+        "pctHombres": 49.74,
+        "pctMayores65": 14.22,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 4362,
+            "mujeres": 4155
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 6057,
+            "mujeres": 5796
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 6811,
+            "mujeres": 6221
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 7221,
+            "mujeres": 6452
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 6046,
+            "mujeres": 5527
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 5392,
+            "mujeres": 5326
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 6047,
+            "mujeres": 6198
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 7026,
+            "mujeres": 7864
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 8655,
+            "mujeres": 9095
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 9941,
+            "mujeres": 9663
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 8876,
+            "mujeres": 8676
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 7543,
+            "mujeres": 7662
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 6654,
+            "mujeres": 6877
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 5365,
+            "mujeres": 5394
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 3467,
+            "mujeres": 3610
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 2416,
+            "mujeres": 2626
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1394,
+            "mujeres": 1802
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 686,
+            "mujeres": 1302
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 406,
+            "mujeres": 936
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 93,
+            "mujeres": 362
+          }
+        ],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 7,
+            "u2024": 7
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "tajo": {
@@ -5443,6 +10236,186 @@
             "2024": 89.15
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 83925,
+        "poblacionHombres": 41073,
+        "poblacionMujeres": 42852,
+        "pctMujeres": 51.06,
+        "pctHombres": 48.94,
+        "pctMayores65": 17.76,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 1441,
+            "mujeres": 1417
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 2210,
+            "mujeres": 1997
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 2658,
+            "mujeres": 2467
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 2711,
+            "mujeres": 2523
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 2363,
+            "mujeres": 2390
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 2231,
+            "mujeres": 2272
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 2300,
+            "mujeres": 2347
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 2594,
+            "mujeres": 2737
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 3081,
+            "mujeres": 3319
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 3854,
+            "mujeres": 3749
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 3469,
+            "mujeres": 3507
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 3075,
+            "mujeres": 3151
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 2533,
+            "mujeres": 2622
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 2011,
+            "mujeres": 2232
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 1553,
+            "mujeres": 1825
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 1336,
+            "mujeres": 1558
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 889,
+            "mujeres": 1234
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 482,
+            "mujeres": 822
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 233,
+            "mujeres": 509
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 49,
+            "mujeres": 174
+          }
+        ],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 1,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 9,
+            "u2024": 9
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 5,
+            "u2024": 11
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 5,
+            "u2024": 5
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 2,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "infanta_cristina": {
@@ -5653,6 +10626,176 @@
             "2024": 127.96
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 181404,
+        "poblacionHombres": 89787,
+        "poblacionMujeres": 91617,
+        "pctMujeres": 50.5,
+        "pctHombres": 49.5,
+        "pctMayores65": 14.16,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 3367,
+            "mujeres": 3262
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 5398,
+            "mujeres": 5032
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 6650,
+            "mujeres": 6164
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 6311,
+            "mujeres": 6062
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 5210,
+            "mujeres": 5142
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 4637,
+            "mujeres": 4617
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 4904,
+            "mujeres": 5254
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 5879,
+            "mujeres": 6327
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 7890,
+            "mujeres": 8448
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 9914,
+            "mujeres": 9427
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 7907,
+            "mujeres": 7281
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 5921,
+            "mujeres": 5743
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 4422,
+            "mujeres": 4550
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 3735,
+            "mujeres": 4377
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 3308,
+            "mujeres": 3771
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 2290,
+            "mujeres": 2694
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1225,
+            "mujeres": 1668
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 529,
+            "mujeres": 942
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 218,
+            "mujeres": 602
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 72,
+            "mujeres": 254
+          }
+        ],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 8,
+            "u2024": 8
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "infanta_elena": {
@@ -5864,6 +11007,217 @@
             "2024": 23.78
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 132056,
+        "poblacionHombres": 64714,
+        "poblacionMujeres": 67342,
+        "pctMujeres": 51.0,
+        "pctHombres": 49.0,
+        "pctMayores65": 12.65,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 2397,
+            "mujeres": 2396
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 3409,
+            "mujeres": 3218
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 4658,
+            "mujeres": 4353
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 4782,
+            "mujeres": 4532
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 4125,
+            "mujeres": 3826
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 3544,
+            "mujeres": 3556
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 3720,
+            "mujeres": 3801
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 3960,
+            "mujeres": 4399
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 5049,
+            "mujeres": 5525
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 6810,
+            "mujeres": 7120
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 6355,
+            "mujeres": 6454
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 5163,
+            "mujeres": 5032
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 3570,
+            "mujeres": 3596
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 2521,
+            "mujeres": 2717
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 1656,
+            "mujeres": 1960
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 1305,
+            "mujeres": 1695
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 869,
+            "mujeres": 1314
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 493,
+            "mujeres": 976
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 269,
+            "mujeres": 664
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 59,
+            "mujeres": 208
+          }
+        ],
+        "altaTecnologia": [
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Angiógrafo digital",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Sala de hemodinámica",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Radiología Intervencionista",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 10,
+            "u2024": 10
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 18,
+            "u2024": 14
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 12,
+            "u2024": 12
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 11,
+            "u2024": 11
+          },
+          {
+            "nombre": "Polisomnógrafos",
+            "u2023": 10,
+            "u2024": 9
+          },
+          {
+            "nombre": "Vídeo EEG",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Mesas Prona",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "escorial": {
@@ -6074,6 +11428,161 @@
             "2024": 45.63
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": true,
+        "poblacionReferenciaTotal": 119811,
+        "poblacionHombres": 58541,
+        "poblacionMujeres": 61270,
+        "pctMujeres": 51.14,
+        "pctHombres": 48.86,
+        "pctMayores65": 18.11,
+        "piramide": [
+          {
+            "rango": "00-04 años",
+            "hombres": 1979,
+            "mujeres": 1865
+          },
+          {
+            "rango": "05-09 años",
+            "hombres": 2762,
+            "mujeres": 2497
+          },
+          {
+            "rango": "10-14 años",
+            "hombres": 3480,
+            "mujeres": 3212
+          },
+          {
+            "rango": "15-19 años",
+            "hombres": 3925,
+            "mujeres": 3681
+          },
+          {
+            "rango": "20-24 años",
+            "hombres": 3592,
+            "mujeres": 3560
+          },
+          {
+            "rango": "25-29 años",
+            "hombres": 3276,
+            "mujeres": 3175
+          },
+          {
+            "rango": "30-34 años",
+            "hombres": 3265,
+            "mujeres": 3104
+          },
+          {
+            "rango": "35-39 años",
+            "hombres": 3248,
+            "mujeres": 3629
+          },
+          {
+            "rango": "40-44 años",
+            "hombres": 3871,
+            "mujeres": 4229
+          },
+          {
+            "rango": "45-49 años",
+            "hombres": 4923,
+            "mujeres": 5299
+          },
+          {
+            "rango": "50-54 años",
+            "hombres": 5272,
+            "mujeres": 5454
+          },
+          {
+            "rango": "55-59 años",
+            "hombres": 5075,
+            "mujeres": 5082
+          },
+          {
+            "rango": "60-64 años",
+            "hombres": 4270,
+            "mujeres": 4392
+          },
+          {
+            "rango": "65-69 años",
+            "hombres": 3153,
+            "mujeres": 3269
+          },
+          {
+            "rango": "70-74 años",
+            "hombres": 2227,
+            "mujeres": 2446
+          },
+          {
+            "rango": "75-79 años",
+            "hombres": 1838,
+            "mujeres": 2151
+          },
+          {
+            "rango": "80-84 años",
+            "hombres": 1208,
+            "mujeres": 1671
+          },
+          {
+            "rango": "85-89 años",
+            "hombres": 703,
+            "mujeres": 1243
+          },
+          {
+            "rango": "90-94 años",
+            "hombres": 377,
+            "mujeres": 926
+          },
+          {
+            "rango": "95 y más años",
+            "hombres": 97,
+            "mujeres": 385
+          }
+        ],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Equipo Radioquirúrgico",
+            "u2023": 2,
+            "u2024": 3
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 4,
+            "u2024": 4
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 4,
+            "u2024": 6
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "cruz_roja": {
@@ -6285,6 +11794,86 @@
             "2024": 25.7
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": false,
+        "poblacionReferenciaTotal": null,
+        "poblacionHombres": null,
+        "poblacionMujeres": null,
+        "pctMujeres": null,
+        "pctHombres": null,
+        "pctMayores65": null,
+        "piramide": [],
+        "altaTecnologia": [
+          {
+            "nombre": "Gammacámara",
+            "u2023": 1,
+            "u2024": 0
+          }
+        ],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Equipos Ergometría",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Holter Electrocardiograma",
+            "u2023": 6,
+            "u2024": 6
+          },
+          {
+            "nombre": "Holter Tensión",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 2,
+            "u2024": 2
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 3,
+            "u2024": 3
+          },
+          {
+            "nombre": "Electroencefalógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Equipos Potenciales Evocados",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ortopantomógrafos",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "santa_cristina": {
@@ -6495,6 +12084,55 @@
             "2024": 40.47
           }
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": false,
+        "poblacionReferenciaTotal": null,
+        "poblacionHombres": null,
+        "poblacionMujeres": null,
+        "pctMujeres": null,
+        "pctHombres": null,
+        "pctMayores65": null,
+        "piramide": [],
+        "altaTecnologia": [],
+        "otrosEquipos": [
+          {
+            "nombre": "Arco Multifuncional Rx",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Ecocardiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Salas Endoscopias",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Gastroscopio / Esofagoscopios",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Colonoscopios / Rectoscopios",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Electromiógrafos",
+            "u2023": 1,
+            "u2024": 1
+          },
+          {
+            "nombre": "Densitómetros",
+            "u2023": 1,
+            "u2024": 1
+          }
+        ],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "guadarrama": {
@@ -6642,6 +12280,19 @@
           "pacientes": {},
           "demora": {}
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": false,
+        "poblacionReferenciaTotal": null,
+        "poblacionHombres": null,
+        "poblacionMujeres": null,
+        "pctMujeres": null,
+        "pctHombres": null,
+        "pctMayores65": null,
+        "piramide": [],
+        "altaTecnologia": [],
+        "otrosEquipos": [],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     },
     "jose_germain": {
@@ -6790,6 +12441,19 @@
           "pacientes": {},
           "demora": {}
         }
+      },
+      "demografiaYEquipamiento": {
+        "hasDemographics": false,
+        "poblacionReferenciaTotal": null,
+        "poblacionHombres": null,
+        "poblacionMujeres": null,
+        "pctMujeres": null,
+        "pctHombres": null,
+        "pctMayores65": null,
+        "piramide": [],
+        "altaTecnologia": [],
+        "otrosEquipos": [],
+        "sourceNote": "Memoria Anual SERMAS 2024 (1. Nuestro Centro — SIAE y SIP-CIBELES, corte 31/12/2024)"
       }
     }
   },
