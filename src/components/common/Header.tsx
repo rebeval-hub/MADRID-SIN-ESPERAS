@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
                 MADRID SIN ESPERAS
               </h1>
               <span className="font-mono text-[11px] font-semibold text-[#C64B37] tracking-tight whitespace-nowrap">
-                4.0 · Auditada
+                5.0 · Auditada
               </span>
             </div>
           </div>

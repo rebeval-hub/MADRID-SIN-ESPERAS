@@ -1,8 +1,10 @@
-import React from 'react';
-import { X, Bed, Scissors, MapPin, AlertCircle, TrendingUp, Shield, FileCheck2, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Bed, Scissors, MapPin, AlertCircle, TrendingUp, Shield, FileCheck2, ExternalLink, Users, Cpu } from 'lucide-react';
 import { HospitalMetadata, RadarAlert } from '../../types';
 import { CategoryBadge, AlertBadge } from './Badge';
 import { InteractiveLineChart, LineSeries } from '../charts/InteractiveLineChart';
+import { PopulationPyramidChart } from '../charts/PopulationPyramidChart';
+import { HospitalEquipmentView } from '../charts/HospitalEquipmentView';
 import { formatEsDec, formatEsInt } from '../../utils/format';
 
 interface HospitalModalProps {
@@ -11,11 +13,15 @@ interface HospitalModalProps {
   radarAlerts: RadarAlert[];
 }
 
+type ModalTab = 'series' | 'demografia' | 'equipamiento';
+
 export const HospitalModal: React.FC<HospitalModalProps> = ({
   hospital,
   onClose,
   radarAlerts
 }) => {
+  const [activeTab, setActiveTab] = useState<ModalTab>('series');
+
   if (!hospital) return null;
 
   const hospAlerts = radarAlerts.filter(a => a.hospitalId === hospital.id);
@@ -180,6 +186,55 @@ export const HospitalModal: React.FC<HospitalModalProps> = ({
           </button>
         </div>
 
+        {/* Modal Navigation Tabs */}
+        <div className="flex items-center gap-1 bg-[#202321] px-6 pb-3 pt-0 border-b border-[#343835] overflow-x-auto text-xs font-medium shrink-0">
+          <button
+            onClick={() => setActiveTab('series')}
+            className={`px-3.5 py-1.5 rounded-xs transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === 'series'
+                ? 'bg-[#C64B37] text-[#FAF9F5] font-semibold shadow-xs'
+                : 'text-[#DAD6CC] hover:text-[#FAF9F5] hover:bg-[#2F3330]'
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5" />
+            <span>Listas y Series Históricas</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('demografia')}
+            className={`px-3.5 py-1.5 rounded-xs transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === 'demografia'
+                ? 'bg-[#C64B37] text-[#FAF9F5] font-semibold shadow-xs'
+                : 'text-[#DAD6CC] hover:text-[#FAF9F5] hover:bg-[#2F3330]'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>Demografía (Sexo y Edad)</span>
+            {hospital.demografiaYEquipamiento?.poblacionReferenciaTotal && (
+              <span className="font-mono text-[10px] opacity-80">
+                ({formatEsInt(hospital.demografiaYEquipamiento.poblacionReferenciaTotal)} hab.)
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('equipamiento')}
+            className={`px-3.5 py-1.5 rounded-xs transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === 'equipamiento'
+                ? 'bg-[#C64B37] text-[#FAF9F5] font-semibold shadow-xs'
+                : 'text-[#DAD6CC] hover:text-[#FAF9F5] hover:bg-[#2F3330]'
+            }`}
+          >
+            <Cpu className="w-3.5 h-3.5" />
+            <span>Instalaciones y Equipamiento</span>
+            {hospital.demografiaYEquipamiento?.altaTecnologia && hospital.demografiaYEquipamiento.altaTecnologia.length > 0 && (
+              <span className="font-mono text-[10px] opacity-80">
+                ({hospital.demografiaYEquipamiento.altaTecnologia.length} alta tec.)
+              </span>
+            )}
+          </button>
+        </div>
+
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-6 bg-[#F3F0E8]">
           {/* Governance & Classification Note */}
@@ -243,7 +298,9 @@ export const HospitalModal: React.FC<HospitalModalProps> = ({
             <CategoryBadge category="OFICIAL" className="shrink-0 self-start" />
           </div>
 
-          {/* Key Metrics Broadsheet Strip */}
+          {activeTab === 'series' && (
+            <>
+              {/* Key Metrics Broadsheet Strip */}
           <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#DAD6CC]">
             <div className="p-4 flex flex-col justify-between">
               <div>
@@ -459,11 +516,34 @@ export const HospitalModal: React.FC<HospitalModalProps> = ({
               height={290}
             />
           </div>
+            </>
+          )}
+
+          {activeTab === 'demografia' && (
+            <PopulationPyramidChart
+              data={hospital.demografiaYEquipamiento?.piramide || []}
+              totalPopulation={hospital.demografiaYEquipamiento?.poblacionReferenciaTotal}
+              hospitalName={hospital.fullName}
+              sourceNote={hospital.demografiaYEquipamiento?.sourceNote}
+            />
+          )}
+
+          {activeTab === 'equipamiento' && (
+            <HospitalEquipmentView
+              altaTecnologia={hospital.demografiaYEquipamiento?.altaTecnologia || []}
+              otrosEquipos={hospital.demografiaYEquipamiento?.otrosEquipos || []}
+              beds={hospital.beds}
+              operatingBeds={hospital.operatingBeds}
+              quirofanos={hospital.quirofanos}
+              sermasMemoriaUrl={hospital.sermasMemoriaUrl}
+              hospitalName={hospital.fullName}
+            />
+          )}
         </div>
 
         {/* Modal Footer */}
         <div className="px-6 py-3.5 bg-[#FAF9F5] border-t border-[#DAD6CC] flex flex-wrap items-center justify-between gap-2 text-xs text-[#77766F] shrink-0">
-          <span>Fuente: Portal de Datos Abiertos de la Comunidad de Madrid (LEQ_Hosp, LECE_Hosp, LEPD_Hosp)</span>
+          <span>Fuentes: Portal de Datos Abiertos CAM (LEQ, LECE, LEPD) y Memoria Anual de Actividad SERMAS 2024 (SIAE / SIP-CIBELES)</span>
           <button
             onClick={onClose}
             className="px-4 py-1.5 bg-[#202321] hover:bg-[#343835] text-[#FAF9F5] font-semibold rounded-sm text-xs cursor-pointer transition-colors"
