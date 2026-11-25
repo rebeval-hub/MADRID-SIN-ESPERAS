@@ -40,6 +40,7 @@ interface ChatMessage {
     metrics: { label: string; value: string | number; badge?: string }[];
     note?: string;
   };
+  suggestions?: string[];
 }
 
 export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
@@ -110,7 +111,12 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
       q.includes('vesicula') ||
       q.includes('vesícula') ||
       q.includes('ojos') ||
-      (q.includes('operar') && (q.includes('en ') || q.includes('cerca') || q.includes('zona')));
+      q.includes('trauma') ||
+      q.includes('resonancia') ||
+      q.includes('tac') ||
+      q.includes('endoscopia') ||
+      q.includes('colonoscopia') ||
+      (q.includes('operar') && (q.includes('en ') || q.includes('cerca') || q.includes('zona') || q.includes('de ')));
 
     if (isPatientIntent) {
       const rec = analyzePatientQuery(q, data, patientContext);
@@ -122,7 +128,8 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
           id: msgId,
           sender: 'bot',
           timestamp: time,
-          text: rec.explanationText
+          text: rec.explanationText,
+          suggestions: ['Móstoles', 'Leganés', 'Alcorcón', 'Getafe', 'Fuenlabrada', 'Madrid Centro', 'Alcalá de Henares']
         };
       }
 
@@ -133,7 +140,8 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
           id: msgId,
           sender: 'bot',
           timestamp: time,
-          text: rec.explanationText
+          text: rec.explanationText,
+          suggestions: ['Cataratas / Ojos', 'Prótesis de rodilla o cadera', 'Operación de hernia / vesícula', 'Pruebas (Resonancia / TAC)']
         };
       }
 
@@ -152,17 +160,17 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
               {
                 label: `${rec.referenceHospital.hospital.shortName} (Asignado)`,
                 value: `${rec.referenceHospital.waitDays ?? 'N/D'} d`,
-                badge: rec.referenceHospital.hospital.area
+                badge: rec.referenceHospital.distanceKm !== undefined ? `${rec.referenceHospital.distanceKm} km` : rec.referenceHospital.hospital.area
               },
               ...(rec.alternativeHospitals[0] ? [{
                 label: `${rec.alternativeHospitals[0].hospital.shortName} (Menor espera)`,
                 value: `${rec.alternativeHospitals[0].waitDays ?? 'N/D'} d`,
-                badge: 'Libre Elección'
+                badge: rec.alternativeHospitals[0].distanceKm !== undefined ? `${rec.alternativeHospitals[0].distanceKm} km` : 'Libre Elección'
               }] : []),
               ...(rec.alternativeHospitals[1] ? [{
                 label: `${rec.alternativeHospitals[1].hospital.shortName}`,
                 value: `${rec.alternativeHospitals[1].waitDays ?? 'N/D'} d`,
-                badge: 'Alternativa'
+                badge: rec.alternativeHospitals[1].distanceKm !== undefined ? `${rec.alternativeHospitals[1].distanceKm} km` : 'Alternativa'
               }] : [])
             ],
             note: rec.legalNotice
@@ -541,6 +549,26 @@ export const CopilotWidget: React.FC<CopilotWidgetProps> = ({
                       {msg.detailsCard.note && (
                         <p className="text-[10px] text-[#77766F] font-sans italic">{msg.detailsCard.note}</p>
                       )}
+                    </div>
+                  )}
+
+                  {/* Sugerencias contextuales interactivas */}
+                  {msg.suggestions && msg.suggestions.length > 0 && (
+                    <div className="mt-3 pt-2.5 border-t border-[#DAD6CC]/70">
+                      <span className="text-[10px] uppercase font-mono font-bold text-[#77766F] block mb-1.5">
+                        Opciones rápidas sugeridas:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {msg.suggestions.map((sug, sIdx) => (
+                          <button
+                            key={sIdx}
+                            onClick={() => handleSend(sug)}
+                            className="px-2.5 py-1 text-[11px] font-medium bg-[#EFECE3] hover:bg-[#E3DFD4] text-[#202321] rounded-full border border-[#DAD6CC] transition-colors cursor-pointer"
+                          >
+                            {sug}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   )}
 
