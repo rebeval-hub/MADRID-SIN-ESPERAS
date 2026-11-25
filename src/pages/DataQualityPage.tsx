@@ -22,6 +22,8 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
   const { auditReport, metadata } = data;
   const datasets = Object.entries(auditReport.details);
 
+  const [showCkanSources, setShowCkanSources] = useState(false);
+  const [showStructuralSources, setShowStructuralSources] = useState(false);
   const [showProvenance, setShowProvenance] = useState(false);
   const [showMissingLog, setShowMissingLog] = useState(false);
   const [showFormulas, setShowFormulas] = useState(false);
@@ -120,219 +122,247 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
       </div>
 
       {/* Full CKAN Provenance Inventory Table */}
-      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm p-5 space-y-3">
-        <div>
+      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowCkanSources(prev => !prev)}
+          aria-expanded={showCkanSources}
+          className="w-full p-5 flex items-center justify-between gap-3 text-left hover:bg-[#F3F0E8]/70 transition-colors cursor-pointer"
+        >
           <h3 className="font-serif text-lg text-[#202321] flex items-center gap-2">
-            <Database className="w-4 h-4 text-[#426C79]" />
+            <Database className="w-4 h-4 text-[#426C79] shrink-0" />
             <span>Fuentes Oficiales Verificadas (datos.comunidad.madrid) — Metadatos CKAN</span>
           </h3>
-          <p className="text-xs text-[#77766F] mt-0.5">
-            Cada botón <strong className="text-[#202321]">Portal</strong> enlaza con la ficha oficial CKAN del conjunto en{' '}
-            <span className="font-mono">datos.comunidad.madrid</span> y cada botón{' '}
-            <strong className="text-[#202321]">CSV</strong> apunta al recurso descargable original.
-          </p>
-        </div>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#77766F] shrink-0">
+            <span>{showCkanSources ? 'Ocultar' : 'Ver detalle'}</span>
+            {showCkanSources ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
 
-        <div className="overflow-x-auto border border-[#DAD6CC]">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="bg-[#ECE8DD] border-b border-[#DAD6CC] text-[#202321] font-mono text-[11px] uppercase tracking-wider">
-                <th className="py-2.5 px-3">Conjunto de Datos y Organismo</th>
-                <th className="py-2.5 px-3">Publicación / Act.</th>
-                <th className="py-2.5 px-3">Periodo y Corte</th>
-                <th className="py-2.5 px-3">Frecuencia / Unidad / Cobertura</th>
-                <th className="py-2.5 px-3 text-right">Filas</th>
-                <th className="py-2.5 px-3 text-right">Aus. / 0 / Dup.</th>
-                <th className="py-2.5 px-3 text-center">Fuentes</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#E6E2D8]">
-              {datasets.map(([key, item]) => (
-                <tr key={key} className="hover:bg-[#F3F0E8]/70 align-top">
-                  <td className="py-2.5 px-3 max-w-[260px]">
-                    <div className="font-bold text-[#202321]">{item.title}</div>
-                    <div className="text-[11px] text-[#77766F] mt-0.5">{item.sourceOrg}</div>
-                    <div className="text-[10px] text-[#77766F] font-mono">{key} • {item.organization}</div>
-                  </td>
-                  <td className="py-2.5 px-3 font-mono text-[11px] text-[#77766F] whitespace-nowrap">
-                    <div>Pub: {item.publishedAt}</div>
-                    <div className="font-semibold text-[#202321]">Act: {item.updatedAt}</div>
-                  </td>
-                  <td className="py-2.5 px-3 text-[11px] text-[#4A4D48] max-w-[200px]">
-                    <div className="font-mono font-bold text-[#202321]">{item.dateRange}</div>
-                    <div className="text-[#77766F] mt-0.5">{item.cutoffNote}</div>
-                  </td>
-                  <td className="py-2.5 px-3 text-[11px] text-[#4A4D48] max-w-[220px]">
-                    <div><strong className="text-[#202321]">Frec:</strong> {item.frequency}</div>
-                    <div><strong className="text-[#202321]">Unidad:</strong> {item.unit}</div>
-                    <div><strong className="text-[#202321]">Cob:</strong> {item.coverage}</div>
-                  </td>
-                  <td className="py-2.5 px-3 text-right font-mono font-bold text-[#202321]">
-                    {formatEsInt(item.totalRows)}
-                  </td>
-                  <td className="py-2.5 px-3 text-right font-mono text-[11px] text-[#4A4D48] whitespace-nowrap">
-                    <span className={item.missingMetricValues > 0 ? 'text-[#B4691E] font-bold' : ''}>
-                      {item.missingMetricValues}
-                    </span>{' '}
-                    /{' '}
-                    <span className={item.zeroMetricValues > 0 ? 'text-[#426C79] font-bold' : ''}>
-                      {item.zeroMetricValues}
-                    </span>{' '}
-                    / {item.duplicateRows}
-                  </td>
-                  <td className="py-2.5 px-3 text-center whitespace-nowrap">
-                    <div className="flex flex-col gap-1 items-center">
-                      <a
-                        href={item.portalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 text-[11px] font-semibold"
-                      >
-                        <span>Portal</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1 text-[10px] font-mono"
-                      >
-                        <span>CSV</span>
-                        <ExternalLink className="w-2.5 h-2.5" />
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {showCkanSources && (
+          <div className="px-5 pb-5 pt-2 border-t border-[#E6E2D8] space-y-3">
+            <p className="text-xs text-[#77766F]">
+              Cada botón <strong className="text-[#202321]">Portal</strong> enlaza con la ficha oficial CKAN del conjunto en{' '}
+              <span className="font-mono">datos.comunidad.madrid</span> y cada botón{' '}
+              <strong className="text-[#202321]">CSV</strong> apunta al recurso descargable original.
+            </p>
+
+            <div className="overflow-x-auto border border-[#DAD6CC]">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-[#ECE8DD] border-b border-[#DAD6CC] text-[#202321] font-mono text-[11px] uppercase tracking-wider">
+                    <th className="py-2.5 px-3">Conjunto de Datos y Organismo</th>
+                    <th className="py-2.5 px-3">Publicación / Act.</th>
+                    <th className="py-2.5 px-3">Periodo y Corte</th>
+                    <th className="py-2.5 px-3">Frecuencia / Unidad / Cobertura</th>
+                    <th className="py-2.5 px-3 text-right">Filas</th>
+                    <th className="py-2.5 px-3 text-right">Aus. / 0 / Dup.</th>
+                    <th className="py-2.5 px-3 text-center">Fuentes</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E6E2D8]">
+                  {datasets.map(([key, item]) => (
+                    <tr key={key} className="hover:bg-[#F3F0E8]/70 align-top">
+                      <td className="py-2.5 px-3 max-w-[260px]">
+                        <div className="font-bold text-[#202321]">{item.title}</div>
+                        <div className="text-[11px] text-[#77766F] mt-0.5">{item.sourceOrg}</div>
+                        <div className="text-[10px] text-[#77766F] font-mono">{key} • {item.organization}</div>
+                      </td>
+                      <td className="py-2.5 px-3 font-mono text-[11px] text-[#77766F] whitespace-nowrap">
+                        <div>Pub: {item.publishedAt}</div>
+                        <div className="font-semibold text-[#202321]">Act: {item.updatedAt}</div>
+                      </td>
+                      <td className="py-2.5 px-3 text-[11px] text-[#4A4D48] max-w-[200px]">
+                        <div className="font-mono font-bold text-[#202321]">{item.dateRange}</div>
+                        <div className="text-[#77766F] mt-0.5">{item.cutoffNote}</div>
+                      </td>
+                      <td className="py-2.5 px-3 text-[11px] text-[#4A4D48] max-w-[220px]">
+                        <div><strong className="text-[#202321]">Frec:</strong> {item.frequency}</div>
+                        <div><strong className="text-[#202321]">Unidad:</strong> {item.unit}</div>
+                        <div><strong className="text-[#202321]">Cob:</strong> {item.coverage}</div>
+                      </td>
+                      <td className="py-2.5 px-3 text-right font-mono font-bold text-[#202321]">
+                        {formatEsInt(item.totalRows)}
+                      </td>
+                      <td className="py-2.5 px-3 text-right font-mono text-[11px] text-[#4A4D48] whitespace-nowrap">
+                        <span className={item.missingMetricValues > 0 ? 'text-[#B4691E] font-bold' : ''}>
+                          {item.missingMetricValues}
+                        </span>{' '}
+                        /{' '}
+                        <span className={item.zeroMetricValues > 0 ? 'text-[#426C79] font-bold' : ''}>
+                          {item.zeroMetricValues}
+                        </span>{' '}
+                        / {item.duplicateRows}
+                      </td>
+                      <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                        <div className="flex flex-col gap-1 items-center">
+                          <a
+                            href={item.portalUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 text-[11px] font-semibold"
+                          >
+                            <span>Portal</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1 text-[10px] font-mono"
+                          >
+                            <span>CSV</span>
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Verified Official Sources for SERMAS Structural Data */}
-      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm p-5 space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#E6E2D8]">
-          <div>
+      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowStructuralSources(prev => !prev)}
+          aria-expanded={showStructuralSources}
+          className="w-full p-5 flex items-center justify-between gap-3 text-left hover:bg-[#F3F0E8]/70 transition-colors cursor-pointer"
+        >
+          <div className="flex flex-wrap items-center gap-2.5">
             <h3 className="font-serif text-lg text-[#202321] flex items-center gap-2">
-              <Database className="w-4 h-4 text-[#2D6A4F]" />
+              <Database className="w-4 h-4 text-[#2D6A4F] shrink-0" />
               <span>Fuentes Oficiales Verificadas de Estructura Hospitalaria (SERMAS, Sanidad y CAM)</span>
             </h3>
-            <p className="text-xs text-[#77766F] mt-0.5">
+            <CategoryBadge category="OFICIAL" />
+          </div>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#77766F] shrink-0">
+            <span>{showStructuralSources ? 'Ocultar' : 'Ver detalle'}</span>
+            {showStructuralSources ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
+
+        {showStructuralSources && (
+          <div className="px-5 pb-5 pt-2 border-t border-[#E6E2D8] space-y-3">
+            <p className="text-xs text-[#77766F]">
               Los 31 hospitales cruzan camas instaladas/funcionantes, quirófanos instalados, complejidad, titularidad, gestión y geolocalización directamente desde ficheros oficiales publicados. Si un indicador no consta en fuente (p. ej. quirófanos en Guadarrama o José Germain), se conserva como <span className="font-mono text-[#202321]">null</span> («No disponible en fuente oficial verificada»).
             </p>
-          </div>
-          <CategoryBadge category="OFICIAL" />
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
-            <div className="font-bold text-[#202321]">Memoria Anual de Actividad SERMAS 2024 (31 ZIPs + Global 3.5 y 6.5)</div>
-            <p className="text-[11px] text-[#4A4D48] leading-relaxed">
-              Fuente primaria SIAE por hospital (<span className="font-mono">1. Nuestro Centro 2024.xlsx</span>): publica <strong>Camas Instaladas</strong>, <strong>Camas Funcionantes</strong> y <strong>Quirófanos Instalados</strong> de cada centro (2023–2024), además de la casuística de complejidad (3.5) y auditorías de concesión/sustitutoria (6.5).
-            </p>
-            <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
-              <a
-                href="https://www.comunidad.madrid/servicios/salud/memorias-e-informes-servicio-madrileno-salud"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
-              >
-                <span>Portal Memorias SERMAS</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href="https://www.comunidad.madrid/docs/assets/2025/10/30/3.datos_abiertos_memoria_2024.zip"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
-              >
-                <span>ZIP Global 2024</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
+                <div className="font-bold text-[#202321]">Memoria Anual de Actividad SERMAS 2024 (31 ZIPs + Global 3.5 y 6.5)</div>
+                <p className="text-[11px] text-[#4A4D48] leading-relaxed">
+                  Fuente primaria SIAE por hospital (<span className="font-mono">1. Nuestro Centro 2024.xlsx</span>): publica <strong>Camas Instaladas</strong>, <strong>Camas Funcionantes</strong> y <strong>Quirófanos Instalados</strong> de cada centro (2023–2024), además de la casuística de complejidad (3.5) y auditorías de concesión/sustitutoria (6.5).
+                </p>
+                <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
+                  <a
+                    href="https://www.comunidad.madrid/servicios/salud/memorias-e-informes-servicio-madrileno-salud"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
+                  >
+                    <span>Portal Memorias SERMAS</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href="https://www.comunidad.madrid/docs/assets/2025/10/30/3.datos_abiertos_memoria_2024.zip"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
+                  >
+                    <span>ZIP Global 2024</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
+                <div className="font-bold text-[#202321]">Catálogo de Centros, Servicios y Establecimientos Sanitarios (CAM) + IGN</div>
+                <p className="text-[11px] text-[#4A4D48] leading-relaxed">
+                  Registro oficial CAM (<span className="font-mono">CH*</span>) utilizado para verificar municipio, dirección, dependencia funcional/patrimonial y coordenadas oficiales ETRS89 UTM30→WGS84 (complementado con IGN CartoCiudad <span className="font-mono">SEIG_C_1328019438</span> para Gómez Ulla, de titularidad estatal Defensa).
+                </p>
+                <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
+                  <a
+                    href="https://datos.comunidad.madrid/dataset/centros_servicios_establecimientos_sanitarios"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
+                  >
+                    <span>Portal Catálogo Centros</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href="https://datos.comunidad.madrid/dataset/d8a0a444-adf5-4c04-8999-0eac3de52cb7/resource/2948b4da-8b39-42b7-b667-779a5284f39d/download/centros_servicios_establecimientos_sanitarios.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
+                  >
+                    <span>CSV Centros</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
+                <div className="font-bold text-[#202321]">Catálogo Nacional de Hospitales 2025 (Ministerio de Sanidad)</div>
+                <p className="text-[11px] text-[#4A4D48] leading-relaxed">
+                  Contraste oficial estatal (corte 31-dic-2024, códigos <span className="font-mono">CCN</span> y <span className="font-mono">CODCNH</span>): confirma coincidencia exacta de camas instaladas en 21 centros (p. ej. 12 de Octubre = 1.161 camas) y documenta diferencias de corte/complejo en los 10 restantes.
+                </p>
+                <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
+                  <a
+                    href="https://www.sanidad.gob.es/estadEstudios/estadisticas/sisInfSanSNS/ofertaRecursos/hospitales/home.htm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
+                  >
+                    <span>Portal CNH 2025</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href="https://www.sanidad.gob.es/estadEstudios/estadisticas/sisInfSanSNS/ofertaRecursos/hospitales/docs/CNH_2025.xlsx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
+                  >
+                    <span>CNH 2025 (XLSX)</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
+                <div className="font-bold text-[#202321]">Observatorio de Resultados del SERMAS (2025) y Dotación Agregada CAM</div>
+                <p className="text-[11px] text-[#4A4D48] leading-relaxed">
+                  CSV oficial de resultados hospitalarios para validar grupos de complejidad (Alta/Media/Baja complejidad y Otros Hospitales), junto a las series regionales agregadas de camas CAM (<span className="font-mono">1912720</span>).
+                </p>
+                <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
+                  <a
+                    href="https://observatorioresultados.sanidadmadrid.org/Descargas/resultados_hospitales_2025.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
+                  >
+                    <span>CSV Observatorio 2025</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href="https://datos.comunidad.madrid/dataset/1912720"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
+                  >
+                    <span>Portal Camas Agregadas CAM</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
-            <div className="font-bold text-[#202321]">Catálogo de Centros, Servicios y Establecimientos Sanitarios (CAM) + IGN</div>
-            <p className="text-[11px] text-[#4A4D48] leading-relaxed">
-              Registro oficial CAM (<span className="font-mono">CH*</span>) utilizado para verificar municipio, dirección, dependencia funcional/patrimonial y coordenadas oficiales ETRS89 UTM30→WGS84 (complementado con IGN CartoCiudad <span className="font-mono">SEIG_C_1328019438</span> para Gómez Ulla, de titularidad estatal Defensa).
-            </p>
-            <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
-              <a
-                href="https://datos.comunidad.madrid/dataset/centros_servicios_establecimientos_sanitarios"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
-              >
-                <span>Portal Catálogo Centros</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href="https://datos.comunidad.madrid/dataset/d8a0a444-adf5-4c04-8999-0eac3de52cb7/resource/2948b4da-8b39-42b7-b667-779a5284f39d/download/centros_servicios_establecimientos_sanitarios.csv"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
-              >
-                <span>CSV Centros</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-          </div>
-
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
-            <div className="font-bold text-[#202321]">Catálogo Nacional de Hospitales 2025 (Ministerio de Sanidad)</div>
-            <p className="text-[11px] text-[#4A4D48] leading-relaxed">
-              Contraste oficial estatal (corte 31-dic-2024, códigos <span className="font-mono">CCN</span> y <span className="font-mono">CODCNH</span>): confirma coincidencia exacta de camas instaladas en 21 centros (p. ej. 12 de Octubre = 1.161 camas) y documenta diferencias de corte/complejo en los 10 restantes.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
-              <a
-                href="https://www.sanidad.gob.es/estadEstudios/estadisticas/sisInfSanSNS/ofertaRecursos/hospitales/home.htm"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
-              >
-                <span>Portal CNH 2025</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href="https://www.sanidad.gob.es/estadEstudios/estadisticas/sisInfSanSNS/ofertaRecursos/hospitales/docs/CNH_2025.xlsx"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
-              >
-                <span>CNH 2025 (XLSX)</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-          </div>
-
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-1.5">
-            <div className="font-bold text-[#202321]">Observatorio de Resultados del SERMAS (2025) y Dotación Agregada CAM</div>
-            <p className="text-[11px] text-[#4A4D48] leading-relaxed">
-              CSV oficial de resultados hospitalarios para validar grupos de complejidad (Alta/Media/Baja complejidad y Otros Hospitales), junto a las series regionales agregadas de camas CAM (<span className="font-mono">1912720</span>).
-            </p>
-            <div className="flex flex-wrap gap-3 pt-1 font-mono text-[11px]">
-              <a
-                href="https://observatorioresultados.sanidadmadrid.org/Descargas/resultados_hospitales_2025.csv"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#426C79] hover:text-[#C64B37] inline-flex items-center gap-1 font-semibold"
-              >
-                <span>CSV Observatorio 2025</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href="https://datos.comunidad.madrid/dataset/1912720"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#77766F] hover:text-[#202321] inline-flex items-center gap-1"
-              >
-                <span>Portal Camas Agregadas CAM</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Module Provenance Registry */}
