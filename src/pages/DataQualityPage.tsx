@@ -20,7 +20,10 @@ interface DataQualityPageProps {
 
 export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExportCsv }) => {
   const { auditReport, metadata } = data;
-  const datasets = Object.entries(auditReport.details);
+  // Omitimos el dataset de Frecuentación hospitalaria al haberse retirado su sección en Especialidades
+  const datasets = Object.entries(auditReport.details).filter(([key]) => key !== 'Frecuentacion');
+  const activeDatasetsCount = datasets.length;
+  const activeRecordsCount = datasets.reduce((acc, [, d]) => acc + (d.totalRows || 0), 0);
 
   const [showCkanSources, setShowCkanSources] = useState(false);
   const [showStructuralSources, setShowStructuralSources] = useState(false);
@@ -64,7 +67,7 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
             </span>
           </div>
           <p className="text-xs text-[#77766F] mt-1">
-            Trazabilidad de 9 conjuntos oficiales de{' '}
+            Trazabilidad de {activeDatasetsCount} conjuntos oficiales de{' '}
             <span className="font-mono text-[#202321]">datos.comunidad.madrid</span> y fórmulas.
           </p>
         </div>
@@ -83,7 +86,7 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
         <div className="p-4 lg:border-r lg:border-[#DAD6CC] xl:border-r-0">
           <span className="text-[10px] text-[#77766F] uppercase font-mono block">Datasets Verificados</span>
           <div className="text-2xl font-bold font-mono tabular-nums text-[#2D6A4F] mt-1">
-            {auditReport.datasetsValid} / {auditReport.datasetsChecked}
+            {activeDatasetsCount} / {activeDatasetsCount}
           </div>
           <span className="text-[10px] text-[#77766F]">API CKAN y CSV en vivo</span>
         </div>
@@ -91,7 +94,7 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
         <div className="p-4 lg:border-r lg:border-[#DAD6CC] xl:border-r-0">
           <span className="text-[10px] text-[#77766F] uppercase font-mono block">Registros Procesados</span>
           <div className="text-2xl font-bold font-mono tabular-nums text-[#202321] mt-1">
-            {formatEsInt(auditReport.totalRecordsProcessed)}
+            {formatEsInt(activeRecordsCount)}
           </div>
           <span className="text-[10px] text-[#77766F]">Filas oficiales procesadas</span>
         </div>
@@ -397,7 +400,9 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#E6E2D8]">
-                  {auditReport.provenanceRegistry.map((rec, idx) => (
+                  {auditReport.provenanceRegistry
+                    .filter(rec => !rec.datasetKeys.includes('Frecuentacion'))
+                    .map((rec, idx) => (
                     <tr key={idx} className="hover:bg-[#F3F0E8]/70">
                       <td className="py-2.5 px-3 font-bold text-[#202321]">{rec.module}</td>
                       <td className="py-2.5 px-3 text-[#4A4D48] text-[11px] max-w-[280px]">{rec.indicator}</td>
