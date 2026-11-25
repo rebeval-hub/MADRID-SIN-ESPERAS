@@ -51,13 +51,32 @@ const COMPLEXITY_OPTIONS: ('ALL' | ComplexityGroup)[] = [
   'Salud Mental Monográfico'
 ];
 
-const COMPLEXITY_RING_COLOR: Record<ComplexityGroup, string> = {
-  'Grupo 3': '#202321',
-  'Grupo 2': '#426C79',
-  'Grupo 1': '#2D6A4F',
-  'Apoyo / Especialidades': '#6E4D7B',
-  'Media y Larga Estancia': '#B4691E',
-  'Salud Mental Monográfico': '#C64B37'
+const MiniHospitalIcon: React.FC<{
+  buildingBg?: string;
+  roofColor?: string;
+  size?: number;
+}> = ({ buildingBg = '#202321', roofColor = '#343835', size = 16 }) => {
+  const height = Math.round((size * 26) / 32);
+  return (
+    <svg
+      width={size}
+      height={height}
+      viewBox="0 0 32 26"
+      fill="none"
+      className="shrink-0 inline-block align-middle"
+    >
+      <path d="M12 0 H20 V4 H12 Z" fill={roofColor} />
+      <rect x="14.5" y="1" width="3" height="7" fill="#FAF9F5" rx="0.5" />
+      <rect x="12.5" y="3" width="7" height="3" fill="#FAF9F5" rx="0.5" />
+      <rect x="15" y="1.5" width="2" height="6" fill="#C64B37" />
+      <rect x="13" y="3.5" width="6" height="2" fill="#C64B37" />
+      <rect x="2" y="6" width="28" height="20" rx="2.5" fill={buildingBg} stroke="#FAF9F5" strokeWidth="1.5" />
+      <rect x="6" y="10" width="4" height="4" rx="0.8" fill="#FAF9F5" opacity="0.9" />
+      <rect x="14" y="10" width="4" height="4" rx="0.8" fill="#FAF9F5" opacity="0.9" />
+      <rect x="22" y="10" width="4" height="4" rx="0.8" fill="#FAF9F5" opacity="0.9" />
+      <rect x="12" y="16" width="8" height="10" rx="1" fill="#FAF9F5" />
+    </svg>
+  );
 };
 
 function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -550,7 +569,7 @@ export const TerritorialRadarPage: React.FC<TerritorialRadarPageProps> = ({
                 <span>Mapa Interactivo de Desigualdad Territorial — {activeListMeta.shortLabel} ({selectedYear})</span>
               </h3>
               <p className="text-[11px] text-[#77766F] mt-0.5">
-                Color = {indicator === 'demora' ? 'Demora media (días)' : 'Pacientes pendientes'} • Radio = Volumen de pacientes • Aro exterior = Complejidad SERMAS • Arrastra para mover y haz clic en cualquier nodo.
+                Pastilla = {indicator === 'demora' ? 'Demora media (días)' : 'Pacientes pendientes'} • Icono = Tipología y complejidad del centro • Clic en cualquier hospital para seleccionarlo y trazar su par comparador.
               </p>
             </div>
 
@@ -617,41 +636,70 @@ export const TerritorialRadarPage: React.FC<TerritorialRadarPageProps> = ({
 
           {/* Map Legend */}
           <div className="pt-2.5 border-t border-[#E6E2D8] space-y-2 text-[11px] text-[#4A4D48]">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="font-semibold text-[#202321]">
-                  {indicator === 'demora' ? 'Demora media:' : 'Pacientes (relativo al máx.):'}
+            {/* Fila 1: Pastillas de métrica (idénticas al badge que cuelga del hospital) */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+              <span className="font-semibold text-[#202321]">
+                Pastilla del hospital ({indicator === 'demora' ? 'Demora media' : 'Pacientes'}):
+              </span>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px]">
+                <span className="px-1.5 py-0.5 rounded-full font-bold text-[#FAF9F5] bg-[#10b981] shadow-xs">
+                  {indicator === 'demora' ? '< 45 d' : '< 25%'}
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
-                  {indicator === 'demora' ? '< 45 d' : '< 25% máx.'}
+                <span className="text-[#77766F] font-sans text-[10px]">Óptimo</span>
+              </span>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px]">
+                <span className="px-1.5 py-0.5 rounded-full font-bold text-[#FAF9F5] bg-[#0284c7] shadow-xs">
+                  {indicator === 'demora' ? '45–65 d' : '25–50%'}
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0284c7]" />
-                  {indicator === 'demora' ? '45–65 d' : '25–50% máx.'}
+                <span className="text-[#77766F] font-sans text-[10px]">Medio</span>
+              </span>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px]">
+                <span className="px-1.5 py-0.5 rounded-full font-bold text-[#FAF9F5] bg-[#f59e0b] shadow-xs">
+                  {indicator === 'demora' ? '65–80 d' : '50–75%'}
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]" />
-                  {indicator === 'demora' ? '65–80 d' : '50–75% máx.'}
+                <span className="text-[#77766F] font-sans text-[10px]">Alto</span>
+              </span>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px]">
+                <span className="px-1.5 py-0.5 rounded-full font-bold text-[#FAF9F5] bg-[#e11d48] shadow-xs">
+                  {indicator === 'demora' ? '> 80 d' : '> 75%'}
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#e11d48]" />
-                  {indicator === 'demora' ? '> 80 d' : '> 75% máx.'}
+                <span className="text-[#77766F] font-sans text-[10px]">Crítico</span>
+              </span>
+              <span className="inline-flex items-center gap-1 font-mono text-[10px]">
+                <span className="px-1.5 py-0.5 rounded-full font-bold text-[#FAF9F5] bg-[#A6A18F] shadow-xs">
+                  N/D
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#A6A18F] border border-dashed border-[#4A4D48]" />
-                  N/D ({formatEsInt(missingInViewCount)})
-                </span>
-              </div>
+                <span className="text-[#77766F] font-sans text-[10px]">Sin dato ({formatEsInt(missingInViewCount)})</span>
+              </span>
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-[10px] text-[#77766F]">
-              <span className="font-semibold text-[#202321]">Aro de complejidad:</span>
-              {(Object.entries(COMPLEXITY_RING_COLOR) as [ComplexityGroup, string][]).map(([grp, col]) => (
-                <span key={grp} className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full border-2 bg-[#FAF9F5]" style={{ borderColor: col }} />
-                  {grp}
-                </span>
-              ))}
+
+            {/* Fila 2: Tipología de edificio y estado de interacción en el mapa */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[10px] text-[#77766F] pt-1 border-t border-[#E6E2D8]/60">
+              <span className="font-semibold text-[#202321]">Tipología y estado:</span>
+              <span className="inline-flex items-center gap-1.5">
+                <MiniHospitalIcon size={19} roofColor="#D47528" buildingBg="#202321" />
+                <span className="text-[#202321]">Alta complejidad (G3, tejado cobre)</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <MiniHospitalIcon size={15} roofColor="#343835" buildingBg="#202321" />
+                <span>General de área (G2/G1)</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <MiniHospitalIcon size={12} roofColor="#343835" buildingBg="#202321" />
+                <span>Apoyo / Monográfico</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <MiniHospitalIcon size={15} roofColor="#AE3E2C" buildingBg="#C64B37" />
+                <span className="font-semibold text-[#C64B37]">Seleccionado</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <MiniHospitalIcon size={15} roofColor="#0284c7" buildingBg="#0284c7" />
+                <span className="font-semibold text-[#0284c7]">Par comparador</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="inline-block border-b-2 border-dashed border-[#426C79] w-4 h-0 align-middle" />
+                <span>Distancia geodésica</span>
+              </span>
             </div>
           </div>
         </div>
