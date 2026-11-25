@@ -136,6 +136,7 @@ export const HospitalsPage: React.FC<HospitalsPageProps> = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [showKruskalExtended, setShowKruskalExtended] = useState<boolean>(false);
   const [showComplexityDetails, setShowComplexityDetails] = useState<boolean>(false);
+  const [showComparisonMatrix, setShowComparisonMatrix] = useState<boolean>(false);
 
   const { hospitals, regional } = data;
 
@@ -784,7 +785,7 @@ export const HospitalsPage: React.FC<HospitalsPageProps> = ({
           {/* Table B: By Management Model */}
           <div>
             <h4 className="text-[11px] font-mono font-bold text-[#202321] uppercase tracking-wider mb-2">
-              B. Desglose por Modelo de Gestión (sin confundir PFI con Concesión)
+              B. Desglose por Modelo de Gestión
             </h4>
             <div className="overflow-x-auto border border-[#DAD6CC]">
               <table className="w-full text-left text-xs">
@@ -1128,27 +1129,39 @@ export const HospitalsPage: React.FC<HospitalsPageProps> = ({
       </div>
 
       {/* Hospital Ranking & Comparison Matrix Table */}
-      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm p-5 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-3.5 mb-4 border-b border-[#DAD6CC] gap-3">
+      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowComparisonMatrix(!showComparisonMatrix)}
+          className="w-full p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left hover:bg-[#F3F0E8] transition-colors cursor-pointer"
+        >
           <div>
             <h3 className="font-serif text-xl text-[#202321] flex items-center gap-2">
               <Building2 className="w-4 h-4 text-[#426C79]" />
               <span>Matriz Comparativa y Desglose por Hospital (31-dic-{selectedYear})</span>
             </h3>
             <p className="text-xs text-[#77766F] mt-0.5">
-              Haz clic en cualquier centro para abrir su expediente histórico individual.
+              Haz clic aquí para desplegar la tabla comparativa; dentro podrás abrir el expediente histórico de cada centro.
             </p>
           </div>
-          <span className="text-[11px] font-mono text-[#77766F]">
-            Referencia D_h,t:{' '}
-            <strong className="text-[#202321]">
-              {comparisonRefDelay !== null ? `${formatEsDec(comparisonRefDelay, 1)} d` : 'N/D'}
-            </strong>{' '}
-            ({isRegionalComparable ? 'Oficial regional' : 'Promedio simple filtrado'})
-          </span>
-        </div>
+          <div className="flex items-center gap-4 shrink-0">
+            <span className="text-[11px] font-mono text-[#77766F]">
+              Referencia D_h,t:{' '}
+              <strong className="text-[#202321]">
+                {comparisonRefDelay !== null ? `${formatEsDec(comparisonRefDelay, 1)} d` : 'N/D'}
+              </strong>{' '}
+              ({isRegionalComparable ? 'Oficial regional' : 'Promedio simple filtrado'})
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-[#426C79]">
+              <span>{showComparisonMatrix ? 'Ocultar' : 'Ver tabla'}</span>
+              {showComparisonMatrix ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </span>
+          </div>
+        </button>
 
-        <div className="overflow-x-auto border border-[#DAD6CC]">
+        {showComparisonMatrix && (
+          <div className="p-5 sm:p-6 pt-0 border-t border-[#DAD6CC]">
+            <div className="overflow-x-auto border border-[#DAD6CC] mt-4">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="bg-[#ECE8DD] border-b border-[#DAD6CC] text-[#202321] font-mono text-[10px] uppercase tracking-wider select-none">
@@ -1271,6 +1284,8 @@ export const HospitalsPage: React.FC<HospitalsPageProps> = ({
           <div className="mt-3 p-3 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs text-[11px] text-[#4A4D48]">
             <strong className="text-[#202321]">Centros sin registro en {categoryLabels[activeCategory]} ({selectedYear}): </strong>
             {excludedHospitals.map(h => h.shortName).join(', ')} (no aplicables o ausentes según el catálogo oficial; excluidos de los cálculos sin imputar ceros).
+          </div>
+        )}
           </div>
         )}
       </div>

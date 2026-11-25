@@ -467,32 +467,171 @@ export const RadarPage: React.FC<RadarPageProps> = ({ data, onSelectHospital }) 
               </div>
 
               {/* Mathematical Methodology Explanation */}
-              <div className="bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs p-4 space-y-2.5">
-                <div className="flex items-center justify-between gap-2">
+              <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-4 space-y-4">
+                <div className="flex items-center justify-between gap-2 border-b border-[#E6E2D8] pb-2.5">
                   <h4 className="text-[11px] font-mono font-bold text-[#202321] uppercase tracking-wider flex items-center gap-1.5">
                     <Info className="w-3.5 h-3.5 text-[#426C79]" />
                     <span>Fundamentación Estadística ({selectedAlert.radarType === 'comparativo' ? 'Comparativo' : 'Temporal'})</span>
                   </h4>
                   <CategoryBadge category="ESTADISTICO" />
                 </div>
-                <p className="text-xs text-[#4A4D48] leading-relaxed">{selectedAlert.rationale}</p>
-                <div className="mt-2 pt-2 border-t border-[#DAD6CC] text-[11px] font-mono text-[#4A4D48] grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                  <div>• Método: {selectedAlert.method}</div>
-                  <div>• N evaluado: {formatEsInt(selectedAlert.sampleSize)} {selectedAlert.radarType === 'comparativo' ? 'hospitales' : 'años del centro'}</div>
-                  <div>• Media / DE red: {formatEsAuto(selectedAlert.regionalMean, 2)} d / {formatEsAuto(selectedAlert.regionalSd, 2)} d</div>
-                  <div>• Mediana / MAD red: {formatEsAuto(selectedAlert.referenceValue, 2)} d / {formatEsAuto(selectedAlert.regionalMad, 2)} d</div>
-                  <div>• Límite Aviso (+2σ) / Control (+3σ): {formatEsAuto(selectedAlert.regionalUwl, 2)} d / {formatEsAuto(selectedAlert.regionalUcl, 2)} d</div>
-                  <div>
-                    • Mod Z / Z-SPC red: {formatEsDec(selectedAlert.modifiedZScore, 2, { signed: true })} / {formatEsDec(selectedAlert.standardZScore, 2, { signed: true })}σ
+
+                {/* 1. Resultado comparativo */}
+                <div className="bg-[#F3F0E8] border-l-[3px] border-l-[#C64B37] border border-[#DAD6CC] rounded-xs p-3.5 space-y-2">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#9A3323] block">
+                    Resultado comparativo
+                  </span>
+                  <div className="flex flex-wrap items-baseline gap-2">
+                    <span className="text-xl font-mono font-bold text-[#202321]">
+                      {formatEsAuto(selectedAlert.observedValue, 1)} días
+                    </span>
+                    <span className="text-xs text-[#4A4D48]">
+                      frente a una mediana regional de{' '}
+                      <strong className="font-mono text-[#202321]">
+                        {formatEsAuto(selectedAlert.referenceValue, 1)} días
+                      </strong>
+                    </span>
                   </div>
-                  {selectedAlert.selfMean !== null && (
-                    <div className="sm:col-span-2 text-[#7D4710] font-semibold">
-                      • Histórico propio previo del centro: Media = {formatEsAuto(selectedAlert.selfMean, 2)} d
-                      {selectedAlert.selfSd !== null && selectedAlert.selfSd !== undefined && ` | DE = ${formatEsAuto(selectedAlert.selfSd, 2)} d`}
-                      {selectedAlert.selfZ !== null && selectedAlert.selfZ !== undefined && ` | Z-propio = ${formatEsDec(selectedAlert.selfZ, 2, { signed: true })}σ`}
-                    </div>
-                  )}
+                  <p className="text-xs text-[#4A4D48] leading-relaxed">{selectedAlert.rationale}</p>
                 </div>
+
+                {/* 2. Método estadístico */}
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#202321]">
+                      Método estadístico
+                    </span>
+                    <span className="text-[10px] font-mono text-[#77766F]">
+                      {selectedAlert.method} · N evaluado: <strong className="text-[#202321]">{formatEsInt(selectedAlert.sampleSize)}</strong>{' '}
+                      {selectedAlert.radarType === 'comparativo' ? 'hospitales' : 'años del centro'}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                    <div className="bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs p-2.5 space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-semibold text-[#202321] text-[11px]">Modified Z-Score</span>
+                        <span className="font-mono font-bold text-[#6E4D7B] text-xs">
+                          {formatEsDec(selectedAlert.modifiedZScore, 2, { signed: true })}
+                        </span>
+                      </div>
+                      <code className="block bg-[#FAF9F5] px-2 py-1 rounded-xs border border-[#DAD6CC] font-mono text-[10px] text-[#202321]">
+                        Mᵢ = 0,6745 · (Xᵢ − Mediana) / MAD
+                      </code>
+                      <p className="text-[10.5px] text-[#4A4D48] leading-snug">
+                        Mide la desviación robusta del centro respecto a la mediana de la red.
+                      </p>
+                    </div>
+                    <div className="bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs p-2.5 space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-semibold text-[#202321] text-[11px]">Z-Score SPC</span>
+                        <span className="font-mono font-bold text-[#6E4D7B] text-xs">
+                          {formatEsDec(selectedAlert.standardZScore, 2, { signed: true })}σ
+                        </span>
+                      </div>
+                      <code className="block bg-[#FAF9F5] px-2 py-1 rounded-xs border border-[#DAD6CC] font-mono text-[10px] text-[#202321]">
+                        Z = (Xᵢ − μ) / σ
+                      </code>
+                      <p className="text-[10.5px] text-[#4A4D48] leading-snug">
+                        Mide cuántas desviaciones estándar se aleja el centro de la media regional.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Indicadores de referencia (Red Regional) */}
+                <div className="bg-[#EDF3F5]/75 border border-[#426C79]/30 rounded-xs p-3.5 space-y-3">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2D4F5A] block">
+                    Indicadores de referencia (Red Regional)
+                  </span>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2">
+                      <span className="text-[10px] text-[#77766F] block">Media red</span>
+                      <div className="font-mono font-bold text-sm text-[#202321]">
+                        {formatEsAuto(selectedAlert.regionalMean, 2)}{' '}
+                        <span className="text-[10px] font-normal text-[#77766F]">d</span>
+                      </div>
+                    </div>
+                    <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2">
+                      <span className="text-[10px] text-[#77766F] block">DE red (σ)</span>
+                      <div className="font-mono font-bold text-sm text-[#202321]">
+                        {formatEsAuto(selectedAlert.regionalSd, 2)}{' '}
+                        <span className="text-[10px] font-normal text-[#77766F]">d</span>
+                      </div>
+                    </div>
+                    <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2">
+                      <span className="text-[10px] text-[#77766F] block">Mediana red</span>
+                      <div className="font-mono font-bold text-sm text-[#202321]">
+                        {formatEsAuto(selectedAlert.referenceValue, 2)}{' '}
+                        <span className="text-[10px] font-normal text-[#77766F]">d</span>
+                      </div>
+                    </div>
+                    <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2">
+                      <span className="text-[10px] text-[#77766F] block">MAD red</span>
+                      <div className="font-mono font-bold text-sm text-[#202321]">
+                        {formatEsAuto(selectedAlert.regionalMad, 2)}{' '}
+                        <span className="text-[10px] font-normal text-[#77766F]">d</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Umbrales de aviso y control agrupados */}
+                  <div className="pt-2 border-t border-[#426C79]/20">
+                    <span className="text-[10px] font-mono font-semibold text-[#2D4F5A] uppercase block mb-1.5">
+                      Umbrales de control estadístico SPC
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="bg-[#FBF3E8] border border-[#B4691E]/35 rounded-xs px-3 py-2 flex items-center justify-between">
+                        <span className="text-[11px] font-semibold text-[#7D4710]">Límite Aviso (+2σ)</span>
+                        <span className="font-mono font-bold text-xs text-[#7D4710]">
+                          {formatEsAuto(selectedAlert.regionalUwl, 2)} d
+                        </span>
+                      </div>
+                      <div className="bg-[#FBECE9] border border-[#C64B37]/35 rounded-xs px-3 py-2 flex items-center justify-between">
+                        <span className="text-[11px] font-semibold text-[#9A3323]">Límite Control (+3σ)</span>
+                        <span className="font-mono font-bold text-xs text-[#9A3323]">
+                          {formatEsAuto(selectedAlert.regionalUcl, 2)} d
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Histórico del centro */}
+                {selectedAlert.selfMean !== null && (
+                  <div className="bg-[#FBF3E8]/80 border border-[#B4691E]/35 rounded-xs p-3.5 space-y-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7D4710] block">
+                      Histórico del centro (Serie longitudinal propia)
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <div className="bg-[#FAF9F5] border border-[#B4691E]/25 rounded-xs p-2">
+                        <span className="text-[10px] text-[#77766F] block">Media propia previa</span>
+                        <div className="font-mono font-bold text-sm text-[#7D4710]">
+                          {formatEsAuto(selectedAlert.selfMean, 2)}{' '}
+                          <span className="text-[10px] font-normal text-[#77766F]">d</span>
+                        </div>
+                      </div>
+                      {selectedAlert.selfSd !== null && selectedAlert.selfSd !== undefined && (
+                        <div className="bg-[#FAF9F5] border border-[#B4691E]/25 rounded-xs p-2">
+                          <span className="text-[10px] text-[#77766F] block">DE propia (s)</span>
+                          <div className="font-mono font-bold text-sm text-[#7D4710]">
+                            {formatEsAuto(selectedAlert.selfSd, 2)}{' '}
+                            <span className="text-[10px] font-normal text-[#77766F]">d</span>
+                          </div>
+                        </div>
+                      )}
+                      {selectedAlert.selfZ !== null && selectedAlert.selfZ !== undefined && (
+                        <div className="bg-[#FAF9F5] border border-[#B4691E]/25 rounded-xs p-2">
+                          <span className="text-[10px] text-[#77766F] block">Z-propio</span>
+                          <div className="font-mono font-bold text-sm text-[#7D4710]">
+                            {formatEsDec(selectedAlert.selfZ, 2, { signed: true })}
+                            <span className="text-[10px] font-normal text-[#77766F]">σ</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Neutrality and Non-Blame Disclosure */}

@@ -330,16 +330,6 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             {activeCategory === 'quirurgica' && (
               <div className="flex flex-wrap items-center gap-1 mb-2">
                 <button
-                  onClick={() => setSurgicalThreshold('180')}
-                  className={`px-2 py-0.5 text-[10px] font-mono rounded-xs cursor-pointer border transition-colors whitespace-nowrap ${
-                    surgicalThreshold === '180'
-                      ? 'bg-[#202321] text-[#FAF9F5] border-[#202321]'
-                      : 'bg-[#F3F0E8] text-[#4A4D48] border-[#DAD6CC] hover:border-[#A6A18F]'
-                  }`}
-                >
-                  &gt; 180 días
-                </button>
-                <button
                   onClick={() => setSurgicalThreshold('90')}
                   className={`px-2 py-0.5 text-[10px] font-mono rounded-xs cursor-pointer border transition-colors whitespace-nowrap ${
                     surgicalThreshold === '90'
@@ -348,6 +338,16 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                   }`}
                 >
                   &gt; 90 días (analítico)
+                </button>
+                <button
+                  onClick={() => setSurgicalThreshold('180')}
+                  className={`px-2 py-0.5 text-[10px] font-mono rounded-xs cursor-pointer border transition-colors whitespace-nowrap ${
+                    surgicalThreshold === '180'
+                      ? 'bg-[#202321] text-[#FAF9F5] border-[#202321]'
+                      : 'bg-[#F3F0E8] text-[#4A4D48] border-[#DAD6CC] hover:border-[#A6A18F]'
+                  }`}
+                >
+                  &gt; 180 días
                 </button>
               </div>
             )}

@@ -69,8 +69,8 @@ export const ControlChart: React.FC<ControlChartProps> = ({
             <span className="w-2 h-2 bg-[#C64B37] shrink-0" aria-hidden="true" />
             {title}
           </h4>
-          <p className="text-xs text-[#77766F] mt-0.5">
-            Control Estadístico de Procesos (SPC) · <span className="font-semibold text-[#1D5B8C]">Azul</span>: habitual (&lt; +2σ y Mod Z &lt; 2,0, incluidos centros bajo mediana) · <span className="font-semibold text-[#B4691E]">Ámbar</span>: vigilancia (+2σ–+3σ o Mod Z 2,0–3,5) · <span className="font-semibold text-[#C64B37]">Rojo</span>: anomalía (≥ +3σ o Mod Z ≥ 3,5)
+          <p className="text-[11px] text-[#77766F] mt-0.5">
+            Control Estadístico de Procesos (SPC)
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono shrink-0 tabular-nums">
@@ -88,8 +88,9 @@ export const ControlChart: React.FC<ControlChartProps> = ({
         </div>
       </div>
 
-      <div className="relative w-full overflow-x-auto">
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto max-h-[400px]">
+      <div className="flex flex-col xl:flex-row gap-4 items-stretch">
+        <div className="relative flex-1 min-w-0 overflow-x-auto">
+          <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto max-h-[400px]">
           {/* Shaded Red Zone (> +3σ) */}
           <rect
             x={paddingLeft}
@@ -319,6 +320,44 @@ export const ControlChart: React.FC<ControlChartProps> = ({
             </div>
           </div>
         )}
+        </div>
+
+        {/* Side Legend Panel */}
+        <aside className="xl:w-64 shrink-0 bg-[#F3F0E8]/75 border border-[#DAD6CC] rounded-xs p-3.5 flex flex-col justify-center gap-2.5">
+          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#202321] border-b border-[#DAD6CC] pb-1.5">
+            Clasificación SPC
+          </div>
+
+          <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2.5 space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#1D5B8C] shrink-0" />
+              <span className="text-xs font-bold text-[#1D5B8C]">Azul · Habitual</span>
+            </div>
+            <p className="text-[10.5px] text-[#4A4D48] leading-snug pl-4.5">
+              &lt; +2σ y Mod Z &lt; 2,0 (incluidos centros bajo mediana)
+            </p>
+          </div>
+
+          <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2.5 space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#D47528] shrink-0" />
+              <span className="text-xs font-bold text-[#B4691E]">Ámbar · Vigilancia</span>
+            </div>
+            <p className="text-[10.5px] text-[#4A4D48] leading-snug pl-4.5">
+              +2σ–+3σ o Mod Z 2,0–3,5
+            </p>
+          </div>
+
+          <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-xs p-2.5 space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C64B37] shrink-0" />
+              <span className="text-xs font-bold text-[#C64B37]">Rojo · Anomalía</span>
+            </div>
+            <p className="text-[10.5px] text-[#4A4D48] leading-snug pl-4.5">
+              ≥ +3σ o Mod Z ≥ 3,5
+            </p>
+          </div>
+        </aside>
       </div>
     </div>
   );
