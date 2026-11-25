@@ -5,8 +5,7 @@ export type ForecastModelId =
   | 'drift'
   | 'holt'
   | 'damped_holt'
-  | 'arima'
-  | 'theta';
+  | 'arima';
 
 export type ForecastIndicatorKey =
   | 'quirurgica_pacientes'
@@ -427,65 +426,6 @@ function fitArima(y: number[]): FitOutput {
   };
 }
 
-// 6. Standard Theta Method (Assimakopoulos & Nikolopoulos 2000; Hyndman & Billah 2003 SES with drift)
-function fitTheta(y: number[]): FitOutput {
-  const T = y.length;
-  // OLS linear trend on y[0..T-1]
-  const tMean = (T - 1) / 2;
-  const yMean = y.reduce((a, b) => a + b, 0) / T;
-  let num = 0;
-  let den = 0;
-  for (let t = 0; t < T; t++) {
-    num += (t - tMean) * (y[t] - yMean);
-    den += (t - tMean) * (t - tMean);
-  }
-  const bOls = den > 0 ? num / den : 0;
-  const aOls = yMean - bOls * tMean;
-
-  // Theta-2 line: Z_t(2) = 2 * y_t - (aOls + bOls * t)
-  const z2 = y.map((val, t) => 2 * val - (aOls + bOls * t));
-
-  // Fit SES(alpha) on Z_t(2) minimizing in-sample SSE of Z_t(2)
-  const alphas = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
-  let bestAlpha = 0.5;
-  let bestSseCombined = Infinity;
-  let bestLevel = y[T - 1];
-
-  for (const alpha of alphas) {
-    let levelZ2 = z2[0];
-    let sseY = 0;
-    for (let t = 1; t < T; t++) {
-      // 1-step ahead Theta prediction at time t: 0.5 * (Z_t(0) + levelZ2_{t-1})
-      const z0t = aOls + bOls * t;
-      const predY = 0.5 * (z0t + levelZ2);
-      const errY = y[t] - predY;
-      sseY += errY * errY;
-      levelZ2 = alpha * z2[t] + (1 - alpha) * levelZ2;
-    }
-    if (sseY < bestSseCombined) {
-      bestSseCombined = sseY;
-      bestAlpha = alpha;
-      bestLevel = levelZ2;
-    }
-  }
-
-  const sigma = Math.sqrt(bestSseCombined / Math.max(1, T - 2));
-  return {
-    modelId: 'theta',
-    modelName: 'Método Theta (θ = 0 y θ = 2)',
-    shortName: 'Theta',
-    family: 'Descomposición Theta',
-    fittedDescription: `α = ${bestAlpha.toFixed(2)}, pendiente b_OLS = ${bOls.toFixed(2)}`,
-    intervalFormula: 'IC(h) = ŷ ± z · σ · √(1 + (h − 1)·α²) (forma SES con deriva)',
-    residualSigma: sigma,
-    predictStep: h => {
-      const z0h = aOls + bOls * (T - 1 + h);
-      return 0.5 * (z0h + bestLevel);
-    },
-    seStep: h => sigma * Math.sqrt(1 + (h - 1) * bestAlpha * bestAlpha)
-  };
-}
-
 type FitterFn = (y: number[]) => FitOutput;
 
 const MODEL_FITTERS: FitterFn[] = [
@@ -493,8 +433,7 @@ const MODEL_FITTERS: FitterFn[] = [
   fitDrift,
   fitHolt,
   fitDampedHolt,
-  fitArima,
-  fitTheta
+  fitArima
 ];
 
 function evaluateSeriesModels(
