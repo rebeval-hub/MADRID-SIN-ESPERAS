@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Database,
   ShieldCheck,
   Download,
   ExternalLink,
   BookOpen,
-  GitMerge
+  GitMerge,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { FullHealthData } from '../types';
 import { CategoryBadge } from '../components/common/Badge';
@@ -19,6 +21,10 @@ interface DataQualityPageProps {
 export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExportCsv }) => {
   const { auditReport, metadata } = data;
   const datasets = Object.entries(auditReport.details);
+
+  const [showProvenance, setShowProvenance] = useState(false);
+  const [showMissingLog, setShowMissingLog] = useState(false);
+  const [showFormulas, setShowFormulas] = useState(false);
 
   const missingEntries = datasets.flatMap(([key, d]) =>
     (d.missingDetails || []).map(detail => ({ key, title: d.title, detail }))
@@ -330,124 +336,171 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
       </div>
 
       {/* Module Provenance Registry */}
-      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm p-5 space-y-3">
-        <h3 className="font-serif text-lg text-[#202321] flex items-center gap-2">
-          <GitMerge className="w-4 h-4 text-[#426C79]" />
-          <span>Registro de Procedencia por Módulo e Indicador (Diferenciación Estricta de Naturaleza)</span>
-        </h3>
-        <div className="overflow-x-auto border border-[#DAD6CC]">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="bg-[#ECE8DD] border-b border-[#DAD6CC] text-[#202321] font-mono text-[11px] uppercase tracking-wider">
-                <th className="py-2 px-3">Módulo de la Plataforma</th>
-                <th className="py-2 px-3">Indicadores Alimentados</th>
-                <th className="py-2 px-3">Datasets Origen</th>
-                <th className="py-2 px-3">Unidad / Corte</th>
-                <th className="py-2 px-3 text-center">Naturaleza</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#E6E2D8]">
-              {auditReport.provenanceRegistry.map((rec, idx) => (
-                <tr key={idx} className="hover:bg-[#F3F0E8]/70">
-                  <td className="py-2.5 px-3 font-bold text-[#202321]">{rec.module}</td>
-                  <td className="py-2.5 px-3 text-[#4A4D48] text-[11px] max-w-[280px]">{rec.indicator}</td>
-                  <td className="py-2.5 px-3 font-mono text-[11px] text-[#426C79]">{rec.datasetKeys.join(', ')}</td>
-                  <td className="py-2.5 px-3 text-[11px] text-[#4A4D48]">
-                    <div>{rec.unit}</div>
-                    <div className="text-[#77766F]">{rec.cutoff}</div>
-                  </td>
-                  <td className="py-2.5 px-3 text-center">
-                    <CategoryBadge category={rec.category} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowProvenance(prev => !prev)}
+          aria-expanded={showProvenance}
+          className="w-full p-5 flex items-center justify-between gap-3 text-left hover:bg-[#F3F0E8]/70 transition-colors cursor-pointer"
+        >
+          <h3 className="font-serif text-lg text-[#202321] flex items-center gap-2">
+            <GitMerge className="w-4 h-4 text-[#426C79] shrink-0" />
+            <span>Registro de Procedencia por Módulo e Indicador (Diferenciación Estricta de Naturaleza)</span>
+          </h3>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#77766F] shrink-0">
+            <span>{showProvenance ? 'Ocultar' : 'Ver detalle'}</span>
+            {showProvenance ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
+
+        {showProvenance && (
+          <div className="px-5 pb-5 pt-1">
+            <div className="overflow-x-auto border border-[#DAD6CC]">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-[#ECE8DD] border-b border-[#DAD6CC] text-[#202321] font-mono text-[11px] uppercase tracking-wider">
+                    <th className="py-2 px-3">Módulo de la Plataforma</th>
+                    <th className="py-2 px-3">Indicadores Alimentados</th>
+                    <th className="py-2 px-3">Datasets Origen</th>
+                    <th className="py-2 px-3">Unidad / Corte</th>
+                    <th className="py-2 px-3 text-center">Naturaleza</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E6E2D8]">
+                  {auditReport.provenanceRegistry.map((rec, idx) => (
+                    <tr key={idx} className="hover:bg-[#F3F0E8]/70">
+                      <td className="py-2.5 px-3 font-bold text-[#202321]">{rec.module}</td>
+                      <td className="py-2.5 px-3 text-[#4A4D48] text-[11px] max-w-[280px]">{rec.indicator}</td>
+                      <td className="py-2.5 px-3 font-mono text-[11px] text-[#426C79]">{rec.datasetKeys.join(', ')}</td>
+                      <td className="py-2.5 px-3 text-[11px] text-[#4A4D48]">
+                        <div>{rec.unit}</div>
+                        <div className="text-[#77766F]">{rec.cutoff}</div>
+                      </td>
+                      <td className="py-2.5 px-3 text-center">
+                        <CategoryBadge category={rec.category} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Exact Missing Values & Zeros Log */}
-      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm p-5 space-y-3">
-        <div className="flex items-center gap-2 border-b border-[#E6E2D8] pb-2">
-          <ShieldCheck className="w-4 h-4 text-[#2D6A4F]" />
-          <h3 className="font-serif text-lg text-[#202321]">
-            Registro Exacto de Valores Ausentes (&quot;-&quot;) y Ceros Reales
-          </h3>
-        </div>
-        <p className="text-xs text-[#4A4D48]">
-          Los valores codificados como <span className="font-mono text-[#202321]">&quot;-&quot;</span> en origen ({auditReport.missingValuesCount} valores métricos) se conservan estrictamente como <span className="font-mono text-[#202321]">null</span> (nunca sustituidos por 0 ni interpolados). En contraste, los {auditReport.zeroValuesCount} valores <span className="font-mono text-[#202321]">0 / 0,00</span> registrados en <span className="font-mono text-[#202321]">LECE_Hosp</span> corresponden al Hospital de Guadarrama (2020–2024) y reflejan actividad cero publicada oficialmente.
-        </p>
+      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowMissingLog(prev => !prev)}
+          aria-expanded={showMissingLog}
+          className="w-full p-5 flex items-center justify-between gap-3 text-left hover:bg-[#F3F0E8]/70 transition-colors cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" />
+            <h3 className="font-serif text-lg text-[#202321]">
+              Registro Exacto de Valores Ausentes (&quot;-&quot;) y Ceros Reales
+            </h3>
+          </div>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#77766F] shrink-0">
+            <span>{showMissingLog ? 'Ocultar' : 'Ver detalle'}</span>
+            {showMissingLog ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px] font-mono">
-          {missingEntries.map((m, idx) => (
-            <div key={idx} className="p-2.5 bg-[#FBF3E8] border border-[#B4691E]/35 rounded-xs text-[#7D4710]">
-              <strong className="block text-[10px] text-[#9A4D10]">{m.key}</strong>
-              <span>{m.detail}</span>
+        {showMissingLog && (
+          <div className="px-5 pb-5 pt-2 border-t border-[#E6E2D8] space-y-3">
+            <p className="text-xs text-[#4A4D48]">
+              Los valores codificados como <span className="font-mono text-[#202321]">&quot;-&quot;</span> en origen ({auditReport.missingValuesCount} valores métricos) se conservan estrictamente como <span className="font-mono text-[#202321]">null</span> (nunca sustituidos por 0 ni interpolados). En contraste, los {auditReport.zeroValuesCount} valores <span className="font-mono text-[#202321]">0 / 0,00</span> registrados en <span className="font-mono text-[#202321]">LECE_Hosp</span> corresponden al Hospital de Guadarrama (2020–2024) y reflejan actividad cero publicada oficialmente.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px] font-mono">
+              {missingEntries.map((m, idx) => (
+                <div key={idx} className="p-2.5 bg-[#FBF3E8] border border-[#B4691E]/35 rounded-xs text-[#7D4710]">
+                  <strong className="block text-[10px] text-[#9A4D10]">{m.key}</strong>
+                  <span>{m.detail}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Mathematical Glossary & Formulas */}
-      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm p-5 sm:p-6 space-y-4">
-        <h3 className="font-serif text-lg text-[#202321] flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-[#426C79]" />
-          <span>Fórmulas Matemáticas y Metodologías Estadísticas Auditadas</span>
-        </h3>
+      <div className="bg-[#FAF9F5] border border-[#DAD6CC] rounded-sm overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowFormulas(prev => !prev)}
+          aria-expanded={showFormulas}
+          className="w-full p-5 sm:px-6 flex items-center justify-between gap-3 text-left hover:bg-[#F3F0E8]/70 transition-colors cursor-pointer"
+        >
+          <h3 className="font-serif text-lg text-[#202321] flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-[#426C79] shrink-0" />
+            <span>Fórmulas Matemáticas y Metodologías Estadísticas Auditadas</span>
+          </h3>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#77766F] shrink-0">
+            <span>{showFormulas ? 'Ocultar' : 'Ver detalle'}</span>
+            {showFormulas ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <strong className="text-[#202321] font-bold">1. Dispersión, Mediana y Cociente Exactos</strong>
-              <CategoryBadge category="CALCULADO" />
-            </div>
-            <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
-              s = √(Σ(X_i − x̄)² / (N − 1)), CV = (s / x̄)·100, R = Máx / Mín (si Mín = 0, usa Mín &gt; 0)
-            </code>
-            <p className="text-[#4A4D48] text-[11px] leading-relaxed">
-              Con N par, la mediana es el promedio de los dos valores centrales. Todos los cálculos operan en coma flotante exacta sin redondeos previos hasta la presentación, conservando la trazabilidad si R usa el mínimo estrictamente positivo.
-            </p>
-          </div>
+        {showFormulas && (
+          <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-2 border-t border-[#E6E2D8]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <strong className="text-[#202321] font-bold">1. Dispersión, Mediana y Cociente Exactos</strong>
+                  <CategoryBadge category="CALCULADO" />
+                </div>
+                <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
+                  s = √(Σ(X_i − x̄)² / (N − 1)), CV = (s / x̄)·100, R = Máx / Mín (si Mín = 0, usa Mín &gt; 0)
+                </code>
+                <p className="text-[#4A4D48] text-[11px] leading-relaxed">
+                  Con N par, la mediana es el promedio de los dos valores centrales. Todos los cálculos operan en coma flotante exacta sin redondeos previos hasta la presentación, conservando la trazabilidad si R usa el mínimo estrictamente positivo.
+                </p>
+              </div>
 
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <strong className="text-[#202321] font-bold">2. Modified Z-Score, SPC y Z-Score Propio</strong>
-              <CategoryBadge category="ESTADISTICO" />
-            </div>
-            <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
-              M_i = 0,6745·(X_i − Mediana) / MAD | Z_propio = (X_t − μ_prev) / s_prev
-            </code>
-            <p className="text-[#4A4D48] text-[11px] leading-relaxed">
-              Se separa estrictamente la anomalía comparativa transversal (red) del deterioro longitudinal propio respecto al pasado individual del hospital.
-            </p>
-          </div>
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <strong className="text-[#202321] font-bold">2. Modified Z-Score, SPC y Z-Score Propio</strong>
+                  <CategoryBadge category="ESTADISTICO" />
+                </div>
+                <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
+                  M_i = 0,6745·(X_i − Mediana) / MAD | Z_propio = (X_t − μ_prev) / s_prev
+                </code>
+                <p className="text-[#4A4D48] text-[11px] leading-relaxed">
+                  Se separa estrictamente la anomalía comparativa transversal (red) del deterioro longitudinal propio respecto al pasado individual del hospital.
+                </p>
+              </div>
 
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <strong className="text-[#202321] font-bold">3. Suavizado de Holt ETS(A,A,N)</strong>
-              <CategoryBadge category="PREDICCION" />
-            </div>
-            <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
-              IC(h) = ŷ ± z · σ · √(1 + Σ_{'{j=1}'}^{'{h-1}'} (α + j·α·β)²)
-            </code>
-            <p className="text-[#4A4D48] text-[11px] leading-relaxed">
-              Parámetros (α, β) seleccionados en rejilla sobre entrenamiento sin fuga futura y evaluados mediante validación de origen rodante (Rolling-Origin CV) frente a Naive.
-            </p>
-          </div>
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <strong className="text-[#202321] font-bold">3. Suavizado de Holt ETS(A,A,N)</strong>
+                  <CategoryBadge category="PREDICCION" />
+                </div>
+                <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
+                  IC(h) = ŷ ± z · σ · √(1 + Σ_{'{j=1}'}^{'{h-1}'} (α + j·α·β)²)
+                </code>
+                <p className="text-[#4A4D48] text-[11px] leading-relaxed">
+                  Parámetros (α, β) seleccionados en rejilla sobre entrenamiento sin fuga futura y evaluados mediante validación de origen rodante (Rolling-Origin CV) frente a Naive.
+                </p>
+              </div>
 
-          <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <strong className="text-[#202321] font-bold">4. Contraste Kruskal-Wallis H por Permutaciones</strong>
-              <CategoryBadge category="ESTADISTICO" />
+              <div className="p-4 bg-[#F3F0E8] border border-[#DAD6CC] rounded-xs space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <strong className="text-[#202321] font-bold">4. Contraste Kruskal-Wallis H por Permutaciones</strong>
+                  <CategoryBadge category="ESTADISTICO" />
+                </div>
+                <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
+                  p_perm = (1 + #{'{'}H_b ≥ H_obs{'}'}) / (B + 1) · (exacta si M ≤ 10.000; Monte Carlo B = 10.000 si M &gt; 10.000)
+                </code>
+                <p className="text-[#4A4D48] text-[11px] leading-relaxed">
+                  Dado el tamaño muestral reducido por estrato hospitalario (N ≥ 2 por grupo), la significación de H (con corrección por empates) se calcula mediante test de permutaciones en lugar de depender de la aproximación asintótica χ².
+                </p>
+              </div>
             </div>
-            <code className="block bg-[#FAF9F5] p-2.5 rounded-xs border border-[#DAD6CC] text-[#202321] font-mono text-[11px]">
-              p_perm = (1 + #{'{'}H_b ≥ H_obs{'}'}) / (B + 1) · (exacta si M ≤ 10.000; Monte Carlo B = 10.000 si M &gt; 10.000)
-            </code>
-            <p className="text-[#4A4D48] text-[11px] leading-relaxed">
-              Dado el tamaño muestral reducido por estrato hospitalario (N ≥ 2 por grupo), la significación de H (con corrección por empates) se calcula mediante test de permutaciones en lugar de depender de la aproximación asintótica χ².
-            </p>
           </div>
-        </div>
+        )}
       </div>
 
       <p className="text-[11px] text-[#77766F] pt-1 font-mono">
