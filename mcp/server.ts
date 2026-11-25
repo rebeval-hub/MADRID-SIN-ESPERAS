@@ -48,7 +48,7 @@ const server = new McpServer({
 function findHospital(query: string) {
   const q = query.toLowerCase().trim();
   const hospitals = Object.values(data.hospitals) as any[];
-  
+
   // Coincidencia exacta por ID
   let match = hospitals.find(h => h.id.toLowerCase() === q);
   if (match) return match;
@@ -58,8 +58,8 @@ function findHospital(query: string) {
   if (match) return match;
 
   // Coincidencia por subcadena en nombre completo o corto
-  match = hospitals.find(h => 
-    h.fullName.toLowerCase().includes(q) || 
+  match = hospitals.find(h =>
+    h.fullName.toLowerCase().includes(q) ||
     h.shortName.toLowerCase().includes(q)
   );
   return match || null;

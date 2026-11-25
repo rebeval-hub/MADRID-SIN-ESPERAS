@@ -403,19 +403,19 @@ export const DataQualityPage: React.FC<DataQualityPageProps> = ({ data, onExport
                   {auditReport.provenanceRegistry
                     .filter(rec => !rec.datasetKeys.includes('Frecuentacion'))
                     .map((rec, idx) => (
-                    <tr key={idx} className="hover:bg-[#F3F0E8]/70">
-                      <td className="py-2.5 px-3 font-bold text-[#202321]">{rec.module}</td>
-                      <td className="py-2.5 px-3 text-[#4A4D48] text-[11px] max-w-[280px]">{rec.indicator}</td>
-                      <td className="py-2.5 px-3 font-mono text-[11px] text-[#426C79]">{rec.datasetKeys.join(', ')}</td>
-                      <td className="py-2.5 px-3 text-[11px] text-[#4A4D48]">
-                        <div>{rec.unit}</div>
-                        <div className="text-[#77766F]">{rec.cutoff}</div>
-                      </td>
-                      <td className="py-2.5 px-3 text-center">
-                        <CategoryBadge category={rec.category} />
-                      </td>
-                    </tr>
-                  ))}
+                      <tr key={idx} className="hover:bg-[#F3F0E8]/70">
+                        <td className="py-2.5 px-3 font-bold text-[#202321]">{rec.module}</td>
+                        <td className="py-2.5 px-3 text-[#4A4D48] text-[11px] max-w-[280px]">{rec.indicator}</td>
+                        <td className="py-2.5 px-3 font-mono text-[11px] text-[#426C79]">{rec.datasetKeys.join(', ')}</td>
+                        <td className="py-2.5 px-3 text-[11px] text-[#4A4D48]">
+                          <div>{rec.unit}</div>
+                          <div className="text-[#77766F]">{rec.cutoff}</div>
+                        </td>
+                        <td className="py-2.5 px-3 text-center">
+                          <CategoryBadge category={rec.category} />
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

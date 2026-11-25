@@ -166,7 +166,7 @@ export const PredictivePage: React.FC<PredictivePageProps> = ({ data }) => {
             <CategoryBadge category="ESTADISTICO" />
           </div>
           <p className="text-[#4A4D48] leading-relaxed">
-            <strong className="text-[#202321]">6 modelos</strong> evaluados sobre idénticas ventanas rodantes expansivas ({activeAudit.cvYearsRange}, entreno mín. {formatEsInt(activeAudit.minTrainWindow)} años) sin fuga futura.
+            <strong className="text-[#202321]">5 modelos</strong> evaluados sobre idénticas ventanas rodantes expansivas ({activeAudit.cvYearsRange}, entreno mín. {formatEsInt(activeAudit.minTrainWindow)} años) sin fuga futura.
           </p>
         </div>
 
@@ -178,7 +178,7 @@ export const PredictivePage: React.FC<PredictivePageProps> = ({ data }) => {
           <p className="text-[#4A4D48] leading-relaxed">
             <strong className="text-[#202321]">{activeAudit.winner.shortName}</strong> (RMSE {formatVal(activeAudit.winner.cvRmse)}{' '}
             {activeAudit.unit}, MASE {formatEsDec(activeAudit.winner.cvMase, 2)}).{' '}
-            {winnerIsNaive ? 'Ningún modelo supera al baseline Naive en RMSE.' : 'Seleccionado estrictamente por menor error fuera de muestra.'}
+            {winnerIsNaive ? 'Ningún modelo paramétrico supera al baseline Naive en RMSE: se conserva Naive por parsimonia.' : 'Seleccionado estrictamente por menor error fuera de muestra.'}
           </p>
         </div>
 
@@ -220,7 +220,7 @@ export const PredictivePage: React.FC<PredictivePageProps> = ({ data }) => {
           <div>
             <h3 className="font-serif text-xl text-[#202321] flex items-center gap-2">
               <GitBranch className="w-4 h-4 text-[#426C79]" />
-              <span>Comparativa predictiva de 6 modelos ({activeAudit.cvYearsRange})</span>
+              <span>Comparativa predictiva de 5 modelos ({activeAudit.cvYearsRange})</span>
             </h3>
             <p className="text-xs text-[#77766F] mt-0.5">
               Todos los modelos ajustan sus parámetros exclusivamente sobre el pasado disponible en cada ventana. Haz clic en una fila para visualizar su proyección e intervalos compatibles.
@@ -431,8 +431,8 @@ export const PredictivePage: React.FC<PredictivePageProps> = ({ data }) => {
             </tbody>
           </table>
         </div>
-        <p className="text-[11px] text-[#77766F]">
-          Nota: los intervalos representan incertidumbre estadística condicional a la especificación del modelo bajo normalidad de residuos; no garantizan el valor futuro ni absorben cambios regulatorios o shocks asistenciales.
+        <p className="text-[11px] text-[#77766F] leading-relaxed">
+          Nota sobre incertidumbre: las proyecciones no representan certezas ni predicciones deterministas de la gestión sanitaria futura. Constituyen escenarios cuantitativos sujetos a bandas de incertidumbre empíricas (80% y 95%) condicionadas a la inercia histórica observada, las cuales no anticipan cambios organizativos, presupuestarios o reformas estructurales.
         </p>
       </div>
 
@@ -443,7 +443,7 @@ export const PredictivePage: React.FC<PredictivePageProps> = ({ data }) => {
           <span>Rigor estadístico en series anuales cortas (N={formatEsInt(activeAudit.seriesAudit.n)})</span>
         </div>
         <p className="text-[11px] text-[#4A4D48] leading-relaxed">
-          Todos los modelos estadísticos comparados (Naive, Drift, Holt ETS(A,A,N), Holt Amortiguado ETS(A,Ad,N), ARIMA parsimonioso y Theta) se entrenan sin fuga de datos futuros y compiten sobre idénticas ventanas de validación cruzada. Cuando ningún modelo supera al Naive, la plataforma lo declara abiertamente y evita mostrar proyecciones de tendencia sobreajustadas.
+          Todos los modelos estadísticos comparados (Naive, Drift, Holt ETS(A,A,N), Holt Amortiguado ETS(A,Ad,N) y ARIMA parsimonioso) se entrenan sin fuga de datos futuros y compiten sobre idénticas ventanas de validación cruzada rodante. Cuando ningún modelo supera al baseline Naive en error fuera de muestra, se conserva Naive como modelo seleccionado por el principio de parsimonia para evitar proyecciones de tendencia sobreajustadas.
         </p>
       </div>
     </div>
